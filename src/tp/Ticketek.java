@@ -3,14 +3,8 @@ package tp;
 import java.util.List;
 
 
-public class Ticketek {
-
-
-    public Ticketek(){
-
-    }
-
-
+public interface Ticketek {
+	
     /**
      * 1) Registra las sedes que no tienen asientos, como los estadios.
      * Estas tienen un unico sector llamado campo.
@@ -122,7 +116,7 @@ public class Ticketek {
      * @param cantidadEntradas
      * @return
      */
-    List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas);
+    List<Entrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas);
     
     /**
      * 4) Vende una o varias entradas a un usuario para funciones 
@@ -145,7 +139,7 @@ public class Ticketek {
      * @param asientos
      * @return
      */
-    List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos);
+    List<Entrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos);
     
     
     /**
@@ -172,7 +166,7 @@ public class Ticketek {
      * @param nombreEspectaculo 
      * @return
      */
-    List<IEntrada> listarEntradasEspectaculo(String nombreEspectaculo);
+    List<Entrada> listarEntradasEspectaculo(String nombreEspectaculo);
     
     
     /**
@@ -187,7 +181,7 @@ public class Ticketek {
      * 
      * @return
      */
-    List<IEntrada> listarEntradasFuturas(String email, String contrasenia);
+    List<Entrada> listarEntradasFuturas(String email, String contrasenia);
     
     
     /**
@@ -204,7 +198,7 @@ public class Ticketek {
      * @param contrasenia
      * @return
      */
-    List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia);
+    List<Entrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia);
 
     
     /**
@@ -226,7 +220,7 @@ public class Ticketek {
      * @return
      *  
      */
-    boolean anularEntrada(IEntrada entrada, String contrasenia);
+    boolean anularEntrada(Entrada entrada, String contrasenia);
 
     
     /**
@@ -247,7 +241,7 @@ public class Ticketek {
      * @param asiento
      * @return
      */
-    IEntrada cambiarEntrada( IEntrada entrada, String contrasenia, String fecha, String sector, int asiento);
+    Entrada cambiarEntrada( Entrada entrada, String contrasenia, String fecha, String sector, int asiento);
     
     
     /**
@@ -266,7 +260,7 @@ public class Ticketek {
      * @param fecha en formato: dd/mm/YY
      * @return
      */
-    IEntrada cambiarEntrada( IEntrada entrada, String contrasenia, String fecha);
+    Entrada cambiarEntrada( Entrada entrada, String contrasenia, String fecha);
     
     
     /**

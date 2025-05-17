@@ -1,11 +1,6 @@
 package tp;
 
-public class Entrada {
-
-	public Entrada(){
-		
-	}
-
+public interface Entrada {
 
 	/**
 	 * 10) Calcula y devuelve el precio de la entrada.
