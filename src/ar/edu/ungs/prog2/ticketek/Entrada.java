@@ -1,28 +1,23 @@
 package ar.edu.ungs.prog2.ticketek;
 
-public class Entrada {
+public class Entrada implements IEntrada {
 
-    String codigoEntrada;
+    private String codigoEntrada;
     String nombreSede;
-    Sector sector;
-    int fila;
-    int asiento;
-    Espectaculo espectaculo;
+    private Sector sector;
+    private int fila;
+    private int asiento;
+    private Espectaculo espectaculo;
 
     public Entrada(String codigoEntrada){
         this.codigoEntrada = codigoEntrada;
     }
 
-    public void venderEntradaEstadio(String nombreEspectaculo, String nombreSede, String fecha, Sector sector){
+    public double precio() {
+        return 0;
     }
 
-    public void venderEntrada(String nombreEspectaculo, String nombreSede, String fecha, Sector sector, int fila, int asiento){
-
+    public String ubicacion() {
+        return "";
     }
-
-    public double precio(){
-
-    }
-
-
 }
