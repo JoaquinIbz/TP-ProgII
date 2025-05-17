@@ -3,7 +3,7 @@ package tp;
 import java.util.List;
 
 
-public interface Ticketek {
+public class Ticketek {
 	
     /**
      * 1) Registra las sedes que no tienen asientos, como los estadios.

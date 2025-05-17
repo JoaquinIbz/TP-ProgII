@@ -1,6 +1,19 @@
 package tp;
 
-public interface Entrada {
+public class Entrada {
+
+	private String codigoEntrada;
+	private String nombreSede;
+	private Sector sector;
+	private int fila;
+	private int asiento;
+	private Espectaculo espectaculo;
+
+
+
+	public Entrada(String codigoEntrada){
+		this.codigoEntrada = codigoEntrada;
+	}
 
 	/**
 	 * 10) Calcula y devuelve el precio de la entrada.
@@ -12,7 +25,7 @@ public interface Entrada {
 	/**
 	 * Si la entrada es para estadio, la ubicacion será "CAMPO". 
 	 * sino, será "{SECTOR} f:{NRO FILA} a:{NRO ASIENTO}" 
-	 * 
+	 *
 	 * Por ejemplo:
 	 *  - CAMPO
 	 *  - Platea Común f:3 a:31
