@@ -21,12 +21,10 @@ public class Funcion {
     }
 
     public boolean estaDisponible(Sector sector, int fila, int asiento){
-		return false;
 
     }
 
     public double calcularPrecioFinal(Sector sector, double extraConsumision){
-		return 0;
 
 
     }
