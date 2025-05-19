@@ -9,9 +9,6 @@ public class Sede {
     int asientosDisponibles;
     double precioUnico;
     double precioBase;
-    int cantPuestos;
-    double consumicion;
-    protected Sector sector;
     
 
     public Sede(String nombre, String direccion, int capacidadMax){
