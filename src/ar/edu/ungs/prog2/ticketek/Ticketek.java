@@ -13,7 +13,11 @@ public class Ticketek implements ITicketek {
 
 
     // metodos del diagrama
-    public Ticketek(){}
+    public Ticketek(){
+    	this.usuarios = new HashMap<>();
+    	this.sedes = new LinkedList<>();
+    	this.espectaculos = new LinkedList<>();
+    }
 
     // metodos de la interfaz
     public void registrarSede(String nombre, String direccion, int capacidadMaxima) {
@@ -41,6 +45,7 @@ public class Ticketek implements ITicketek {
     		throw new RuntimeException("Esos datos son invalidos");
     	}
     	Teatro teatro = new Teatro(nombre, direccion, capacidadMaxima, asientosPorFila, sectores, capacidad, porcentajeAdicional);
+    	sedes.add(teatro);
     }
     
 
@@ -59,7 +64,14 @@ public class Ticketek implements ITicketek {
     }
 
     public void registrarUsuario(String email, String nombre, String apellido, String contrasenia) {
-
+    	if(usuarios.containsKey(email)) {
+    		throw new RuntimeException("este email ya esta registrado");
+    	}
+    	if(email == null || nombre == null || apellido == null || contrasenia == null) {
+    		throw new RuntimeException("los datos son invalidos");
+    	}
+    	Usuario usuario = new Usuario(email, nombre, apellido, contrasenia);
+    	usuarios.put(email, usuario);
     }
 
     public void registrarEspectaculo(String nombre) {

@@ -18,10 +18,12 @@ public class Espectaculo {
     }
 
     public boolean verificarDisponibilidad(String fecha, String nombreSede){
+		return false;
 
     }
 
     public LinkedList<Funcion> obtenerFunciones(String fecha){
+		return null;
 
     }
 
