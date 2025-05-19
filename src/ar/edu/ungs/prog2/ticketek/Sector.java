@@ -4,10 +4,10 @@ import java.util.HashMap;
 
 public class Sector {
 
-    int numero;
-    String tipoSector;
-    int cantFilas;
-    HashMap<Integer,Integer> asientosPorFila; // fila, asiento
+    private int numero;
+    private String tipoSector;
+    private int cantFilas;
+    private HashMap<Integer,Integer> asientosPorFila; // fila, asiento
 
     public Sector(int numero, String tipoSector, int filas, int asientos){
     	this.numero = numero;
