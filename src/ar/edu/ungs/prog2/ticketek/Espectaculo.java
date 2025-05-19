@@ -8,9 +8,9 @@ public class Espectaculo {
     String codigo;
     HashMap<String, LinkedList<Funcion>> funciones;
 
-    public Espectaculo(String nombre){//SACO CODIGO DEL CONSTRUCTOR
+    public Espectaculo(String nombre, String codigo){
         this.nombre = nombre;
- //       this.codigo = codigo;
+        this.codigo = codigo;
     }
 
     public void agregarFuncion(Funcion funcion, String fecha){
@@ -18,12 +18,10 @@ public class Espectaculo {
     }
 
     public boolean verificarDisponibilidad(String fecha, String nombreSede){
-		return false;
 
     }
 
     public LinkedList<Funcion> obtenerFunciones(String fecha){
-		return null;
 
     }
 
