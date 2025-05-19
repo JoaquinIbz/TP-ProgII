@@ -16,9 +16,12 @@ package ar.edu.ungs.prog2.ticketek;
 }*/
 public class MiniEstadio extends Sede {
 
-    String[] sectores;
-    int[] capacidadesPorSector;
+    String[] sectores; // "P-VIP", "P-COMUN", "P-BAJA", "P-ALTA"
+    int[] capacidadesPorSector; //
     int[] porcentajeAdicionalPorSector;
+    int cantPuestos;
+    double consumicion;
+
 
     public MiniEstadio(String nombre, String direccion, int capacidadMax, int asientosPorFila, int cantPuestos,
     		double consumicion, String[] sectores, int[] capacidad, int[] porcentajeAdicional) {
