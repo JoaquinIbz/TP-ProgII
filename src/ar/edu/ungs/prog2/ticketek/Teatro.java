@@ -2,7 +2,10 @@ package ar.edu.ungs.prog2.ticketek;
 
 public class Teatro extends Sede{
 
-    private double precioBase;
+    int asientosPorFila;
+    String[] sectores;
+    int[] capacidad;
+    int[] porcentajeAdicional;
     
 
 //    public Teatro(String nombre, String direccion, int capacidadMax, double precioBase) {
@@ -12,6 +15,10 @@ public class Teatro extends Sede{
     public Teatro(String nombre, String direccion, int capacidadMax, int asientosPorFila, String[] sectores,
     		int[] capacidad, int[] porcentajeAdicional) {
     	super(nombre, direccion, capacidadMax);
+        this.asientosPorFila = asientosPorFila;
+        this.sectores = sectores;
+        this.capacidad = capacidad;
+        this.porcentajeAdicional = porcentajeAdicional;
     	
     	
     }
