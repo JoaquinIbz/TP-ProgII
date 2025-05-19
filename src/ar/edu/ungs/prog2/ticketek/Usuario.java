@@ -22,18 +22,22 @@ public class Usuario {
     }
 
     public LinkedList<Entrada> listarEntradasFuturas(String fecha){
+		return entradas;
 
     }
 
     public LinkedList<Entrada> listarEntradasPasadas(String fecha){
+		return null;
 
     }
 
     public LinkedList<Entrada> listarTotalEntradas(){
+		return null;
 
     }
 
     public boolean autenticar(String email, String contrasenia){
+		return false;
 
     }
 
