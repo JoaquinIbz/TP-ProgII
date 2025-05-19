@@ -17,15 +17,45 @@ public class Ticketek implements ITicketek {
 
     // metodos de la interfaz
     public void registrarSede(String nombre, String direccion, int capacidadMaxima) {
-
+    	for(Sede s : sedes) {
+    		if(s.nombre.equals(nombre)) {
+    			throw new RuntimeException("Ya existe una sede con este nombre");
+    		}
+    	}
+    	if(capacidadMaxima <= 0) {
+    		throw new RuntimeException("La capacidad debe ser mayor a 0");
+    	}
+    	Estadio estadio = new Estadio(nombre, direccion, capacidadMaxima);
+    	sedes.add(estadio);
+    	
     }
 
     public void registrarSede(String nombre, String direccion, int capacidadMaxima, int asientosPorFila, String[] sectores, int[] capacidad, int[] porcentajeAdicional) {
-
+    	//TEATRO
+    	for(Sede s : sedes) {
+    		if(s.nombre.equals(nombre)) {
+    			throw new RuntimeException("Ya existe una sede con este nombre");
+    		}
+    	}
+    	if(capacidadMaxima <= 0 || asientosPorFila <= 0 || sectores.length == 0 || capacidad.length == 0 || porcentajeAdicional.length == 0) {
+    		throw new RuntimeException("Esos datos son invalidos");
+    	}
+    	Teatro teatro = new Teatro(nombre, direccion, capacidadMaxima, asientosPorFila, sectores, capacidad, porcentajeAdicional);
     }
+    
 
     public void registrarSede(String nombre, String direccion, int capacidadMaxima, int asientosPorFila, int cantidadPuestos, double precioConsumicion, String[] sectores, int[] capacidad, int[] porcentajeAdicional) {
-
+//   //MiniEstadio
+    	for(Sede s : sedes) {
+    		if(s.nombre.equals(nombre)) {
+    			throw new RuntimeException("Ya existe una sede con este nombre");
+    		}
+    	}
+    	if(capacidadMaxima <= 0 || asientosPorFila <= 0 || sectores.length == 0 || capacidad.length == 0|| porcentajeAdicional.length == 0) {
+    		throw new RuntimeException("Por favor, ingrese datos validos");
+    	}
+    	MiniEstadio miniestadio = new MiniEstadio(nombre, direccion, capacidadMaxima, asientosPorFila, cantidadPuestos, precioConsumicion, sectores, capacidad, porcentajeAdicional);
+    	sedes.add(miniestadio);
     }
 
     public void registrarUsuario(String email, String nombre, String apellido, String contrasenia) {

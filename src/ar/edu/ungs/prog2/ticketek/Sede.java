@@ -11,12 +11,14 @@ public class Sede {
     double precioBase;
     int cantPuestos;
     double consumicion;
-    Sector sector;
+    protected Sector sector;
+    
 
-    public Sede(String direccion, String nombre, int capacidadMax){
+    public Sede(String nombre, String direccion, int capacidadMax){
         this.direccion = direccion;
         this.nombre = nombre;
         this.capacidadMax = capacidadMax;
+        
     }
 
 
