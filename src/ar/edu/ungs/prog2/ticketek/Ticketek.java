@@ -41,9 +41,6 @@ public class Ticketek implements ITicketek {
     		throw new RuntimeException("Esos datos son invalidos");
     	}
     	Teatro teatro = new Teatro(nombre, direccion, capacidadMaxima, asientosPorFila, sectores, capacidad, porcentajeAdicional);
-    	sedes.add(teatro);
-    			
-    
     }
     
 
@@ -62,21 +59,11 @@ public class Ticketek implements ITicketek {
     }
 
     public void registrarUsuario(String email, String nombre, String apellido, String contrasenia) {
-    	if(usuarios.containsKey(email)) {
-    		throw new RuntimeException("el email ya esta registrado");
-    	}
-    	Usuario usuario = new Usuario(email, nombre, apellido, contrasenia);
-    	usuarios.put(email, usuario);
+
     }
 
     public void registrarEspectaculo(String nombre) {
-    	for(Espectaculo espec : espectaculos) {
-    		if(espec.nombre.equals(nombre)) {
-    			throw new RuntimeException("ya existe un espectaculo con este nombre");
-    		}
-    	}
-    	Espectaculo espectaculo = new Espectaculo(nombre);
-    	espectaculos.add(espectaculo);
+
     }
 
     public void agregarFuncion(String nombreEspectaculo, String fecha, String sede, double precioBase) {
