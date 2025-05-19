@@ -2,10 +2,10 @@ package ar.edu.ungs.prog2.ticketek;
 
 public class Estadio extends Sede {
 
-    private double precioUnico;
+    Sector sector;
 
     public Estadio(String nombre, String direccion, int capacidadMax) {//SAQUE EL PRECIO UNICO 
         super(nombre, direccion, capacidadMax);
-//        this.precioUnico = precioUnico;
+        this.sector = new Sector(0,"CAMPO",0,0);
     }
 }
