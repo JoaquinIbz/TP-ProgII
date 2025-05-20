@@ -99,7 +99,7 @@ public class Ticketek implements ITicketek {
 
             }
         }
-        
+        return null;
     }
 
     public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
