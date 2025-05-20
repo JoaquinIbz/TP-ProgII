@@ -7,17 +7,13 @@ import java.util.List;
 public class Ticketek implements ITicketek {
 
     String nombre;
-    private HashMap<String, Usuario> usuarios; // email, Usuario
+    private HashMap<String, Usuario> usuarios;
     private LinkedList<Sede> sedes;
     private LinkedList<Espectaculo> espectaculos;
 
 
-
-    public Ticketek(){
-        this.usuarios = new HashMap<>();
-        this.sedes = new LinkedList<>();
-        this.espectaculos = new LinkedList<>();
-    }
+    // metodos del diagrama
+    public Ticketek(){}
 
     // metodos de la interfaz
     public void registrarSede(String nombre, String direccion, int capacidadMaxima) {
@@ -63,7 +59,14 @@ public class Ticketek implements ITicketek {
     }
 
     public void registrarUsuario(String email, String nombre, String apellido, String contrasenia) {
-
+        if(usuarios.containsKey(email)) {
+            throw new RuntimeException("este email ya esta registrado");
+        }
+        if(email == null || nombre == null || apellido == null || contrasenia == null) {
+            throw new RuntimeException("los datos son invalidos");
+        }
+        Usuario usuario = new Usuario(email, nombre, apellido, contrasenia);
+        usuarios.put(email, usuario);
     }
 
     public void registrarEspectaculo(String nombre) {
@@ -99,6 +102,7 @@ public class Ticketek implements ITicketek {
 
             }
         }
+        // terminar
         return null;
     }
 
@@ -148,31 +152,5 @@ public class Ticketek implements ITicketek {
 
     public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
         return 0;
-    }
-
-
-
-
-
-
-
-    private Espectaculo verificarRegistroEspectaculo(String nombreEspectaculo){
-        Espectaculo espectaculo = null;
-        for(Espectaculo e : this.espectaculos){
-            if(e.nombre.equals(nombreEspectaculo)){
-                espectaculo = e;
-            }
-        }
-        if(espectaculo == null){
-            throw new RuntimeException("El espectaculo no esta registrado");
-        }else{
-            return espectaculo;
-        }
-    }
-    private Usuario verificarRegistroUsuario(String email){
-        if(!this.usuarios.containsKey(email)){
-            throw new RuntimeException("El usuario no se encuentra registrado.");
-        }
-        return this.usuarios.get(email);
     }
 }
