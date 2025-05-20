@@ -1,9 +1,9 @@
-	package ar.edu.ungs.prog2.ticketek;
+package ar.edu.ungs.prog2.ticketek;
 
 import java.util.HashMap;
 
 public class Sector {
-
+    /*
     private int numero;
     private String tipoSector;
     private int cantFilas;
@@ -13,5 +13,8 @@ public class Sector {
     	this.numero = numero;
     	this.tipoSector = tipoSector;
     	this.cantFilas = filas;
+        this.asientosPorFila = new HashMap<>();
     }
+
+     */
 }
