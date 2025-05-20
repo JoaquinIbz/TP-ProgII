@@ -7,13 +7,17 @@ import java.util.List;
 public class Ticketek implements ITicketek {
 
     String nombre;
-    private HashMap<String, Usuario> usuarios;
+    private HashMap<String, Usuario> usuarios; // email, Usuario
     private LinkedList<Sede> sedes;
     private LinkedList<Espectaculo> espectaculos;
 
 
-    // metodos del diagrama
-    public Ticketek(){}
+
+    public Ticketek(){
+        this.usuarios = new HashMap<>();
+        this.sedes = new LinkedList<>();
+        this.espectaculos = new LinkedList<>();
+    }
 
     // metodos de la interfaz
     public void registrarSede(String nombre, String direccion, int capacidadMaxima) {
@@ -63,15 +67,39 @@ public class Ticketek implements ITicketek {
     }
 
     public void registrarEspectaculo(String nombre) {
-
+        for(Espectaculo e : this.espectaculos){
+            if(e.nombre.equals(nombre)){
+                throw new RuntimeException("El nombre del espectaculo ya esta registrado.");
+            }
+        }
+        this.espectaculos.add(new Espectaculo(nombre));
     }
 
     public void agregarFuncion(String nombreEspectaculo, String fecha, String sede, double precioBase) {
 
+        Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
+        // verificar disponibilidad de fecha
+        if(espectaculo.verificarDisponibilidad(fecha) == false){
+            throw new RuntimeException("No hay funciones para esa fecha");
+        }
+        Espectaculo espectaculo1 = new Espectaculo(nombreEspectaculo);
+        espectaculo1.agregarFuncion(new Funcion(sede,fecha,precioBase),fecha);
+        this.espectaculos.add(espectaculo1);
     }
 
     public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
-        return List.of();
+        // vender entrada estadio
+
+        Usuario usuario = verificarRegistroUsuario(email);
+        usuario.autenticar(email,contrasenia);
+        Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
+        // verificar si la sede de una funcion no esta enumerada
+        for(Sede s : this.sedes){
+            if(s.sectores[0].equals("CAMPO")){
+
+            }
+        }
+        
     }
 
     public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
@@ -120,5 +148,31 @@ public class Ticketek implements ITicketek {
 
     public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
         return 0;
+    }
+
+
+
+
+
+
+
+    private Espectaculo verificarRegistroEspectaculo(String nombreEspectaculo){
+        Espectaculo espectaculo = null;
+        for(Espectaculo e : this.espectaculos){
+            if(e.nombre.equals(nombreEspectaculo)){
+                espectaculo = e;
+            }
+        }
+        if(espectaculo == null){
+            throw new RuntimeException("El espectaculo no esta registrado");
+        }else{
+            return espectaculo;
+        }
+    }
+    private Usuario verificarRegistroUsuario(String email){
+        if(!this.usuarios.containsKey(email)){
+            throw new RuntimeException("El usuario no se encuentra registrado.");
+        }
+        return this.usuarios.get(email);
     }
 }
