@@ -15,6 +15,7 @@ public class Usuario {
         this.apellido = apellido;
         this.email = email;
         this.contrasenia = contrasenia;
+        this.entradas = new LinkedList<>();
     }
 
     public void comprarEntrada(String nombreEspectaculo, String fechaFuncion){
@@ -22,24 +23,28 @@ public class Usuario {
     }
 
     public LinkedList<Entrada> listarEntradasFuturas(String fecha){
-		return entradas;
         return null;
     }
 
     public LinkedList<Entrada> listarEntradasPasadas(String fecha){
-		return null;
         return null;
     }
 
     public LinkedList<Entrada> listarTotalEntradas(){
-		return null;
         return null;
     }
 
     public boolean autenticar(String email, String contrasenia){
-		return false;
-        return true;
+        if(!this.email.equals(email)) {
+            throw new RuntimeException("El email es incorrecto.");
+        }
+        if(!this.contrasenia.equals(contrasenia)){
+            throw new RuntimeException("La contrasenia es incorrecta.");
+        }
+        return this.email.equals(email) && this.contrasenia.equals(contrasenia);
     }
+
+
 
 
 }
