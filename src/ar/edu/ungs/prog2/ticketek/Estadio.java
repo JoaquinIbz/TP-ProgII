@@ -6,22 +6,31 @@ import java.util.LinkedList;
 public class Estadio extends Sede {
 
     String sector;
-    HashMap<String,Entrada> entradasVendidas; // email, entrada
 
     public Estadio(String nombre, String direccion, int capacidadMax) {
         super(nombre, direccion, capacidadMax);
         this.sector = "CAMPO";
-        this.capacidadActual = capacidadMax;
+        this.capacidadMax = capacidadMax;
+        this.capacidadActual = this.capacidadMax;
         this.entradasVendidas = new HashMap<>();
     }
 
-    @Override
     public Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha){
-        Entrada entrada = new Entrada(nombreSede, nombreEspectaculo, fecha);
-        if(!this.entradasVendidas.containsKey(email)){
-            // TERMINAR, HACER CODIGO DE LA ENTRADA. ESO SE ENCARGA CADA SEDE.
-            return entrada;
+        Entrada entrada = new Entrada(email,nombreSede, nombreEspectaculo, fecha);
+        if(this.capacidadActual > 0){
+            if(!this.entradasVendidas.containsKey(fecha)){
+                LinkedList<Entrada> e = new LinkedList<>();
+                e.add(entrada);
+                this.entradasVendidas.put(fecha,e);
+                this.capacidadActual --;
+            }else{
+                this.entradasVendidas.get(fecha).add(entrada);
+                this.capacidadActual --;
+            }
+        }else{
+            throw new RuntimeException("No hay mas espacio para vender.");
         }
+
         return entrada;
     }
 
