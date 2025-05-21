@@ -88,29 +88,101 @@ public class Ticketek implements ITicketek {
 
         Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
         // verificar disponibilidad de fecha
-        if(espectaculo.verificarDisponibilidad(fecha) == false){
-            throw new RuntimeException("No hay funciones para esa fecha");
+        if(espectaculo.verificarDisponibilidad(fecha) == true){
+            Espectaculo e = new Espectaculo(nombreEspectaculo);
+            Sede s = verificarRegistroSede(sede);
+            Funcion funcion = new Funcion(s,fecha,precioBase);
+            e.agregarFuncion(fecha,funcion);
         }
-        Espectaculo espectaculo1 = new Espectaculo(nombreEspectaculo);
-        espectaculo1.agregarFuncion(new Funcion(sede,fecha,precioBase),fecha);
-        this.espectaculos.add(espectaculo1);
     }
 
     public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
-        // vender entrada estadio
+        // autenticar
 
-        Usuario usuario = verificarRegistroUsuario(email);
-        usuario.autenticar(email,contrasenia);
+        Usuario usuario = verificarRegistroUsuario(email,contrasenia);
+
         Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
-        // verificar si la sede de una funcion no esta enumerada
-        for(Sede s : this.sedes){
-            if(s.sectores[0].equals("CAMPO")){
+
+        Funcion funcion = espectaculo.obtenerFuncion(fecha);
+
+        LinkedList<IEntrada> entradasVendidas = new LinkedList<>();
+
+        if(funcion.sede instanceof Estadio){
+            Estadio estadio = (Estadio) funcion.sede;
+            for(int i=0 ; i<cantidadEntradas ; i++){
+                Entrada entrada = estadio.venderEntrada(email,estadio.nombre,nombreEspectaculo,fecha);
+                entradasVendidas.add(entrada);
+            }
+        }else{
+            throw new RuntimeException("La sede de la funcion no es un estadio.");
+        }
+        return entradasVendidas;
+    }
+        /*
+
+        Usuario usuario = verificarRegistroUsuario(email);  // verifica si el usuario esta registrado
+        Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);  // verifica si existe el espectaculo
+
+        //usuario.autenticar(email,contrasenia);              // verifica autenticidad de usuario
+        //espectaculo.verificarDisponibilidad(fecha);             // verificar si la fecha esta disponible
+
+        LinkedList<IEntrada> entradasVendidas = new LinkedList<>();
+        boolean entradaVendida = false;
+        for(Sede s : this.sedes){       // verificar si la sede es un estadio
+            if(s instanceof Estadio){
+                Estadio estadio = (Estadio) s;
+                if(estadio.nombre.equals(espectaculo.obtenerFuncion(fecha).sede.nombre)){ // si nombre del estadio == nombre de sede del espectaculo
+                    for(int i=0 ; i<cantidadEntradas ; i++){
+                        Entrada entrada = estadio.venderEntrada(usuario.getEmail(), estadio.nombre, nombreEspectaculo, fecha);
+                        usuario.comprarEntrada(entrada, fecha);
+                        entradasVendidas.add(entrada);
+                        entradaVendida = true;
+                    }
+                }
 
             }
+            if(entradaVendida){
+                break;
+            }
         }
-        // terminar
-        return null;
+        if(entradaVendida == false){
+            throw new RuntimeException("La funcion no existe en el estadio.");
+        }
+        return entradasVendidas;
     }
+
+     */
+
+
+    private Sede verificarRegistroSede(String nombre){
+        for(Sede s : this.sedes){
+            if(s.nombre.equals(nombre)){
+                return s;
+            }
+        }
+        throw new RuntimeException("La sede no se encuentra registrada.");
+    }
+
+
+    private Usuario verificarRegistroUsuario(String email,String contrasenia){
+        Usuario usuario = this.usuarios.get(email);
+        if(usuario == null){
+            throw new RuntimeException("El usuario no se encuentra registrado.");
+        }
+        usuario.autenticar(email,contrasenia);
+        return usuario;
+    }
+
+    private Espectaculo verificarRegistroEspectaculo(String nombreEspectaculo){
+        for(Espectaculo e : this.espectaculos) {
+            if (e.nombre.equals(nombreEspectaculo)) {
+                return e;
+            }
+        }
+        throw new RuntimeException("El espectaculo no se encuentra registrado.");
+    }
+
+
 
     public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
         return List.of();
