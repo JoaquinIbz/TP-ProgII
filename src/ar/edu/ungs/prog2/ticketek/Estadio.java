@@ -25,5 +25,10 @@ public class Estadio extends Sede {
         return entrada;
     }
 
+    @Override
+    public double calcularPrecio(double precioBase){
+        return precioBase;
+    }
+
 
 }
