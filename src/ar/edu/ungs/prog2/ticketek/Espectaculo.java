@@ -21,18 +21,24 @@ public class Espectaculo {
 
     public boolean verificarDisponibilidad(String fecha){
         // verifica si la fecha esta disponible
-        if(!this.funciones.containsKey(fecha)) {
-            return true;
+        if(this.funciones.containsKey(fecha)) {
+            throw new RuntimeException("La fecha no esta disponible.");
         }
-        throw new RuntimeException("La fecha no esta disponible.");
+        return true;
     }
 
     public Funcion obtenerFuncion(String fecha){
-        Funcion funcion = this.funciones.get(fecha);
-        if (funcion == null) {
-            throw new RuntimeException("No hay función registrada para la fecha: " + fecha);
+        if(this.funciones.get(fecha).sede instanceof Estadio){
+            return this.funciones.get(fecha);
         }
-        return funcion;
+        if(this.funciones.get(fecha).sede instanceof Teatro){
+            return this.funciones.get(fecha);
+        }
+        if(this.funciones.get(fecha).sede instanceof MiniEstadio){
+            return this.funciones.get(fecha);
+        }
+
+        throw new RuntimeException("La funcion no existe");
     }
 
 }
