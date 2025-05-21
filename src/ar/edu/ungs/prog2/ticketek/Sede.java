@@ -4,27 +4,25 @@ import java.util.HashMap;
 
 public abstract class Sede {
 
-    String direccion;
     String nombre;
-    int capacidadActual;
+    String direccion;
     int capacidadMax;
-    int asientosDisponibles;
+    int capacidadActual;
     double precioUnico;
     double precioBase;
-    String[] sectores;
     int[] capacidad;
     private int numero;
     private int cantFilas;
-    private HashMap<Integer,Integer> asientosPorFila;
+    int asientosDisponibles;
     
 
     public Sede(String nombre, String direccion, int capacidadMax){
         this.direccion = direccion;
         this.nombre = nombre;
         this.capacidadMax = capacidadMax;
-
     }
 
+    public abstract Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha);
 
 
 }
