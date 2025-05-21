@@ -1,5 +1,6 @@
 package ar.edu.ungs.prog2.ticketek;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Usuario {
@@ -8,17 +9,17 @@ public class Usuario {
     private String apellido;
     private String email;
     private String contrasenia;
-    private LinkedList<Entrada> entradas;
+    private HashMap<String, LinkedList<Entrada>> entradasCompradas; // fecha, entrada
 
     public Usuario(String nombre, String apellido, String email, String contrasenia){
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.contrasenia = contrasenia;
-        this.entradas = new LinkedList<>();
+        this.entradasCompradas = new HashMap<>();
     }
 
-    public void comprarEntrada(String nombreEspectaculo, String fechaFuncion){
+    public void comprarEntrada(Entrada entrada, String fecha){
 
     }
 
@@ -35,13 +36,20 @@ public class Usuario {
     }
 
     public boolean autenticar(String email, String contrasenia){
-        if(!this.email.equals(email)) {
-            throw new RuntimeException("El email es incorrecto.");
+        if(!this.email.equals(email) || !this.contrasenia.equals(contrasenia)){
+            throw new RuntimeException("Email y/o contrasenia, invalidas.");
         }
-        if(!this.contrasenia.equals(contrasenia)){
-            throw new RuntimeException("La contrasenia es incorrecta.");
-        }
-        return this.email.equals(email) && this.contrasenia.equals(contrasenia);
+        return true;
+    }
+
+    public String getNombre(){
+        return this.nombre;
+    }
+    public String getApellido(){
+        return this.apellido;
+    }
+    public String getEmail(){
+        return this.email;
     }
 
 
