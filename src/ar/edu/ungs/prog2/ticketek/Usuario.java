@@ -1,5 +1,6 @@
 package ar.edu.ungs.prog2.ticketek;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -23,8 +24,16 @@ public class Usuario {
 
     }
 
-    public LinkedList<Entrada> listarEntradasFuturas(String fecha){
-        return null;
+    public LinkedList<Entrada> listarEntradasFuturas(){
+    	LinkedList<Entrada> listaEntradas = new LinkedList<>();
+        LocalDate fechaActual = LocalDate.now();
+        for(String fecha : entradasCompradas.keySet()) {
+        	LocalDate fechaEntrada = LocalDate.parse(fecha);
+        	if(fechaEntrada.isAfter(fechaActual)) {
+        		listaEntradas.addAll(entradasCompradas.get(fecha));
+        	}
+        }
+        return listaEntradas;
     }
 
     public LinkedList<Entrada> listarEntradasPasadas(String fecha){

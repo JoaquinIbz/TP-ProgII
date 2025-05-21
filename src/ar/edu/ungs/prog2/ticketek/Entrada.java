@@ -45,4 +45,9 @@ public class Entrada implements IEntrada {
     public void setEspectaculo(Espectaculo espectaculo){
         this.espectaculo = espectaculo;
     }
+
+	public String getFecha() {
+		return fecha;
+	}
+    
 }

@@ -168,7 +168,7 @@ public class Ticketek implements ITicketek {
     }
 
     public List<IEntrada> listarEntradasEspectaculo(String nombreEspectaculo) {
-        List<IEntrada> entradas = new ArrayList<>();
+        List<IEntrada> entradas = new LinkedList<>();
         for(Usuario usuario : usuarios.values()) {
         	for(Entrada entrada : usuario.listarTotalEntradas()) {
         		if(entrada.getEspectaculo().nombre.equals(nombreEspectaculo)) {
@@ -180,16 +180,24 @@ public class Ticketek implements ITicketek {
     }
 
     public List<IEntrada> listarEntradasFuturas(String email, String contrasenia) {
-        List<IEntrada> entradas = new LinkedList<>();
-        if(autenticarUsuario(email, contrasenia)) {
-        	throw new RuntimeException("Este usuario no existe");
+        Usuario usuario = autenticarUsuario(email, contrasenia);
+        if(usuario == null) {
+        	throw new RuntimeException("El usuario no existe");
         }
-        
+        List<IEntrada> entradas = new LinkedList<>();
+        entradas.addAll(usuario.listarEntradasFuturas());
+        return entradas;
     }
 
     public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
+    	Usuario usuario = autenticarUsuario(email, contrasenia);
+    	if(usuario == null) {
+    		throw new RuntimeException("El usuario no existe");
+    	}
+    	List<IEntrada> entradas = new LinkedList<>();
+    	entradas.addAll(usuario.listarTotalEntradas());
+    	return entradas;
     	
-    	return null;
     }
 
     public boolean anularEntrada(IEntrada entrada, String contrasenia) {
@@ -217,23 +225,13 @@ public class Ticketek implements ITicketek {
     }
 
     public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
-        return 0;
+        return 0.0;
     }
-<<<<<<< HEAD
-    
-    public boolean autenticarUsuario(String email, String contrasenia){
-        for(Usuario usuario : usuarios.values()) {
-        	if(usuario.getEmail().equals(email) && usuario.getContrasenia().equals(contrasenia)) {
-        		return true;
-        	}
-        }
-        return false;
-    }
-=======
+
 
     public String toString(){
         return "asdasd";
     }
 
->>>>>>> 1aac201a6b2d39df4ae4f1e867a380c1b8bb748f
+
 }
