@@ -5,37 +5,34 @@ import java.util.LinkedList;
 
 public class Espectaculo {
     String nombre;
-    //String codigo;
-    HashMap<String, LinkedList<Funcion>> funciones;  // fecha, funciones
+    private HashMap<String, Funcion> funciones;  // fecha, funciones
 
     public Espectaculo(String nombre){
         this.nombre = nombre;
         this.funciones = new HashMap<>();
     }
 
-    public void agregarFuncion(Funcion funcion, String fecha){
+    public void agregarFuncion(String fecha, Funcion funcion){
         if(this.funciones.containsKey(fecha)){
-            if(this.funciones.get(fecha) != null){
-                throw new RuntimeException("La fecha ya esta ocupada");
-            }
+            throw new RuntimeException("La fecha no esta disponible.");
         }
-        LinkedList<Funcion> funciones = new LinkedList<>();
-        funciones.add(funcion);
-        this.funciones.put(fecha,funciones);
+        this.funciones.put(fecha,funcion);
     }
 
     public boolean verificarDisponibilidad(String fecha){
         // verifica si la fecha esta disponible
-        if(this.funciones.containsKey(fecha)){
-            if(this.funciones.get(fecha) != null){
-                return false;
-            }
+        if(!this.funciones.containsKey(fecha)) {
+            return true;
         }
-        return true;
+        throw new RuntimeException("La fecha no esta disponible.");
     }
 
-    public LinkedList<Funcion> obtenerFunciones(String fecha){
-        return null;
+    public Funcion obtenerFuncion(String fecha){
+        Funcion funcion = this.funciones.get(fecha);
+        if (funcion == null) {
+            throw new RuntimeException("No hay función registrada para la fecha: " + fecha);
+        }
+        return funcion;
     }
 
 }
