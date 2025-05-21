@@ -87,17 +87,16 @@ public class Ticketek implements ITicketek {
     public void agregarFuncion(String nombreEspectaculo, String fecha, String sede, double precioBase) {
 
         Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
-        // verificar disponibilidad de fecha
-        if(espectaculo.verificarDisponibilidad(fecha) == true){
-            Espectaculo e = new Espectaculo(nombreEspectaculo);
-            Sede s = verificarRegistroSede(sede);
+        Sede s = verificarRegistroSede(sede);
+        if(espectaculo.verificarDisponibilidad(fecha)){
             Funcion funcion = new Funcion(s,fecha,precioBase);
-            e.agregarFuncion(fecha,funcion);
+            espectaculo.agregarFuncion(fecha,funcion);
         }
     }
 
     public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, int cantidadEntradas) {
         // autenticar
+        // vender entrada estadio
 
         Usuario usuario = verificarRegistroUsuario(email,contrasenia);
 
@@ -111,6 +110,7 @@ public class Ticketek implements ITicketek {
             Estadio estadio = (Estadio) funcion.sede;
             for(int i=0 ; i<cantidadEntradas ; i++){
                 Entrada entrada = estadio.venderEntrada(email,estadio.nombre,nombreEspectaculo,fecha);
+                usuario.comprarEntrada(entrada,fecha);
                 entradasVendidas.add(entrada);
             }
         }else{
@@ -169,7 +169,7 @@ public class Ticketek implements ITicketek {
         if(usuario == null){
             throw new RuntimeException("El usuario no se encuentra registrado.");
         }
-        usuario.autenticar(email,contrasenia);
+        //usuario.autenticar(email,contrasenia);
         return usuario;
     }
 
