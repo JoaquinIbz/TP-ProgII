@@ -2,23 +2,35 @@ package ar.edu.ungs.prog2.ticketek;
 
 public class Entrada implements IEntrada {
 
-    private String codigoEntrada;
     String nombreSede;
+    String email;
     private String fecha;
     private int fila;
     private int asiento;
+    private String sector;
     private String nombreEspectaculo;
     private Espectaculo espectaculo;
 
-
-    public Entrada(String nombreSede, String nombreEspectaculo, String fecha){
+    // entrada de estadio.
+    public Entrada(String email, String nombreSede, String nombreEspectaculo, String fecha){
         this.nombreSede = nombreSede;
         this.nombreEspectaculo = nombreEspectaculo;
         this.fecha = fecha;
     }
 
+    // entrada de teatro y miniestadio.
+    public Entrada(String email, String nombreSede, String nombreEspectaculo, String fecha, int[] asientos, String sector){
+        this.nombreSede = nombreSede;
+        this.nombreEspectaculo = nombreEspectaculo;
+        this.fecha = fecha;
+        this.fila = fila;
+        this.asiento = asiento;
+        this.sector = sector;
+    }
+
+
     public double precio() {
-        Funcion funcion = this.espectaculo.obtenerFuncion(fecha);
+        Funcion funcion = this.espectaculo.obtenerFuncion(this.fecha);
         return funcion.calcularPrecio();
     }
 
