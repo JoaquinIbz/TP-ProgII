@@ -20,7 +20,7 @@ public class Usuario {
         this.entradasCompradas = new HashMap<>();
     }
 
-    public void comprarEntrada(Entrada entrada, String fecha){
+    public void comprarEntrada(IEntrada entrada, String fecha){
 
     }
 
