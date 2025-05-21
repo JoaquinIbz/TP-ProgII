@@ -4,7 +4,6 @@ public class Entrada implements IEntrada {
 
     private String codigoEntrada;
     String nombreSede;
-    private String sector;
     private String fecha;
     private int fila;
     private int asiento;
@@ -19,7 +18,8 @@ public class Entrada implements IEntrada {
     }
 
     public double precio() {
-        return 0;
+        Funcion funcion = this.espectaculo.obtenerFuncion(fecha);
+        return funcion.calcularPrecio();
     }
 
     /**
@@ -41,5 +41,8 @@ public class Entrada implements IEntrada {
 
     public Espectaculo getEspectaculo(){
         return this.espectaculo;
+    }
+    public void setEspectaculo(Espectaculo espectaculo){
+        this.espectaculo = espectaculo;
     }
 }
