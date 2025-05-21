@@ -8,7 +8,6 @@ public abstract class Sede {
     String direccion;
     int capacidadMax;
     int capacidadActual;
-    double precioUnico;
     double precioBase;
     int[] capacidad;
     private int numero;
@@ -23,6 +22,9 @@ public abstract class Sede {
     }
 
     public abstract Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha);
+
+    public abstract double calcularPrecio(double precioBase);
+
 
 
 }
