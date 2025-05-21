@@ -35,13 +35,6 @@ public class Usuario {
         return null;
     }
 
-    public boolean autenticar(String email, String contrasenia){
-        if(!this.email.equals(email) || !this.contrasenia.equals(contrasenia)){
-            throw new RuntimeException("Email y/o contrasenia, invalidas.");
-        }
-        return true;
-    }
-
     public String getNombre(){
         return this.nombre;
     }
@@ -50,6 +43,9 @@ public class Usuario {
     }
     public String getEmail(){
         return this.email;
+    }
+    public String getContrasenia(){
+        return this.contrasenia;
     }
 
 
