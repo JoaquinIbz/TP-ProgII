@@ -144,9 +144,8 @@ public class Ticketek implements ITicketek {
         throw new RuntimeException("El espectaculo no se encuentra registrado.");
     }
 
-
     public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
-        /*
+        // vender entrada teatro
         Usuario usuario = autenticarUsuario(email,contrasenia);
         Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
         Funcion funcion = espectaculo.obtenerFuncion(fecha);
@@ -154,13 +153,13 @@ public class Ticketek implements ITicketek {
 
         if(funcion.sede instanceof Teatro){
             Teatro teatro = (Teatro) funcion.sede;
+            Entrada entrada = teatro.venderEntrada(email,teatro.nombre,nombreEspectaculo,fecha,sector,asientos);
 
-        }else{
-            throw new RuntimeException("La sede de la funcion no es un teatro.");
         }
-        return entradasVendidas;
-        */
-        return null;
+
+
+
+
     }
 
     public String listarFunciones(String nombreEspectaculo) {
@@ -201,7 +200,7 @@ public class Ticketek implements ITicketek {
     }
 
     public boolean anularEntrada(IEntrada entrada, String contrasenia) {
-        return false;
+        return false; // O(1)
     }
 
     public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha, String sector, int asiento) {
@@ -221,7 +220,7 @@ public class Ticketek implements ITicketek {
     }
 
     public double totalRecaudado(String nombreEspectaculo) {
-        return 0;
+        return 0; //O(1)
     }
 
     public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
