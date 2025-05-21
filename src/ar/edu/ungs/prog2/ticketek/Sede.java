@@ -1,6 +1,7 @@
 package ar.edu.ungs.prog2.ticketek;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public abstract class Sede {
 
@@ -13,6 +14,7 @@ public abstract class Sede {
     private int numero;
     private int cantFilas;
     int asientosDisponibles;
+    HashMap<String, LinkedList<Entrada>> entradasVendidas; // fecha, lista de entradas
     
 
     public Sede(String nombre, String direccion, int capacidadMax){
@@ -21,10 +23,6 @@ public abstract class Sede {
         this.capacidadMax = capacidadMax;
     }
 
-    public abstract Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha);
-
     public abstract double calcularPrecio(double precioBase);
-
-
 
 }
