@@ -14,8 +14,13 @@ public class Funcion {
         this.fecha = fecha;
         this.precioBase = precioBase;
     }
-    public double calcularPrecioFinal(String[] sector, double extraConsumision){
-        return 0.0;
 
+    public double calcularPrecio(){
+        if(this.sede instanceof Estadio){
+            Estadio estadio = (Estadio) this.sede;
+            return estadio.calcularPrecio(this.precioBase);
+        }
+        return 0.0;
     }
+
 }
