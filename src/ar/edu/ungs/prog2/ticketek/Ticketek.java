@@ -206,7 +206,10 @@ public class Ticketek implements ITicketek {
 
     public List<IEntrada> listarEntradasFuturas(String email, String contrasenia) {
         List<IEntrada> entradas = new LinkedList<>();
-        return entradas;
+        if(autenticarUsuario(email, contrasenia)) {
+        	throw new RuntimeException("Este usuario no existe");
+        }
+        
     }
 
     public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
@@ -240,5 +243,14 @@ public class Ticketek implements ITicketek {
 
     public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
         return 0;
+    }
+    
+    public boolean autenticarUsuario(String email, String contrasenia){
+        for(Usuario usuario : usuarios.values()) {
+        	if(usuario.getEmail().equals(email) && usuario.getContrasenia().equals(contrasenia)) {
+        		return true;
+        	}
+        }
+        return false;
     }
 }
