@@ -20,4 +20,9 @@ public class Entrada implements IEntrada {
     public String ubicacion() {
         return "";
     }
+
+	public Espectaculo getEspectaculo() {
+		return espectaculo;
+	}
+    
 }

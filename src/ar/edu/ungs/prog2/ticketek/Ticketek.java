@@ -1,5 +1,6 @@
 package ar.edu.ungs.prog2.ticketek;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,13 +8,17 @@ import java.util.List;
 public class Ticketek implements ITicketek {
 
     String nombre;
-    private HashMap<String, Usuario> usuarios;
+    private HashMap<String, Usuario> usuarios;//email, usuario
     private LinkedList<Sede> sedes;
     private LinkedList<Espectaculo> espectaculos;
 
 
     // metodos del diagrama
-    public Ticketek(){}
+    public Ticketek(){
+    	this.usuarios = new HashMap<>();
+    	this.sedes = new LinkedList<>();
+    	this.espectaculos = new LinkedList<>();
+    }
 
     // metodos de la interfaz
     public void registrarSede(String nombre, String direccion, int capacidadMaxima) {
@@ -41,6 +46,7 @@ public class Ticketek implements ITicketek {
     		throw new RuntimeException("Esos datos son invalidos");
     	}
     	Teatro teatro = new Teatro(nombre, direccion, capacidadMaxima, asientosPorFila, sectores, capacidad, porcentajeAdicional);
+    	sedes.add(teatro);
     }
     
 
@@ -115,15 +121,25 @@ public class Ticketek implements ITicketek {
     }
 
     public List<IEntrada> listarEntradasEspectaculo(String nombreEspectaculo) {
-        return List.of();
+        List<IEntrada> entradas = new ArrayList<>();
+        for(Usuario usuario : usuarios.values()) {
+        	for(Entrada entrada : usuario.listarTotalEntradas()) {
+        		if(entrada.getEspectaculo().nombre.equals(nombreEspectaculo)) {
+        			entradas.add(entrada);
+        		}
+        	}
+        }
+        return entradas;
     }
 
     public List<IEntrada> listarEntradasFuturas(String email, String contrasenia) {
-        return List.of();
+        List<IEntrada> entradas = new LinkedList<>();
+        return entradas;
     }
 
     public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
-        return List.of();
+    	
+    	return null;
     }
 
     public boolean anularEntrada(IEntrada entrada, String contrasenia) {
