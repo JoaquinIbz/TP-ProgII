@@ -52,4 +52,9 @@ public class MiniEstadio extends Sede {
     public Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha) {
         return null;
     }
+
+    @Override
+    public double calcularPrecio(double precioBase) {
+        return 0;
+    }
 }
