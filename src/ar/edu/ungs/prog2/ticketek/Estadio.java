@@ -17,6 +17,7 @@ public class Estadio extends Sede {
 
     public Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha){
         Entrada entrada = new Entrada(email,nombreSede, nombreEspectaculo, fecha);
+        entrada.setEmail(email);
         if(this.capacidadActual > 0){
             if(!this.entradasVendidas.containsKey(fecha)){
                 LinkedList<Entrada> e = new LinkedList<>();
