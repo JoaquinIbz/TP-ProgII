@@ -166,7 +166,41 @@ public class Ticketek implements ITicketek {
     }
 
     public String listarFunciones(String nombreEspectaculo) {
-        return "";
+    	StringBuilder sb = new StringBuilder();
+        for(Espectaculo espectaculo : espectaculos) {
+        	if(espectaculo.nombre.equals(nombreEspectaculo)) {
+        		for(Funcion funcion : espectaculo.getFunciones().values()) {
+        			if(funcion.sede instanceof Estadio) {
+        				String fecha = funcion.fecha;
+        				String nombreSede = funcion.sede.nombre;
+        				int entradasVendidas = funcion.sede.cantidadEntradasVendidas(fecha);
+        				int capacidadSede = funcion.sede.capacidadMax;
+        				sb.append(" - (").append(fecha).append(") ").append(nombreSede).append("- ")
+        				.append(entradasVendidas).append("/").append(capacidadSede).append("\n");
+        			}
+        			else {
+        				String fecha = funcion.fecha;
+        				String nombreSede = funcion.sede.nombre;
+        				int entradasVendidasVIP = funcion.sede.entradasVendidasPorSector(fecha, "VIP");
+        				int capacidadVIP = funcion.sede.capacidad[0];
+        				int entradasVendidasCOMUN = funcion.sede.entradasVendidasPorSector(fecha, "COMUN");
+        				int capacidadCOMUN = funcion.sede.capacidad[1];
+        				int entradasVendidasBAJA = funcion.sede.entradasVendidasPorSector(fecha, "BAJA");
+        				int capacidadBAJA = funcion.sede.capacidad[2];
+        				int entradasVendidasALTA = funcion.sede.entradasVendidasPorSector(fecha, "ALTA");
+        				int capacidadALTA = funcion.sede.capacidad[3];
+        				
+        				sb.append(" - (").append(fecha).append(") ").append(nombreSede)
+        				.append(" - VIP: ").append(entradasVendidasVIP).append("/").append(capacidadVIP)
+        				.append(" | Comun: ").append(entradasVendidasCOMUN).append("/").append(capacidadCOMUN)
+        				.append(" | Baja: ").append(entradasVendidasBAJA).append("/").append(capacidadBAJA)
+        				.append(" | Alta: ").append(entradasVendidasALTA).append("/").append(capacidadALTA)
+        				.append("\n");
+        			}
+        		}
+        	}
+        }
+        return sb.toString();
     }
 
     public List<IEntrada> listarEntradasEspectaculo(String nombreEspectaculo) {

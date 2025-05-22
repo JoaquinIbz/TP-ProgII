@@ -38,5 +38,10 @@ public class Espectaculo {
         throw new RuntimeException("La sede de la función no es válida");
     }
 
+	public HashMap<String, Funcion> getFunciones() {
+		return funciones;
+	}
+    
+
 
 }
