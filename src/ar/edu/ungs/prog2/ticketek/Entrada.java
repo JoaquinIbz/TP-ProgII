@@ -1,12 +1,13 @@
 package ar.edu.ungs.prog2.ticketek;
 
+import java.util.LinkedList;
+
 public class Entrada implements IEntrada {
 
     String nombreSede;
     String email;
     private String fecha;
-    private int fila;
-    private int asiento;
+    private LinkedList<Butaca> ubicacion;
     private String sector;
     private String nombreEspectaculo;
     private Espectaculo espectaculo;
@@ -23,8 +24,6 @@ public class Entrada implements IEntrada {
         this.nombreSede = nombreSede;
         this.nombreEspectaculo = nombreEspectaculo;
         this.fecha = fecha;
-        this.fila = fila;
-        this.asiento = asiento;
         this.sector = sector;
     }
 
@@ -44,17 +43,20 @@ public class Entrada implements IEntrada {
      * @return
      */
     public String ubicacion() {
-        if(sector == null) {
+        if(this.sector == null) {
         	return "CAMPO";
-        }
-        else {
-        	return sector + "f: " + fila + " a: " + asiento;
+        }else {
+        	//* Si la entrada es para estadio, la ubicacion será "CAMPO".
+            //* sino, será "{SECTOR} f:{NRO FILA} a:{NRO ASIENTO}"
+            StringBuilder sb = new StringBuilder();
+            sb.append("{"+this.sector+"} ");sb.append(this.ubicacion.toString());
+            return sb.toString();
         }
     }
 
     public String toString(){
-        return "Entrada{ " + "espectaculo= " + nombreEspectaculo + "/" + ", sede= " + nombreSede + "/" + ", fecha= " +
-    fecha + "/" + ", email= " + email + "/" + ", ubicacion= " + ubicacion() + "/" + "}";
+        return "Entrada{ " + "espectaculo= " + this.nombreEspectaculo + "/" + ", sede= " + this.nombreSede + "/" + ", fecha= " +
+                this.fecha + "/" + ", email= " + this.email + "/" + ", ubicacion= " + ubicacion() + "/" + "}";
         		}
 
     public Espectaculo getEspectaculo(){
@@ -67,5 +69,15 @@ public class Entrada implements IEntrada {
 	public String getFecha() {
 		return fecha;
 	}
-    
+
+    public void setSector(String sector) {
+        this.sector = sector;
+    }
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public void setUbicacion(LinkedList<Butaca> butacas){
+        this.ubicacion = butacas;
+    }
 }
