@@ -40,8 +40,8 @@ public class Espectaculo {
     }
     public LinkedList<Funcion> obtenerTodasLasFunciones(){
         LinkedList<Funcion> listaFunciones = new LinkedList<>();
-        for(Funcion entry : this.funciones.values()){
-            listaFunciones.add(entry);
+        for(Funcion funcion : this.funciones.values()){
+            listaFunciones.add(funcion);
         }
         return listaFunciones;
     }
