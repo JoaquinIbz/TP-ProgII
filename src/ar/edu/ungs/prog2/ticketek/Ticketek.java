@@ -145,22 +145,24 @@ public class Ticketek implements ITicketek {
     }
 
     public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
-//        // vender entrada teatro
-//        Usuario usuario = autenticarUsuario(email,contrasenia);
-//        Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
-//        Funcion funcion = espectaculo.obtenerFuncion(fecha);
+
+        Usuario usuario = autenticarUsuario(email,contrasenia);
+        Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
+        Funcion funcion = espectaculo.obtenerFuncion(fecha);
         LinkedList<IEntrada> entradasVendidas = new LinkedList<>();
-//
-//        if(funcion.sede instanceof Teatro){
-//            Teatro teatro = (Teatro) funcion.sede;
-//            Entrada entrada = teatro.venderEntrada(email,teatro.nombre,nombreEspectaculo,fecha,sector,asientos);
-//
-//        }
+
+        if(funcion.sede instanceof Teatro){
+            Teatro teatro = (Teatro) funcion.sede;
+            Entrada entrada = teatro.venderEntrada(email,teatro.nombre,nombreEspectaculo,fecha,sector,asientos);
+            entrada.setEspectaculo(espectaculo);
+            entradasVendidas.add(entrada);
+        }else if(funcion.sede instanceof MiniEstadio){
+            MiniEstadio miniEstadio = (MiniEstadio) funcion.sede;
+            Entrada entrada = miniEstadio.venderEntrada(email,miniEstadio.nombre,nombreEspectaculo,fecha,sector,asientos);
+            entrada.setEspectaculo(espectaculo);
+            entradasVendidas.add(entrada);
+        }
     	return entradasVendidas;
-
-
-
-
     }
 
     public String listarFunciones(String nombreEspectaculo) {
