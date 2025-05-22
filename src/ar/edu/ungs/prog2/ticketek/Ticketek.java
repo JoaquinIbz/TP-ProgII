@@ -145,17 +145,18 @@ public class Ticketek implements ITicketek {
     }
 
     public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
-        // vender entrada teatro
-        Usuario usuario = autenticarUsuario(email,contrasenia);
-        Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
-        Funcion funcion = espectaculo.obtenerFuncion(fecha);
+//        // vender entrada teatro
+//        Usuario usuario = autenticarUsuario(email,contrasenia);
+//        Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
+//        Funcion funcion = espectaculo.obtenerFuncion(fecha);
         LinkedList<IEntrada> entradasVendidas = new LinkedList<>();
-
-        if(funcion.sede instanceof Teatro){
-            Teatro teatro = (Teatro) funcion.sede;
-            Entrada entrada = teatro.venderEntrada(email,teatro.nombre,nombreEspectaculo,fecha,sector,asientos);
-
-        }
+//
+//        if(funcion.sede instanceof Teatro){
+//            Teatro teatro = (Teatro) funcion.sede;
+//            Entrada entrada = teatro.venderEntrada(email,teatro.nombre,nombreEspectaculo,fecha,sector,asientos);
+//
+//        }
+    	return entradasVendidas;
 
 
 

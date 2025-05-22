@@ -20,7 +20,7 @@ public class Usuario {
         this.entradasCompradas = new HashMap<>();
     }
 
-    public void comprarEntrada(IEntrada entrada, String fecha){
+    public void comprarEntrada(Entrada entrada, String fecha){
 
     }
 
@@ -36,12 +36,16 @@ public class Usuario {
         return listaEntradas;
     }
 
-    public LinkedList<Entrada> listarEntradasPasadas(String fecha){
-        return null;
-    }
+//    public LinkedList<Entrada> listarEntradasPasadas(String fecha){
+//        
+//    }
 
     public LinkedList<Entrada> listarTotalEntradas(){
-        return null;
+        LinkedList<Entrada> total = new LinkedList<>();
+        for(LinkedList<Entrada> entrada : entradasCompradas.values()) {
+        	total.addAll(entrada);
+        }
+        return total;
     }
 
     public String getNombre(){
