@@ -27,18 +27,16 @@ public class Espectaculo {
         return true;
     }
 
-    public Funcion obtenerFuncion(String fecha){
-        if(this.funciones.get(fecha).sede instanceof Estadio){
-            return this.funciones.get(fecha);
+    public Funcion obtenerFuncion(String fecha) {
+        Funcion funcion = this.funciones.get(fecha);
+        if(funcion == null){
+            throw new RuntimeException("No hay función registrada en esa fecha");
         }
-        if(this.funciones.get(fecha).sede instanceof Teatro){
-            return this.funciones.get(fecha);
+        if(funcion.sede instanceof Estadio || funcion.sede instanceof Teatro || funcion.sede instanceof MiniEstadio) {
+            return funcion;
         }
-        if(this.funciones.get(fecha).sede instanceof MiniEstadio){
-            return this.funciones.get(fecha);
-        }
-
-        throw new RuntimeException("La funcion no existe");
+        throw new RuntimeException("La sede de la función no es válida");
     }
+
 
 }
