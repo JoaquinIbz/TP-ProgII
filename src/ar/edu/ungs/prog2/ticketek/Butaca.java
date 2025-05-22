@@ -12,7 +12,7 @@ public class Butaca {
     }
 
     public String toString(){
-        return "fila: "+this.fila+", asiento: "+this.asiento;
+        return this.fila+"/"+this.asiento;
     }
 
     public int getFila() {
