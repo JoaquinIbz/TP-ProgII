@@ -44,12 +44,18 @@ public class Entrada implements IEntrada {
      * @return
      */
     public String ubicacion() {
-        return "";
+        if(sector == null) {
+        	return "CAMPO";
+        }
+        else {
+        	return sector + "f: " + fila + " a: " + asiento;
+        }
     }
 
     public String toString(){
-        return "";
-    }
+        return "Entrada{ " + "espectaculo= " + nombreEspectaculo + "/" + ", sede= " + nombreSede + "/" + ", fecha= " +
+    fecha + "/" + ", email= " + email + "/" + ", ubicacion= " + ubicacion() + "/" + "}";
+        		}
 
     public Espectaculo getEspectaculo(){
         return this.espectaculo;
