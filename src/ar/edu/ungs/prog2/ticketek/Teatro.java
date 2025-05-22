@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Teatro extends Sede{
 
-    String[] sectores; // {"Platea VIP", "Platea Común", "Platea Baja", "Platea Alta"} O {"Campo"}
+    String[] sectores; // {"Platea VIP", "Platea Común", "Platea Baja", "Platea Alta"}
     int asientosPorFila;
     int[] porcentajeAdicional;
     HashMap<String,HashMap<Integer, LinkedList<Integer>>> asientosDisponibles;// [SECTOR] [FILA, LISTA<ASIENTOS>]
@@ -124,6 +124,11 @@ public class Teatro extends Sede{
     @Override
     public double calcularPrecio(double precioBase) {
         return 0;
+    }
+
+    public String toString(){
+        // - (31/07/2025) Teatro Colón - Platea VIP: 30/50 | Platea Común: 60/70 | Platea Baja: 0/70 | Platea Alta: 50/50
+        return ""+this.nombre+" - "+this.sectores[0]+": "+
     }
 
 

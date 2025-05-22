@@ -2,6 +2,7 @@ package ar.edu.ungs.prog2.ticketek;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class Espectaculo {
     String nombre;
@@ -36,6 +37,13 @@ public class Espectaculo {
             return funcion;
         }
         throw new RuntimeException("La sede de la función no es válida");
+    }
+    public LinkedList<Funcion> obtenerTodasLasFunciones(){
+        LinkedList<Funcion> listaFunciones = new LinkedList<>();
+        for(Funcion entry : this.funciones.values()){
+            listaFunciones.add(entry);
+        }
+        return listaFunciones;
     }
 
 	public HashMap<String, Funcion> getFunciones() {
