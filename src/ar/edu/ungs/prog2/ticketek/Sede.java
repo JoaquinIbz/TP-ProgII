@@ -21,6 +21,7 @@ public abstract class Sede {
         this.direccion = direccion;
         this.nombre = nombre;
         this.capacidadMax = capacidadMax;
+        this.entradasVendidas = new HashMap<>();
     }
 
     public abstract double calcularPrecio(double precioBase);
