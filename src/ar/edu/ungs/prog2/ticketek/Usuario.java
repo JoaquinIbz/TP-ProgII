@@ -21,16 +21,20 @@ public class Usuario {
     }
 
     public void comprarEntrada(Entrada entrada, String fecha){
-
+        if(!this.entradasCompradas.containsKey(fecha)){
+            LinkedList<Entrada> entradas = new LinkedList<>();
+            this.entradasCompradas.put(fecha, entradas);
+        }
+        LinkedList<Entrada> entradas = this.entradasCompradas.get(fecha);
+        entradas.add(entrada);
     }
 
     public LinkedList<Entrada> listarEntradasFuturas(){
     	LinkedList<Entrada> listaEntradas = new LinkedList<>();
-        LocalDate fechaActual = LocalDate.now();
-        for(String fecha : entradasCompradas.keySet()) {
-        	LocalDate fechaEntrada = LocalDate.parse(fecha);
-        	if(fechaEntrada.isAfter(fechaActual)) {
-        		listaEntradas.addAll(entradasCompradas.get(fecha));
+        for(String f : entradasCompradas.keySet()){
+            Fecha fecha = new Fecha(f);
+        	if(fecha.esFutura()) {
+        		listaEntradas.addAll(entradasCompradas.get(f));
         	}
         }
         return listaEntradas;
