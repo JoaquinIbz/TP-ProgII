@@ -40,14 +40,14 @@ public class MiniEstadio extends Sede {
 
     }
 
-    public Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha, String sector, int[] asientos) {
-        if(!estaDisponible(sector,asientos)){
+    public Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha, String sector, int asiento) {
+        if(!estaDisponible(sector,asiento)){
             throw new RuntimeException("El sector y/o los asientos son incorrectos.");
         }
-        this.asientosDisponibles.put(sector,ocuparAsiento(sector,asientos));       // ocupa asiento
-        Entrada entrada = new Entrada(email,nombreSede,nombreEspectaculo,fecha,asientos,sector);
-        entrada.setButacas(buscarFilaYasiento(sector,asientos));
+        Entrada entrada = new Entrada(email,nombreSede,nombreEspectaculo,fecha,asiento,sector);
+        entrada.setButaca(buscarFilaYasiento(sector,asiento));
 
+        this.asientosDisponibles.put(sector,ocuparAsiento(sector,asiento));       // ocupa asiento
 
         if(!this.entradasVendidas.containsKey(fecha)){
             LinkedList<Entrada> e = new LinkedList<>();
@@ -59,56 +59,43 @@ public class MiniEstadio extends Sede {
         return entrada;
     }
 
-    private LinkedList<Butaca> buscarFilaYasiento(String sector, int[] asientos){
-        LinkedList<Butaca> butacas = new LinkedList<>();
+    private Butaca buscarFilaYasiento(String sector, int asiento){
+        Butaca butaca = null;
         HashMap<Integer,LinkedList<Integer>> filaYasientos = this.asientosDisponibles.get(sector);
         for(Map.Entry<Integer,LinkedList<Integer>> entrada : filaYasientos.entrySet()){
-            for(int asiento : asientos){
-                if(entrada.getValue().contains(asiento)){
-                    Butaca butaca = new Butaca(entrada.getKey(),asiento);
-                    butacas.add(butaca);
-                }
+            if(entrada.getValue().contains(asiento)){
+                Butaca b = new Butaca(entrada.getKey(),asiento);
+                butaca = b;
+
             }
         }
-        return butacas;
+        return butaca;
     }
 
-    public HashMap<Integer,LinkedList<Integer>> ocuparAsiento(String sector, int[] asientos){
+
+    public HashMap<Integer,LinkedList<Integer>> ocuparAsiento(String sector, int asiento){
         HashMap<Integer, LinkedList<Integer>> mapa = null;
-        if(estaDisponible(sector,asientos)) {
+        if(estaDisponible(sector,asiento)) {
             HashMap<Integer, LinkedList<Integer>> filasYasientos = this.asientosDisponibles.get(sector);
-            for(int asiento : asientos){
-                for(Map.Entry<Integer,LinkedList<Integer>> entry : filasYasientos.entrySet()){
-                    LinkedList<Integer> lista = entry.getValue();
-                    if(lista.contains(asiento)){
-                        lista.remove(asiento);
-                        break;
-                    }
-                }
+            for (LinkedList<Integer> listaAsientos : filasYasientos.values()) {
+                listaAsientos.remove(Integer.valueOf(asiento));
             }
             mapa = filasYasientos;
         }
         return mapa;
     }
 
-    public boolean estaDisponible(String sector, int[] asientos) {
+    public boolean estaDisponible(String sector, int asiento) {
         HashMap<Integer, LinkedList<Integer>> filasYasientos = this.asientosDisponibles.get(sector);
         if (filasYasientos == null) {
             return false;
         }
-        for(int asiento : asientos){
-            boolean encontrado = false;
-            for(LinkedList<Integer> listaAsientos : filasYasientos.values()){
-                if(listaAsientos.contains(asiento)){
-                    encontrado = true;
-                    break;
-                }
-            }
-            if(!encontrado){
-                return false;
+        for(LinkedList<Integer> listaAsientos : filasYasientos.values()){
+            if(listaAsientos.contains(asiento)){
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private HashMap<String, HashMap<Integer,LinkedList<Integer>>> inicializarAsientosDisponibles(String[] sectores, int[] capacidad){
@@ -159,30 +146,26 @@ public class MiniEstadio extends Sede {
     public String entradasVendidas(String fecha){
         StringBuilder sb = new StringBuilder();
         LinkedList<Entrada> entradas = this.entradasVendidas.get(fecha);
-        HashMap<String, Integer> contadorPorSector = new HashMap<>(); // Sector, entradas vendidas
-        for(String sector : this.sectores){
-            contadorPorSector.put(sector,0);
-        }
         if(entradas != null){
-            for(Entrada e : entradas){
-                String sector = e.getSector();
-                if(contadorPorSector.containsKey(sector)){
-                    int vendidas = contadorPorSector.get(sector);
-                    if(e.getButacas()!=null){
-                        int cantidad = e.getButacas().length;
-                        vendidas += cantidad;
-                        contadorPorSector.put(sector,vendidas);
+            for(int i=0 ; i<this.sectores.length ; i++){
+                int vendidas = 0;
+                for(Entrada e : entradas){
+                    String sectorEntrada = e.getSector();
+                    if(sectorEntrada.equals(this.sectores[i])){
+                        vendidas+=1;
                     }
-                    vendidas += 1;
-                    contadorPorSector.put(sector,vendidas);
+                }
+                sb.append(this.sectores[i]+": "+ vendidas+"/"+this.capacidad[i]);
+                if(i < this.sectores.length -1){
+                    sb.append(" | ");
                 }
             }
-        }
-        for(int s=0 ; s<this.sectores.length ; s++){
-            int cantidad = contadorPorSector.get(this.sectores[s]);
-            sb.append(this.sectores[s]+": "+ cantidad+"/"+this.capacidad[s]);
-            if(s < this.sectores.length -1){
-                sb.append(" | ");
+        }else{
+            for(int i=0 ; i<this.sectores.length ; i++){
+                sb.append(this.sectores[i]+": "+ 0+"/"+this.capacidad[i]);
+                if(i < this.sectores.length -1){
+                    sb.append(" | ");
+                }
             }
         }
         return sb.toString();
