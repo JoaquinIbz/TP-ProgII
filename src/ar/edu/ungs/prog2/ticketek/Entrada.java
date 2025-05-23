@@ -7,7 +7,7 @@ public class Entrada implements IEntrada {
     String nombreSede;
     String email;
     private String fecha;
-    private Butaca[] butacas;
+    private Butaca butaca;
     private String sector;
     private String nombreEspectaculo;
     private Espectaculo espectaculo;
@@ -17,14 +17,16 @@ public class Entrada implements IEntrada {
         this.nombreSede = nombreSede;
         this.nombreEspectaculo = nombreEspectaculo;
         this.fecha = fecha;
+        this.email = email;
     }
 
     // entrada de teatro y miniestadio.
-    public Entrada(String email, String nombreSede, String nombreEspectaculo, String fecha, int[] asientos, String sector){
+    public Entrada(String email, String nombreSede, String nombreEspectaculo, String fecha, int asientos, String sector){
         this.nombreSede = nombreSede;
         this.nombreEspectaculo = nombreEspectaculo;
         this.fecha = fecha;
         this.sector = sector;
+        this.email = email;
     }
 
 
@@ -50,10 +52,8 @@ public class Entrada implements IEntrada {
             //* sino, será "{SECTOR} f:{NRO FILA} a:{NRO ASIENTO}"
             StringBuilder sb = new StringBuilder();
             sb.append("{"+this.sector+"} ");
-            for(Butaca butaca : this.butacas){
-                sb.append("f:{");sb.append(butaca.getFila()+"} ");
-                sb.append("a:{");sb.append(butaca.getAsiento()+"} ");
-            }
+            sb.append("f:{");sb.append(butaca.getFila()+"} ");
+            sb.append("a:{");sb.append(butaca.getAsiento()+"} ");
             return sb.toString();
         }
     }
@@ -85,13 +85,10 @@ public class Entrada implements IEntrada {
         this.email = email;
     }
 
-    public void setButacas(LinkedList<Butaca> butacas){
-        this.butacas = new Butaca[butacas.size()];
-        for(int i=0 ; i<butacas.size() ; i++){
-            this.butacas[i] = butacas.get(i);
-        }
+    public void setButaca(Butaca butaca){
+        this.butaca = butaca;
     }
-    public Butaca[] getButacas(){
-        return this.butacas;
+    public Butaca getButaca(){
+        return this.butaca;
     }
 }
