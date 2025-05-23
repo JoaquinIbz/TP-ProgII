@@ -46,5 +46,10 @@ public class Espectaculo {
         return listaFunciones;
     }
 
+	public HashMap<String, Funcion> getFunciones() {
+		return funciones;
+	}
+    
+
 
 }

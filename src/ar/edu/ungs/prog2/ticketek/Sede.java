@@ -25,5 +25,25 @@ public abstract class Sede {
     }
 
     public abstract double calcularPrecio(double precioBase);
+    
+    public int cantidadEntradasVendidas(String fecha) {
+    	LinkedList<Entrada> entradas = entradasVendidas.get(fecha);
+    	if(entradas != null) {
+    		return entradas.size();
+    	}
+    	return 0;
+    }
+    public int entradasVendidasPorSector(String fecha, String sector) {
+    	int cont = 0;
+    	LinkedList<Entrada> entradas = entradasVendidas.get(fecha);
+    	if(entradas != null) {
+    		for(Entrada e : entradas) {
+    			if(e.getSector().equals(sector) && e.getSector() != null) {
+    				cont++;
+    			}
+    		}
+    	}
+    	return cont;
+    }
 
 }

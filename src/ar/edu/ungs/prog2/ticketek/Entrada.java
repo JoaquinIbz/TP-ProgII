@@ -80,4 +80,9 @@ public class Entrada implements IEntrada {
     public void setUbicacion(LinkedList<Butaca> butacas){
         this.ubicacion = butacas;
     }
+
+	public String getSector() {
+		return sector;
+	}
+    
 }
