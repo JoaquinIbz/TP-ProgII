@@ -168,6 +168,7 @@ public class Ticketek implements ITicketek {
     }
 
     public String listarFunciones(String nombreEspectaculo) {
+
         StringBuilder sb = new StringBuilder();
         LinkedList<Funcion> funciones = null;
         for(Espectaculo espectaculo : this.espectaculos){
@@ -175,6 +176,7 @@ public class Ticketek implements ITicketek {
                 funciones = espectaculo.obtenerTodasLasFunciones();
                 break;
             }
+
         }
         for(Funcion funcion : funciones){
             sb.append(funcion.toString());
