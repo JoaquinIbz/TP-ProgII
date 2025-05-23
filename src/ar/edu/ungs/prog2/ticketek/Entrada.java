@@ -7,7 +7,7 @@ public class Entrada implements IEntrada {
     String nombreSede;
     String email;
     private String fecha;
-    private LinkedList<Butaca> ubicacion;
+    private Butaca[] butacas;
     private String sector;
     private String nombreEspectaculo;
     private Espectaculo espectaculo;
@@ -43,13 +43,17 @@ public class Entrada implements IEntrada {
      * @return
      */
     public String ubicacion() {
-        if(this.sector == null) {
-        	return "CAMPO";
+        if(this.sector.equals("CAMPO")) {
+        	return this.sector;
         }else {
         	//* Si la entrada es para estadio, la ubicacion será "CAMPO".
             //* sino, será "{SECTOR} f:{NRO FILA} a:{NRO ASIENTO}"
             StringBuilder sb = new StringBuilder();
-            sb.append("{"+this.sector+"} ");sb.append(this.ubicacion.toString());
+            sb.append("{"+this.sector+"} ");
+            for(Butaca butaca : this.butacas){
+                sb.append("f:{");sb.append(butaca.getFila()+"} ");
+                sb.append("a:{");sb.append(butaca.getAsiento()+"} ");
+            }
             return sb.toString();
         }
     }
@@ -70,6 +74,10 @@ public class Entrada implements IEntrada {
 		return fecha;
 	}
 
+    public String getSector(){
+        return this.sector;
+    }
+
     public void setSector(String sector) {
         this.sector = sector;
     }
@@ -77,12 +85,13 @@ public class Entrada implements IEntrada {
         this.email = email;
     }
 
-    public void setUbicacion(LinkedList<Butaca> butacas){
-        this.ubicacion = butacas;
+    public void setButacas(LinkedList<Butaca> butacas){
+        this.butacas = new Butaca[butacas.size()];
+        for(int i=0 ; i<butacas.size() ; i++){
+            this.butacas[i] = butacas.get(i);
+        }
     }
-
-	public String getSector() {
-		return sector;
-	}
-    
+    public Butaca[] getButacas(){
+        return this.butacas;
+    }
 }

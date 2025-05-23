@@ -9,7 +9,6 @@ public abstract class Sede {
     String direccion;
     int capacidadMax;
     int capacidadActual;
-    double precioBase;
     int[] capacidad;
     private int numero;
     private int cantFilas;
@@ -45,5 +44,9 @@ public abstract class Sede {
     	}
     	return cont;
     }
+
+    public abstract String toString();
+
+    public abstract String entradasVendidas(String fecha);
 
 }

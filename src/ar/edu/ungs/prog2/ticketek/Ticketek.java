@@ -161,6 +161,8 @@ public class Ticketek implements ITicketek {
             Entrada entrada = miniEstadio.venderEntrada(email,miniEstadio.nombre,nombreEspectaculo,fecha,sector,asientos);
             entrada.setEspectaculo(espectaculo);
             entradasVendidas.add(entrada);
+        }else{
+            throw new RuntimeException("La sede no es un teatro ni miniEstadio.");
         }
     	return entradasVendidas;
     }
@@ -168,11 +170,16 @@ public class Ticketek implements ITicketek {
     public String listarFunciones(String nombreEspectaculo) {
 
         StringBuilder sb = new StringBuilder();
+        LinkedList<Funcion> funciones = null;
         for(Espectaculo espectaculo : this.espectaculos){
             if(espectaculo.nombre.equals(nombreEspectaculo)){
-                sb.append(espectaculo.obtenerTodasLasFunciones());
+                funciones = espectaculo.obtenerTodasLasFunciones();
+                break;
             }
 
+        }
+        for(Funcion funcion : funciones){
+            sb.append(funcion.toString());
         }
         return sb.toString();
     }
