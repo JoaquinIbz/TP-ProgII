@@ -26,9 +26,8 @@ public class Teatro extends Sede{
         }
         this.asientosDisponibles.put(sector,ocuparAsiento(sector,asientos));       // ocupa asiento
         Entrada entrada = new Entrada(email,nombreSede,nombreEspectaculo,fecha,asientos,sector);
-        entrada.setSector(sector);
-        entrada.setEmail(email);
-        entrada.setUbicacion(buscarFilaYasiento(sector,asientos));
+        entrada.setButacas(buscarFilaYasiento(sector,asientos));
+
 
         if(!this.entradasVendidas.containsKey(fecha)){
             LinkedList<Entrada> e = new LinkedList<>();
@@ -126,10 +125,43 @@ public class Teatro extends Sede{
         return 0;
     }
 
-    public String toString(){
-        // - (31/07/2025) Teatro Colón - Platea VIP: 30/50 | Platea Común: 60/70 | Platea Baja: 0/70 | Platea Alta: 50/50
-        return ""+this.nombre+" - "+this.sectores[0]+": "+
+    @Override
+    public String toString() {
+        //*  - (31/07/2025) Teatro Colón - Platea VIP: 30/50 | Platea Común: 60/70 | Platea Baja: 0/70 | Platea Alta: 50/50
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.nombre+" - ");
+        return sb.toString();
     }
 
-
+    public String entradasVendidas(String fecha){
+        StringBuilder sb = new StringBuilder();
+        LinkedList<Entrada> entradas = this.entradasVendidas.get(fecha);
+        HashMap<String, Integer> contadorPorSector = new HashMap<>(); // Sector, entradas vendidas
+        for(String sector : this.sectores){
+            contadorPorSector.put(sector,0);
+        }
+        if(entradas != null){
+            for(Entrada e : entradas){
+                String sector = e.getSector();
+                if(contadorPorSector.containsKey(sector)){
+                    int vendidas = contadorPorSector.get(sector);
+                    if(e.getButacas()!=null){
+                        int cantidad = e.getButacas().length;
+                        vendidas += cantidad;
+                        contadorPorSector.put(sector,vendidas);
+                    }
+                    vendidas += 1;
+                    contadorPorSector.put(sector,vendidas);
+                }
+            }
+        }
+        for(int s=0 ; s<this.sectores.length ; s++){
+            int cantidad = contadorPorSector.get(this.sectores[s]);
+            sb.append(this.sectores[s]+": "+ cantidad+"/"+this.capacidad[s]);
+            if(s < this.sectores.length -1){
+                sb.append(" | ");
+            }
+        }
+        return sb.toString();
+    }
 }
