@@ -166,11 +166,13 @@ public class Ticketek implements ITicketek {
     }
 
     public String listarFunciones(String nombreEspectaculo) {
+
         StringBuilder sb = new StringBuilder();
         for(Espectaculo espectaculo : this.espectaculos){
             if(espectaculo.nombre.equals(nombreEspectaculo)){
                 sb.append(espectaculo.obtenerTodasLasFunciones());
             }
+
         }
         return sb.toString();
     }
