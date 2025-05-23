@@ -153,14 +153,20 @@ public class Ticketek implements ITicketek {
 
         if(funcion.sede instanceof Teatro){
             Teatro teatro = (Teatro) funcion.sede;
-            Entrada entrada = teatro.venderEntrada(email,teatro.nombre,nombreEspectaculo,fecha,sector,asientos);
-            entrada.setEspectaculo(espectaculo);
-            entradasVendidas.add(entrada);
+            for(int a : asientos){
+                Entrada entrada = teatro.venderEntrada(email,teatro.nombre,nombreEspectaculo,fecha,sector,a);
+                entrada.setEspectaculo(espectaculo);
+                usuario.comprarEntrada(entrada,fecha);
+                entradasVendidas.add(entrada);
+            }
         }else if(funcion.sede instanceof MiniEstadio){
             MiniEstadio miniEstadio = (MiniEstadio) funcion.sede;
-            Entrada entrada = miniEstadio.venderEntrada(email,miniEstadio.nombre,nombreEspectaculo,fecha,sector,asientos);
-            entrada.setEspectaculo(espectaculo);
-            entradasVendidas.add(entrada);
+            for(int a : asientos){
+                Entrada entrada = miniEstadio.venderEntrada(email,miniEstadio.nombre,nombreEspectaculo,fecha,sector,a);
+                entrada.setEspectaculo(espectaculo);
+                usuario.comprarEntrada(entrada,fecha);
+                entradasVendidas.add(entrada);
+            }
         }else{
             throw new RuntimeException("La sede no es un teatro ni miniEstadio.");
         }
@@ -208,13 +214,9 @@ public class Ticketek implements ITicketek {
 
     public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
     	Usuario usuario = autenticarUsuario(email, contrasenia);
-    	if(usuario == null) {
-    		throw new RuntimeException("El usuario no existe");
-    	}
     	List<IEntrada> entradas = new LinkedList<>();
     	entradas.addAll(usuario.listarTotalEntradas());
     	return entradas;
-    	
     }
 
     public boolean anularEntrada(IEntrada entrada, String contrasenia) {
