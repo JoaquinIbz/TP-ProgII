@@ -49,12 +49,13 @@ public class Estadio extends Sede {
     }
 
     public String entradasVendidas(String fecha){
+        StringBuilder sb = new StringBuilder();
         LinkedList<Entrada> entradas = this.entradasVendidas.get(fecha);
-        if(entradas == null){
-            return ""+0+"/"+this.capacidadMax;
+        int vendidas = 0;
+        if(entradas != null){
+            vendidas = entradas.size();
         }
-        return ""+entradas.size()+"/"+this.capacidadMax;
+        sb.append(vendidas+"/"+this.capacidadMax);
+        return sb.toString();
     }
-
-
 }
