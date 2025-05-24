@@ -212,15 +212,32 @@ public class Ticketek implements ITicketek {
         return entradas;
     }
 
-    public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
+//    public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
+//    	Usuario usuario = autenticarUsuario(email, contrasenia);
+//    	List<IEntrada> entradas = new LinkedList<>();
+//    	entradas.addAll(usuario.listarTotalEntradas());
+//    	return entradas;
+//    }
+    public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia){
     	Usuario usuario = autenticarUsuario(email, contrasenia);
     	List<IEntrada> entradas = new LinkedList<>();
-    	entradas.addAll(usuario.listarTotalEntradas());
+    	entradas.addAll(listarEntradasFuturas(email, contrasenia));
+    	entradas.addAll(usuario.listarEntradasPasadas());
     	return entradas;
     }
 
-    public boolean anularEntrada(IEntrada entrada, String contrasenia) {
-        return false; // O(1)
+    public boolean anularEntrada(IEntrada entrada, String contrasenia) {//O(1)
+    	Entrada e = (Entrada) entrada;
+    	Usuario usuario = autenticarUsuario(e.getEmail(), contrasenia);
+    	if(entrada == null || contrasenia == null) {
+    		throw new RuntimeException("Los datos son invalidos");
+    	}
+    	Fecha fechaEntrada = new Fecha(e.getFecha());
+    	if(fechaEntrada.esPasada()) {
+    		return false;
+    	}
+    	return usuario.anularEntrada(e);
+    	
     }
 
     public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha, String sector, int asiento) {

@@ -1,11 +1,12 @@
 package ar.edu.ungs.prog2.ticketek;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class Entrada implements IEntrada {
 
     String nombreSede;
-    String email;
+    private String email;
     private String fecha;
     private Butaca butaca;
     private String sector;
@@ -59,7 +60,12 @@ public class Entrada implements IEntrada {
     }
 
     public String toString(){
-        return "Entrada{ " + "espectaculo= " + this.nombreEspectaculo + "/" + ", sede= " + this.nombreSede + "/" + ", fecha= " +
+    	String estado = "F -";
+    	Fecha fecha = new Fecha(this.fecha);
+    	if(fecha.esPasada()) {
+    		estado = "P -";
+    	}
+        return estado + "Entrada{ " + "espectaculo= " + this.nombreEspectaculo + "/" + ", sede= " + this.nombreSede + "/" + ", fecha= " +
                 this.fecha + "/" + ", email= " + this.email + "/" + ", ubicacion= " + ubicacion() + "/" + "}";
         		}
 
@@ -91,4 +97,9 @@ public class Entrada implements IEntrada {
     public Butaca getButaca(){
         return this.butaca;
     }
+
+	public String getEmail() {
+		return email;
+	}
+    
 }

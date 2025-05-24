@@ -10,7 +10,8 @@ public class Usuario {
     private String apellido;
     private String email;
     private String contrasenia;
-    private HashMap<String, LinkedList<Entrada>> entradasCompradas; // fecha, entrada
+//    private HashMap<String, LinkedList<Entrada>> entradasCompradas; // fecha, entrada
+    private HashMap<String, HashMap<String, Entrada>> entradasCompradas; //clave = fecha, valor= clave=codigo valor= Entrada
 
     public Usuario(String nombre, String apellido, String email, String contrasenia){
         this.nombre = nombre;
@@ -40,9 +41,16 @@ public class Usuario {
         return listaEntradas;
     }
 
-//    public LinkedList<Entrada> listarEntradasPasadas(String fecha){
-//        
-//    }
+    public LinkedList<Entrada> listarEntradasPasadas(){
+        LinkedList<Entrada> listaEntradas = new LinkedList<>();
+        for(String f : entradasCompradas.keySet()) {
+        	Fecha fecha = new Fecha(f);
+        	if(fecha.esPasada()) {
+        		listaEntradas.addAll(entradasCompradas.get(f));
+        	}
+        }
+        return listaEntradas;
+    }
 
     public LinkedList<Entrada> listarTotalEntradas(){
         LinkedList<Entrada> total = new LinkedList<>();
@@ -50,6 +58,13 @@ public class Usuario {
         	total.addAll(entrada);
         }
         return total;
+    }
+    
+    public boolean anularEntrada(Entrada entrada) {
+    	String fecha = entrada.getFecha();
+    	HashMap<String, Entrada> mapa = entradasCompradas.get(fecha);
+        
+    	return true;
     }
 
     public String getNombre(){

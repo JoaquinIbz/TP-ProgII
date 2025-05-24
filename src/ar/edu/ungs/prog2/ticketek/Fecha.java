@@ -13,4 +13,7 @@ public class Fecha {
 	public boolean esFutura(){
 		return this.fecha.isAfter(LocalDate.now());
 	}
+	public boolean esPasada() {
+		return this.fecha.isBefore(LocalDate.now());
+	}
 }
