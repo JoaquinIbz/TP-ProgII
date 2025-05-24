@@ -66,15 +66,6 @@ public class Entrada implements IEntrada {
         }
     }
 
-    public String toString(){
-    	String estado = " ";
-    	Fecha fecha = new Fecha(this.fecha);
-    	if(fecha.esPasada()) {
-    		estado = "P -";
-    	}
-        return  this.codigo +" - "+ "espectaculo - " + this.nombreEspectaculo + " - " + fecha +estado+this.nombreSede + " - " + this.sector + " f:"+this.butaca.getFila()+" a:"+this.butaca.getAsiento();
-        		}
-
     public Espectaculo getEspectaculo(){
         return this.espectaculo;
     }
@@ -112,6 +103,18 @@ public class Entrada implements IEntrada {
 	public String getEmail() {
 		return email;
 	}
-	
+    public String toString(){
+        String estado = " ";
+        Fecha fecha = new Fecha(this.fecha);
+        if(fecha.esPasada()) {
+            estado = " P - ";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.codigo +" - " + this.nombreEspectaculo + " - " + fecha +estado+this.nombreSede + " - " + this.sector);
+        if(this.sector != "CAMPO"){
+            sb.append(" f:"+this.butaca.getFila()+" a:"+this.butaca.getAsiento());
+        }
+        return sb.toString();
+    }
     
 }
