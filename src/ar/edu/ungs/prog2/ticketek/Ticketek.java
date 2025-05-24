@@ -182,7 +182,6 @@ public class Ticketek implements ITicketek {
                 funciones = espectaculo.obtenerTodasLasFunciones();
                 break;
             }
-
         }
         for(Funcion funcion : funciones){
             sb.append(funcion.toString());
@@ -212,12 +211,6 @@ public class Ticketek implements ITicketek {
         return entradas;
     }
 
-//    public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia) {
-//    	Usuario usuario = autenticarUsuario(email, contrasenia);
-//    	List<IEntrada> entradas = new LinkedList<>();
-//    	entradas.addAll(usuario.listarTotalEntradas());
-//    	return entradas;
-//    }
     public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia){
     	Usuario usuario = autenticarUsuario(email, contrasenia);
     	LinkedList entradas = new LinkedList<>();
