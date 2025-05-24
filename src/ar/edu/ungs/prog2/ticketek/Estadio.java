@@ -58,4 +58,9 @@ public class Estadio extends Sede {
         sb.append(vendidas+"/"+this.capacidadMax);
         return sb.toString();
     }
+    
+    
+    public void anularEntrada() {
+    	this.capacidadActual++;
+    }
 }

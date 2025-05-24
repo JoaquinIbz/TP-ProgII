@@ -4,20 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-/*public class MiniEstadio extends Sede {
 
-    private int cantPuestos;
-    private double precioBase;
-    private double consumision;
-
-    public MiniEstadio(String nombre, String direccion, int capacidadMax, int cantPuestos, double precioBase, double consumision) {
-    
-        super(nombre, direccion, capacidadMax);
-        this.cantPuestos = cantPuestos;
-        this.precioBase = precioBase;
-        this.consumision = consumision;
-    }
-}*/
 public class MiniEstadio extends Sede {
 
     String[] sectores; // {"Platea VIP", "Platea Común", "Platea Baja", "Platea Alta"} O {"Campo"}
@@ -125,9 +112,19 @@ public class MiniEstadio extends Sede {
         }
         return mapa;
     }
+    
+    public void liberarAsiento(String sector, int fila, int asiento) {
+    	HashMap<Integer, LinkedList<Integer>> filas = asientosDisponibles.get(sector);
+        if (filas == null) {
+            throw new RuntimeException("Sector no encontrado: " + sector);
+        }
 
-    public void liberarAsiento(String sector, int[] asientos) {
-        return;
+        LinkedList<Integer> asientos = filas.get(fila);
+        if (asientos == null) {
+            throw new RuntimeException("Fila no encontrada en sector " + sector + ": fila " + fila);
+        }
+
+        asientos.add(asiento); // O(1) al final
     }
 
     @Override

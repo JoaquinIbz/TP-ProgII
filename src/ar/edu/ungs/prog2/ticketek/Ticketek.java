@@ -10,6 +10,7 @@ public class Ticketek implements ITicketek {
     String nombre;
     private HashMap<String, Usuario> usuarios;//email, usuario
     private LinkedList<Sede> sedes;
+    private HashMap<String, Sede> mapaSedes;//nombre, sede
     private LinkedList<Espectaculo> espectaculos;
 
 
@@ -17,6 +18,7 @@ public class Ticketek implements ITicketek {
     public Ticketek(){
     	this.usuarios = new HashMap<>();
     	this.sedes = new LinkedList<>();
+    	this.mapaSedes = new HashMap<>();
     	this.espectaculos = new LinkedList<>();
     }
 
@@ -32,6 +34,7 @@ public class Ticketek implements ITicketek {
     	}
     	Estadio estadio = new Estadio(nombre, direccion, capacidadMaxima);
     	sedes.add(estadio);
+    	mapaSedes.put(estadio.nombre, estadio);
     	
     }
 
@@ -47,6 +50,7 @@ public class Ticketek implements ITicketek {
     	}
     	Teatro teatro = new Teatro(nombre, direccion, capacidadMaxima, asientosPorFila, sectores, capacidad, porcentajeAdicional);
     	sedes.add(teatro);
+    	mapaSedes.put(teatro.nombre, teatro);
     }
     
 
@@ -62,6 +66,7 @@ public class Ticketek implements ITicketek {
     	}
     	MiniEstadio miniestadio = new MiniEstadio(nombre, direccion, capacidadMaxima, asientosPorFila, cantidadPuestos, precioConsumicion, sectores, capacidad, porcentajeAdicional);
     	sedes.add(miniestadio);
+    	mapaSedes.put(miniestadio.nombre, miniestadio);
     }
 
     public void registrarUsuario(String email, String nombre, String apellido, String contrasenia) {
@@ -236,7 +241,11 @@ public class Ticketek implements ITicketek {
     	if(fechaEntrada.esPasada()) {
     		return false;
     	}
-    	return usuario.anularEntrada(e);
+    	Sede sede = mapaSedes.get(e.nombreSede);
+    	if(sede == null) {
+    		throw new RuntimeException("Sede no encontrada");
+    	}
+    	return usuario.anularEntrada(e, sede);
     	
     }
 

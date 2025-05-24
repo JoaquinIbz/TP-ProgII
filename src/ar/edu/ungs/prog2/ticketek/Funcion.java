@@ -36,5 +36,7 @@ public class Funcion {
         return this.sede.entradasVendidas(fecha);
     }
 
+	
+
 
 }

@@ -14,6 +14,8 @@ public class Butaca {
     public String toString(){
         return this.fila+"/"+this.asiento;
     }
+    
+    
 
     public int getFila() {
         return fila;

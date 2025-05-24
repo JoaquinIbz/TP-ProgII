@@ -12,6 +12,8 @@ public class Entrada implements IEntrada {
     private String sector;
     private String nombreEspectaculo;
     private Espectaculo espectaculo;
+    private String codigo;
+    private int contador = 0;
 
     // entrada de estadio.
     public Entrada(String email, String nombreSede, String nombreEspectaculo, String fecha){
@@ -19,10 +21,11 @@ public class Entrada implements IEntrada {
         this.nombreEspectaculo = nombreEspectaculo;
         this.fecha = fecha;
         this.email = email;
+        this.codigo = "" + ++contador; 
     }
 
     // entrada de teatro y miniestadio.
-    public Entrada(String email, String nombreSede, String nombreEspectaculo, String fecha, int asientos, String sector){
+    public Entrada(String email, String nombreSede, String nombreEspectaculo, String fecha, int asiento, String sector){
         this.nombreSede = nombreSede;
         this.nombreEspectaculo = nombreEspectaculo;
         this.fecha = fecha;
@@ -98,8 +101,14 @@ public class Entrada implements IEntrada {
         return this.butaca;
     }
 
+
+	public String getCodigo() {
+		return codigo;
+	}
+
 	public String getEmail() {
 		return email;
 	}
+	
     
 }

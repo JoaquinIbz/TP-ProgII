@@ -106,9 +106,19 @@ public class Teatro extends Sede{
         }
         return mapa;
     }
+    
+    public void liberarAsiento(String sector, int fila, int asiento) {
+    	HashMap<Integer, LinkedList<Integer>> filas = asientosDisponibles.get(sector);
+        if (filas == null) {
+            throw new RuntimeException("Sector no encontrado: " + sector);
+        }
 
-    public void liberarAsiento(String sector, int[] asientos) {
-        return;
+        LinkedList<Integer> asientos = filas.get(fila);
+        if (asientos == null) {
+            throw new RuntimeException("Fila no encontrada en sector " + sector + ": fila " + fila);
+        }
+
+        asientos.add(asiento); // O(1) al final
     }
 
     @Override
