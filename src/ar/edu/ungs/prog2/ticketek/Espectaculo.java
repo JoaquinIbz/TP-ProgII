@@ -17,6 +17,8 @@ public class Espectaculo {
         if(this.funciones.containsKey(fecha)){
             throw new RuntimeException("La fecha no esta disponible.");
         }
+        Funcion f = funcion;
+        f.nombreEspectaculo = this.nombre;
         this.funciones.put(fecha,funcion);
     }
 
