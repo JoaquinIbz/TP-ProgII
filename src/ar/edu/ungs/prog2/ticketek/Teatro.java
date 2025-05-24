@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+
 public class Teatro extends Sede{
 
     String[] sectores; // {"Platea VIP", "Platea Común", "Platea Baja", "Platea Alta"}
@@ -27,15 +28,13 @@ public class Teatro extends Sede{
         Entrada entrada = new Entrada(email,nombreSede,nombreEspectaculo,fecha,asiento,sector);
         entrada.setButaca(buscarFilaYasiento(sector,asiento));
 
-
         this.asientosDisponibles.put(sector,ocuparAsiento(sector,asiento));       // ocupa asiento
 
         if(!this.entradasVendidas.containsKey(fecha)){
-            LinkedList<Entrada> e = new LinkedList<>();
-            e.add(entrada);
-            this.entradasVendidas.put(fecha,e);
+            HashMap<Integer,Entrada> entradas = new HashMap<>();
+            this.entradasVendidas.put(fecha,entradas);
         }else{
-            this.entradasVendidas.get(fecha).add(entrada);
+            this.entradasVendidas.get(fecha).put(entrada.getCodigo(),entrada);
         }
         return entrada;
     }
@@ -106,8 +105,9 @@ public class Teatro extends Sede{
         }
         return mapa;
     }
-    
-    public void liberarAsiento(String sector, int fila, int asiento) {
+
+    @Override
+    public void anularEntrada(String sector, int fila, int asiento) {
     	HashMap<Integer, LinkedList<Integer>> filas = asientosDisponibles.get(sector);
         if (filas == null) {
             throw new RuntimeException("Sector no encontrado: " + sector);
@@ -127,38 +127,10 @@ public class Teatro extends Sede{
     }
 
     @Override
-    public String toString() {
-        //*  - (31/07/2025) Teatro Colón - Platea VIP: 30/50 | Platea Común: 60/70 | Platea Baja: 0/70 | Platea Alta: 50/50
+    public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append(this.nombre+" - ");
-        return sb.toString();
-    }
-
-    public String entradasVendidas(String fecha){
-        StringBuilder sb = new StringBuilder();
-        LinkedList<Entrada> entradas = this.entradasVendidas.get(fecha);
-        int vendidas = 0;
-        if(entradas != null){
-            for(int i=0 ; i<this.sectores.length ; i++){
-                for(Entrada e : entradas){
-                    String sectorEntrada = e.getSector();
-                    if(sectorEntrada.equals(this.sectores[i])){
-                        vendidas+=1;
-                    }
-                }
-                sb.append(this.sectores[i]+": "+ vendidas+"/"+this.capacidad[i]);
-                if(i < this.sectores.length -1){
-                    sb.append(" | ");
-                }
-            }
-        }else{
-            for(int i=0 ; i<this.sectores.length ; i++){
-                sb.append(this.sectores[i]+": "+ vendidas+"/"+this.capacidad[i]);
-                if(i < this.sectores.length -1){
-                    sb.append(" | ");
-                }
-            }
-        }
+        int vendidas = this.entradasVendidas.size();
         return sb.toString();
     }
 }
