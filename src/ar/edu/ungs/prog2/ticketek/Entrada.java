@@ -12,8 +12,8 @@ public class Entrada implements IEntrada {
     private String sector;
     private String nombreEspectaculo;
     private Espectaculo espectaculo;
-    private String codigo;
-    private int contador = 0;
+    private int codigo;
+    private static int siguienteCodigo = 4000;
 
     // entrada de estadio.
     public Entrada(String email, String nombreSede, String nombreEspectaculo, String fecha){
@@ -21,7 +21,9 @@ public class Entrada implements IEntrada {
         this.nombreEspectaculo = nombreEspectaculo;
         this.fecha = fecha;
         this.email = email;
-        this.codigo = "" + ++contador; 
+        this.codigo = siguienteCodigo;
+        siguienteCodigo += 100;
+
     }
 
     // entrada de teatro y miniestadio.
@@ -31,6 +33,8 @@ public class Entrada implements IEntrada {
         this.fecha = fecha;
         this.sector = sector;
         this.email = email;
+        this.codigo = siguienteCodigo;
+        siguienteCodigo += 100;
     }
 
 
@@ -63,13 +67,12 @@ public class Entrada implements IEntrada {
     }
 
     public String toString(){
-    	String estado = "F -";
+    	String estado = " ";
     	Fecha fecha = new Fecha(this.fecha);
     	if(fecha.esPasada()) {
     		estado = "P -";
     	}
-        return estado + "Entrada{ " + "espectaculo= " + this.nombreEspectaculo + "/" + ", sede= " + this.nombreSede + "/" + ", fecha= " +
-                this.fecha + "/" + ", email= " + this.email + "/" + ", ubicacion= " + ubicacion() + "/" + "}";
+        return  this.codigo +" - "+ "espectaculo - " + this.nombreEspectaculo + " - " + fecha +estado+this.nombreSede + " - " + this.sector + " f:"+this.butaca.getFila()+" a:"+this.butaca.getAsiento();
         		}
 
     public Espectaculo getEspectaculo(){
@@ -102,7 +105,7 @@ public class Entrada implements IEntrada {
     }
 
 
-	public String getCodigo() {
+	public int getCodigo() {
 		return codigo;
 	}
 
