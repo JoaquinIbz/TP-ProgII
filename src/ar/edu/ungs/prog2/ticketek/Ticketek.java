@@ -9,23 +9,22 @@ public class Ticketek implements ITicketek {
 
     String nombre;
     private HashMap<String, Usuario> usuarios;//email, usuario
-    private LinkedList<Sede> sedes;
-    private HashMap<String, Sede> mapaSedes;//nombre, sede
+    //private LinkedList<Sede> sedes;
+    private HashMap<String, Sede> sedes;//nombre, sede
     private LinkedList<Espectaculo> espectaculos;
 
 
     // metodos del diagrama
     public Ticketek(){
     	this.usuarios = new HashMap<>();
-    	this.sedes = new LinkedList<>();
-    	this.mapaSedes = new HashMap<>();
+    	this.sedes = new HashMap<>();
     	this.espectaculos = new LinkedList<>();
     }
 
     // metodos de la interfaz
     public void registrarSede(String nombre, String direccion, int capacidadMaxima) {
-    	for(Sede s : sedes) {
-    		if(s.nombre.equals(nombre)) {
+    	for(String s : sedes.keySet()) {
+    		if(s.equals(nombre)) {
     			throw new RuntimeException("Ya existe una sede con este nombre");
     		}
     	}
@@ -33,40 +32,37 @@ public class Ticketek implements ITicketek {
     		throw new RuntimeException("La capacidad debe ser mayor a 0");
     	}
     	Estadio estadio = new Estadio(nombre, direccion, capacidadMaxima);
-    	sedes.add(estadio);
-    	mapaSedes.put(estadio.nombre, estadio);
+    	sedes.put(estadio.nombre, estadio);
     	
     }
 
     public void registrarSede(String nombre, String direccion, int capacidadMaxima, int asientosPorFila, String[] sectores, int[] capacidad, int[] porcentajeAdicional) {
     	//TEATRO
-    	for(Sede s : sedes) {
-    		if(s.nombre.equals(nombre)) {
-    			throw new RuntimeException("Ya existe una sede con este nombre");
-    		}
-    	}
+        for(String s : sedes.keySet()) {
+            if(s.equals(nombre)) {
+                throw new RuntimeException("Ya existe una sede con este nombre");
+            }
+        }
     	if(capacidadMaxima <= 0 || asientosPorFila <= 0 || sectores.length == 0 || capacidad.length == 0 || porcentajeAdicional.length == 0) {
     		throw new RuntimeException("Esos datos son invalidos");
     	}
     	Teatro teatro = new Teatro(nombre, direccion, capacidadMaxima, asientosPorFila, sectores, capacidad, porcentajeAdicional);
-    	sedes.add(teatro);
-    	mapaSedes.put(teatro.nombre, teatro);
+    	sedes.put(teatro.nombre, teatro);
     }
     
 
     public void registrarSede(String nombre, String direccion, int capacidadMaxima, int asientosPorFila, int cantidadPuestos, double precioConsumicion, String[] sectores, int[] capacidad, int[] porcentajeAdicional) {
 //   //MiniEstadio
-    	for(Sede s : sedes) {
-    		if(s.nombre.equals(nombre)) {
-    			throw new RuntimeException("Ya existe una sede con este nombre");
-    		}
-    	}
+        for(String s : sedes.keySet()) {
+            if(s.equals(nombre)) {
+                throw new RuntimeException("Ya existe una sede con este nombre");
+            }
+        }
     	if(capacidadMaxima <= 0 || asientosPorFila <= 0 || sectores.length == 0 || capacidad.length == 0|| porcentajeAdicional.length == 0) {
     		throw new RuntimeException("Por favor, ingrese datos validos");
     	}
     	MiniEstadio miniestadio = new MiniEstadio(nombre, direccion, capacidadMaxima, asientosPorFila, cantidadPuestos, precioConsumicion, sectores, capacidad, porcentajeAdicional);
-    	sedes.add(miniestadio);
-    	mapaSedes.put(miniestadio.nombre, miniestadio);
+    	sedes.put(miniestadio.nombre, miniestadio);
     }
 
     public void registrarUsuario(String email, String nombre, String apellido, String contrasenia) {
@@ -121,10 +117,9 @@ public class Ticketek implements ITicketek {
     }
 
     private Sede verificarRegistroSede(String nombre){
-        for(Sede s : this.sedes){
-            if(s.nombre.equals(nombre)){
-                return s;
-            }
+        Sede sede = this.sedes.get(nombre);
+        if(sede != null){
+            return sede;
         }
         throw new RuntimeException("La sede no se encuentra registrada.");
     }
@@ -225,9 +220,8 @@ public class Ticketek implements ITicketek {
 //    }
     public List<IEntrada> listarTodasLasEntradasDelUsuario(String email, String contrasenia){
     	Usuario usuario = autenticarUsuario(email, contrasenia);
-    	List<IEntrada> entradas = new LinkedList<>();
-    	entradas.addAll(listarEntradasFuturas(email, contrasenia));
-    	entradas.addAll(usuario.listarEntradasPasadas());
+    	LinkedList entradas = new LinkedList<>();
+        entradas = usuario.listarTotalEntradas();
     	return entradas;
     }
 
@@ -241,12 +235,12 @@ public class Ticketek implements ITicketek {
     	if(fechaEntrada.esPasada()) {
     		return false;
     	}
-    	Sede sede = mapaSedes.get(e.nombreSede);
+    	Sede sede = sedes.get(e.nombreSede);
     	if(sede == null) {
-    		throw new RuntimeException("Sede no encontrada");
+    		throw new RuntimeException("La sede no esta registrada.");
     	}
     	return usuario.anularEntrada(e, sede);
-    	
+
     }
 
     public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha, String sector, int asiento) {
