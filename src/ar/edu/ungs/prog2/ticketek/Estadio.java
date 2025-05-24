@@ -42,13 +42,25 @@ public class Estadio extends Sede {
     public double calcularPrecio(double precioBase){
         return precioBase;
     }
-
     @Override
-    public String toString() {
+    public String toString(){
+        return this.nombre;
+    }
+
+    public String toString(String fecha) {
         // - (24/07/2025) El Monumental - 200/500
         StringBuilder sb = new StringBuilder();
         sb.append(this.nombre+" - ");
-        return sb.toString();
+        int vendidas = 0;
+        HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
+        if(entradas != null){
+            vendidas = entradas.size();
+            sb.append(vendidas+"/"+this.capacidadMax+"\n");
+            return sb.toString();
+        }else{
+            sb.append(vendidas+"/"+this.capacidadMax+"\n");
+            return sb.toString();
+        }
     }
 
     @Override
