@@ -6,6 +6,7 @@ import java.util.LinkedList;
 public class Funcion {
 
     Sede sede;
+    String nombreEspectaculo;
     String fecha;
     double precioBase;
 
@@ -27,14 +28,9 @@ public class Funcion {
         //*  - (24/07/2025) El Monumental - 200/500
         //*  - (31/07/2025) Teatro Colón - Platea VIP: 30/50 | Platea Común: 60/70 | Platea Baja: 0/70 | Platea Alta: 50/50
         StringBuilder sb = new StringBuilder();
-        sb.append(" - ("+this.fecha+") ");
-        sb.append(this.sede.toString()+entradasVendidas(this.fecha)+"\n");
         return sb.toString();
     }
 
-    private String entradasVendidas(String fecha){
-        return this.sede.entradasVendidas(fecha);
-    }
 
 	
 
