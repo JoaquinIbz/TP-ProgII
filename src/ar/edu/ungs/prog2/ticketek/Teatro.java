@@ -25,17 +25,16 @@ public class Teatro extends Sede{
         if(!estaDisponible(sector,asiento)){
             throw new RuntimeException("El sector y/o los asientos son incorrectos.");
         }
+
         Entrada entrada = new Entrada(email,nombreSede,nombreEspectaculo,fecha,asiento,sector);
         entrada.setButaca(buscarFilaYasiento(sector,asiento));
 
         this.asientosDisponibles.put(sector,ocuparAsiento(sector,asiento));       // ocupa asiento
 
         if(!this.entradasVendidas.containsKey(fecha)){
-            HashMap<Integer,Entrada> entradas = new HashMap<>();
-            this.entradasVendidas.put(fecha,entradas);
-        }else{
-            this.entradasVendidas.get(fecha).put(entrada.getCodigo(),entrada);
+            this.entradasVendidas.put(fecha,new HashMap<>());
         }
+        this.entradasVendidas.get(fecha).put(entrada.getCodigo(),entrada);
         return entrada;
     }
 
@@ -126,11 +125,40 @@ public class Teatro extends Sede{
         return 0;
     }
 
-    @Override
-    public String toString(){
+    public String toString(String fecha) {
+        //*  - (31/07/2025) Teatro Colón - Platea VIP: 30/50 | Platea Común: 60/70 | Platea Baja: 0/70 | Platea Alta: 50/50
         StringBuilder sb = new StringBuilder();
         sb.append(this.nombre+" - ");
-        int vendidas = this.entradasVendidas.size();
+        for(int i=0 ; i<this.sectores.length ; i++){
+            sb.append(this.sectores[i]+": ");
+            int vendidas = 0;
+            HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
+            if(entradas != null){
+                for(Entrada e : entradas.values()){
+                    if(e.getSector().equals(this.sectores[i])){
+                        vendidas++;
+                    }
+                }
+                sb.append(vendidas+"/"+this.capacidad[i]);
+                if(i < this.sectores.length - 1){
+                    sb.append(" | ");
+                }
+            }else{
+                sb.append(vendidas+"/"+this.capacidad[i]);
+                if(i < this.sectores.length - 1){
+                    sb.append(" | ");
+                }
+            }
+        }
+        sb.append("\n");
         return sb.toString();
     }
+
+    @Override
+    public String toString(){
+        return this.nombre;
+    }
+
+
+
 }
