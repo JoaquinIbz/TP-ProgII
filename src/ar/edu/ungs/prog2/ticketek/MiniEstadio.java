@@ -125,6 +125,18 @@ public class MiniEstadio extends Sede {
 
         asientos.add(asiento); // O(1) al final
     }
+    
+
+    public boolean puedeVenderEntrada(String fecha, String sector, int asiento) {
+    	HashMap<Integer, LinkedList<Integer>> filas = asientosDisponibles.get(sector);
+    	if(filas == null) return false;
+    	for(LinkedList<Integer> listaAsientos : filas.values()) {
+    		if(listaAsientos.contains(asiento)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 
     @Override
     public double calcularPrecio(double precioBase) {

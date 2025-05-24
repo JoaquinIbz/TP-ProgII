@@ -67,4 +67,10 @@ public class Estadio extends Sede {
     public void anularEntrada(String sector, int fila, int asiento) {
     	this.capacidadActual++;
     }
+    
+    
+    public boolean puedeVenderEntrada(String fecha) {
+    	if(capacidadActual > 0) return true;
+    	return false;
+    }
 }

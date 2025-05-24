@@ -42,6 +42,12 @@ public abstract class Sede {
     public abstract String toString();
 
     public abstract void anularEntrada(String sector, int fila, int asiento);
+<<<<<<< Updated upstream
 
     public abstract String toString(String fecha);
+=======
+    
+>>>>>>> Stashed changes
 }
+
+	

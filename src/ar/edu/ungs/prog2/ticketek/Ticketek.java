@@ -237,11 +237,69 @@ public class Ticketek implements ITicketek {
     }
 
     public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha, String sector, int asiento) {
-        return null;
+    	if(entrada == null || fecha == null || sector == null || contrasenia == null) {
+    		throw new RuntimeException("dato invalido");
+    	}
+    	Entrada e = (Entrada) entrada;
+    	Usuario usuario = autenticarUsuario(e.getEmail(), contrasenia); 
+    	if(usuario == null ) { 
+    		throw new RuntimeException("la contrasenia es invalida"); 
+    	} 
+    	Fecha fechaEntrada = new Fecha(fecha);
+    	if(fechaEntrada.esPasada()) {
+    		throw new RuntimeException("La fecha de la entrada ya paso");
+    	}
+    	Sede sede = sedes.get(e.nombreSede);
+    	if(sede instanceof Estadio) {
+    		throw new RuntimeException("No se puede cambiar la entrada en esta sede");
+    	}
+    	
+    	anularEntrada(entrada, contrasenia);
+    	
+    	Entrada nueva;
+
+    if(sede instanceof MiniEstadio) {
+    		MiniEstadio miniestadio = (MiniEstadio) sede;
+    		nueva = miniestadio.venderEntrada(e.getEmail(), sede.nombre, e.getNombreEspectaculo(), fecha, sector, asiento);
+    	}else if(sede instanceof Teatro) {
+    		Teatro teatro = (Teatro) sede;
+    		nueva = teatro.venderEntrada(e.getEmail(), sede.nombre, e.getNombreEspectaculo(), fecha, sector, asiento);
+    	}else {
+    		throw new RuntimeException("Tipo de sede invalido");
+    	}
+    		
+    	
+    	return nueva;
     }
 
     public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha) {
-        return null;
+    	if(entrada == null || fecha == null || contrasenia == null) {
+    		throw new RuntimeException("dato invalido");
+    	}
+    	Entrada e = (Entrada) entrada;
+    	Usuario usuario = autenticarUsuario(e.getEmail(), contrasenia); 
+    	if(usuario == null ) { 
+    		throw new RuntimeException("la contrasenia es invalida"); 
+    	} 
+    	Fecha fechaEntrada = new Fecha(fecha);
+    	if(fechaEntrada.esPasada()) {
+    		throw new RuntimeException("La fecha de la entrada ya paso");
+    	}
+    	Sede sede = sedes.get(e.nombreSede);
+    	Entrada nueva;
+    	if(sede instanceof Estadio) {
+    		Estadio estadio = (Estadio) sede;
+    		if(!estadio.puedeVenderEntrada(fecha)) {
+    			throw new RuntimeException("No se puede cambiar la entrada");
+    		}
+    		anularEntrada(entrada, contrasenia);
+    		nueva = estadio.venderEntrada(e.getEmail(), sede.nombre, e.getNombreEspectaculo(), fecha);
+    	
+    	}
+    	else {
+    		throw new RuntimeException("tipo de sede invalido");
+    	}
+    	return nueva;
     }
 
     public double costoEntrada(String nombreEspectaculo, String fecha) {
