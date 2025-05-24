@@ -18,14 +18,17 @@ public class Estadio extends Sede {
     public Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha){
         Entrada entrada = new Entrada(email,nombreSede, nombreEspectaculo, fecha);
         entrada.setSector(sector);
+        entrada.setButaca(new Butaca(0,0));
         if(this.capacidadActual > 0){
             if(!this.entradasVendidas.containsKey(fecha)){
-                LinkedList<Entrada> e = new LinkedList<>();
-                e.add(entrada);
-                this.entradasVendidas.put(fecha,e);
+                HashMap<Integer,Entrada> entradas = new HashMap<>();
+                entradas.put(entrada.getCodigo(),entrada);
+                this.entradasVendidas.put(fecha,entradas);
                 this.capacidadActual --;
             }else{
-                this.entradasVendidas.get(fecha).add(entrada);
+                HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
+                entradas.put(entrada.getCodigo(),entrada);
+                this.entradasVendidas.put(fecha,entradas);
                 this.capacidadActual --;
             }
         }else{
@@ -48,19 +51,8 @@ public class Estadio extends Sede {
         return sb.toString();
     }
 
-    public String entradasVendidas(String fecha){
-        StringBuilder sb = new StringBuilder();
-        LinkedList<Entrada> entradas = this.entradasVendidas.get(fecha);
-        int vendidas = 0;
-        if(entradas != null){
-            vendidas = entradas.size();
-        }
-        sb.append(vendidas+"/"+this.capacidadMax);
-        return sb.toString();
-    }
-    
-    
-    public void anularEntrada() {
+    @Override
+    public void anularEntrada(String sector, int fila, int asiento) {
     	this.capacidadActual++;
     }
 }
