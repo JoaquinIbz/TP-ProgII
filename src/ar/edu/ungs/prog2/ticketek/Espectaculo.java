@@ -51,7 +51,8 @@ public class Espectaculo {
 	public HashMap<String, Funcion> getFunciones() {
 		return funciones;
 	}
-    
 
-
+    public String toString(){
+        return this.nombre;
+    }
 }
