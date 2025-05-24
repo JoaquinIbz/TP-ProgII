@@ -13,7 +13,7 @@ public abstract class Sede {
     private int numero;
     private int cantFilas;
     int asientosDisponibles;
-    HashMap<String, LinkedList<Entrada>> entradasVendidas; // fecha, lista de entradas
+    HashMap<String, HashMap<Integer, Entrada>> entradasVendidas; //clave = fecha, valor= clave=codigo valor= Entrada
     
 
     public Sede(String nombre, String direccion, int capacidadMax){
@@ -26,29 +26,23 @@ public abstract class Sede {
     public abstract double calcularPrecio(double precioBase);
     
     public int cantidadEntradasVendidas(String fecha) {
-    	LinkedList<Entrada> entradas = entradasVendidas.get(fecha);
-    	if(entradas != null) {
-    		return entradas.size();
-    	}
-    	return 0;
+    	return entradasVendidas.size();
     }
     public int entradasVendidasPorSector(String fecha, String sector) {
     	int cont = 0;
-    	LinkedList<Entrada> entradas = entradasVendidas.get(fecha);
-    	if(entradas != null) {
-    		for(Entrada e : entradas) {
-    			if(e.getSector().equals(sector) && e.getSector() != null) {
-    				cont++;
-    			}
-    		}
-    	}
+        if(this.entradasVendidas.containsKey(fecha)){
+            return 0;
+        }
+        HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
+        for(Entrada e : entradas.values()){
+            if(e.getSector().equals(sector)){
+                cont++;
+            }
+        }
     	return cont;
     }
-    
-    
 
     public abstract String toString();
 
-    public abstract String entradasVendidas(String fecha);
-
+    public abstract void anularEntrada(String sector, int fila, int asiento);
 }
