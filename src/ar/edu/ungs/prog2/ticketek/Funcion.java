@@ -28,6 +28,7 @@ public class Funcion {
         //*  - (24/07/2025) El Monumental - 200/500
         //*  - (31/07/2025) Teatro Colón - Platea VIP: 30/50 | Platea Común: 60/70 | Platea Baja: 0/70 | Platea Alta: 50/50
         StringBuilder sb = new StringBuilder();
+        sb.append(" - ("+this.fecha+") "+this.sede.toString(this.fecha));
         return sb.toString();
     }
 
