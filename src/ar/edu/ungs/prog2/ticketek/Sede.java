@@ -24,10 +24,7 @@ public abstract class Sede {
     }
 
     public abstract double calcularPrecio(double precioBase);
-    
-    public int cantidadEntradasVendidas(String fecha) {
-    	return entradasVendidas.size();
-    }
+
     public int entradasVendidasPorSector(String fecha, String sector) {
     	int cont = 0;
         if(this.entradasVendidas.containsKey(fecha)){
@@ -45,4 +42,6 @@ public abstract class Sede {
     public abstract String toString();
 
     public abstract void anularEntrada(String sector, int fila, int asiento);
+
+    public abstract String toString(String fecha);
 }
