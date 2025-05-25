@@ -16,12 +16,8 @@ public class Funcion {
         this.precioBase = precioBase;
     }
 
-    public double calcularPrecio() {
-        if (this.sede instanceof Estadio) {
-            Estadio estadio = (Estadio) this.sede;
-            return estadio.calcularPrecio(this.precioBase);
-        }
-        return 0.0;
+    public double calcularPrecio(String sector){
+        return this.sede.calcularPrecio(this.precioBase,sector);
     }
 
     public String toString() {
