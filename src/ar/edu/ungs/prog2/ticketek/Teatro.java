@@ -105,6 +105,18 @@ public class Teatro extends Sede{
         return mapa;
     }
 
+    public int cantidadDeEntradasVendidas(){
+        int cantidad = 0;
+        for(Map.Entry<String,HashMap<Integer,Entrada>> entry : this.entradasVendidas.entrySet()){
+            HashMap<Integer,Entrada> entradas = entry.getValue();
+            for(Entrada e : entradas.values()){
+                cantidad++;
+            }
+        }
+        return cantidad;
+    }
+
+
     @Override
     public void anularEntrada(String sector, int fila, int asiento) {
     	HashMap<Integer, LinkedList<Integer>> filas = asientosDisponibles.get(sector);
@@ -119,8 +131,8 @@ public class Teatro extends Sede{
 
         asientos.add(asiento); // O(1) al final
     }
-    
-    
+
+    /*
     public boolean puedeVenderEntrada(String fecha, String sector, int asiento) {
     	HashMap<Integer, LinkedList<Integer>> filas = asientosDisponibles.get(sector);
     	if(filas == null) return false;
@@ -132,9 +144,22 @@ public class Teatro extends Sede{
     	return false;
     }
 
+     */
+
     @Override
-    public double calcularPrecio(double precioBase) {
-        return 0;
+    public double calcularPrecio(double precioBase, String sector) {
+        double porcentajeAdicional = obtenerPorcentajePorSector(sector);
+        return precioBase * (1+porcentajeAdicional/100.0);
+    }
+    private double obtenerPorcentajePorSector(String sector){
+        if(this.sectores[0] == sector){
+            return this.porcentajeAdicional[0];
+        }else if(this.sectores[1] == sector){
+            return this.porcentajeAdicional[1];
+        }else if(this.sectores[2] == sector){
+            return this.porcentajeAdicional[2];
+        }
+        return this.porcentajeAdicional[3];
     }
 
     public String toString(String fecha) {
