@@ -17,21 +17,22 @@ public class Entrada implements IEntrada {
     private static int siguienteCodigo = 4000;
 
     // entrada de estadio.
-    public Entrada(String email, String nombreSede, String nombreEspectaculo, String fecha){
+    public Entrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, String sector){
         this.nombreSede = nombreSede;
-        this.nombreEspectaculo = nombreEspectaculo;
+        this.espectaculo = espectaculo;
         this.fecha = fecha;
         this.email = email;
         this.codigo = siguienteCodigo;
         siguienteCodigo += 100;
         this.precio = precio();
-
+        this.sector = sector;
+        this.nombreEspectaculo = this.espectaculo.nombre;
     }
 
     // entrada de teatro y miniestadio.
-    public Entrada(String email, String nombreSede, String nombreEspectaculo, String fecha, int asiento, String sector){
+    public Entrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, int asiento, String sector){
         this.nombreSede = nombreSede;
-        this.nombreEspectaculo = nombreEspectaculo;
+        this.espectaculo = espectaculo;
         this.fecha = fecha;
         this.sector = sector;
         this.email = email;
@@ -43,14 +44,12 @@ public class Entrada implements IEntrada {
 
     public double precio() {
         double precio = 0;
-        if(this.espectaculo != null){
-            Funcion funcion = this.espectaculo.obtenerFuncion(this.fecha);
-            double precioBase = this.espectaculo.obtenerFuncion(this.fecha).precioBase;
-            if(this.sector.equals("CAMPO")){
-                precio = funcion.calcularPrecioEstadio(this.fecha);
-            }
-            precio = funcion.calcularPrecioTeatroMiniestadio(this.fecha,this.sector);
+        Funcion funcion = this.espectaculo.obtenerFuncion(this.fecha);
+        double precioBase = this.espectaculo.obtenerFuncion(this.fecha).precioBase;
+        if("CAMPO".equals(this.sector)){
+            precio = funcion.calcularPrecioEstadio(this.fecha);
         }
+        precio = funcion.calcularPrecioTeatroMiniestadio(this.fecha,this.sector);
         return precio;
 
     }
@@ -115,11 +114,6 @@ public class Entrada implements IEntrada {
 	public String getEmail() {
 		return email;
 	}
-<<<<<<< Updated upstream
-
-=======
- 
->>>>>>> Stashed changes
     public String toString(){
         String estado = "";
         Fecha fecha = new Fecha(this.fecha);
@@ -137,22 +131,8 @@ public class Entrada implements IEntrada {
         return sb.toString();
     }
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-
 	public String getNombreEspectaculo() {
 		return nombreEspectaculo;
 	}
-<<<<<<< Updated upstream
 
-
-
-
-=======
-	
-	
-    
->>>>>>> Stashed changes
 }

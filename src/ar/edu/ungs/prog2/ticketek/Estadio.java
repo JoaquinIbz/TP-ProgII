@@ -15,9 +15,8 @@ public class Estadio extends Sede {
         this.entradasVendidas = new HashMap<>();
     }
 
-    public Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha, String sector, int asiento){
-        Entrada entrada = new Entrada(email,nombreSede, nombreEspectaculo, fecha);
-        entrada.setSector(sector);
+    public Entrada venderEntrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, String sector, int asiento){
+        Entrada entrada = new Entrada(email,nombreSede, espectaculo, fecha, sector);
         entrada.setButaca(new Butaca(0,0));
         if(this.capacidadActual > 0){
             if(!this.entradasVendidas.containsKey(fecha)){
@@ -57,13 +56,13 @@ public class Estadio extends Sede {
 
 
     @Override
-    public double recaudacion(String fecha, double precioBase) {
-        double valorEntrada = 0;
+    public double recaudacion(String fecha) {
+        double recaudacion = 0;
         HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
         for(Entrada entrada : entradas.values()){
-            valorEntrada += precioBase;
+            recaudacion += entrada.precio();
         }
-        return valorEntrada;
+        return recaudacion;
     }
 
     @Override

@@ -26,7 +26,7 @@ public class Funcion {
 
 
     public double recaudacion(){
-        return this.sede.recaudacion(this.fecha,this.precioBase);
+        return this.sede.recaudacion(this.fecha);
     }
 
     public String toString() {

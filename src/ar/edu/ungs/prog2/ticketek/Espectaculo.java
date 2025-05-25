@@ -49,7 +49,7 @@ public class Espectaculo {
     public double calcularTotalRecaudado(){
         double total = 0;
         for(Funcion f : this.funciones.values()){
-            f.recaudacion();
+            total += f.recaudacion();
         }
         this.totalRecaudado = total;
         return this.totalRecaudado;

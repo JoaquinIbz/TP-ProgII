@@ -27,12 +27,12 @@ public class MiniEstadio extends Sede {
 
     }
 
-    public Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha, String sector, int asiento) {
+    public Entrada venderEntrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, String sector, int asiento) {
         if(!estaDisponible(sector,asiento)){
             throw new RuntimeException("El sector y/o los asientos son incorrectos.");
         }
 
-        Entrada entrada = new Entrada(email,nombreSede,nombreEspectaculo,fecha,asiento,sector);
+        Entrada entrada = new Entrada(email,nombreSede,espectaculo,fecha,asiento,sector);
         entrada.setButaca(buscarFilaYasiento(sector,asiento));
 
         this.asientosDisponibles.put(sector,ocuparAsiento(sector,asiento));       // ocupa asiento
@@ -157,16 +157,15 @@ public class MiniEstadio extends Sede {
     }
 
     @Override
-    public double recaudacion(String fecha, double precioBase) {
-        double valorEntrada = 0;
+    public double recaudacion(String fecha) {
+        double recaudacion = 0;
         HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
         if(entradas != null){
             for(Entrada entrada : entradas.values()){
-                double porcentaje = obtenerPorcentajePorSector(entrada.getSector());
-                valorEntrada += precioBase * (1 + porcentaje);
+                recaudacion += entrada.precio();
             }
         }
-        return valorEntrada;
+        return recaudacion;
     }
 
     private double obtenerPorcentajePorSector(String sector){

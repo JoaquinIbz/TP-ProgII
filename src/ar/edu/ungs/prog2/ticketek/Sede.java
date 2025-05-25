@@ -25,19 +25,15 @@ public abstract class Sede {
 
     public abstract double calcularPrecio(String fecha, String sector, double precioBase);
 
-    public abstract double recaudacion(String fecha, double precioBase);
+    public abstract double recaudacion(String fecha);
 
-    public abstract Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha, String sector, int asiento);
+    public abstract Entrada venderEntrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, String sector, int asiento);
 
     public abstract int cantidadDeEntradasVendidas();
 
     public abstract String toString();
 
     public abstract void anularEntrada(String sector, int fila, int asiento);
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
     public abstract String toString(String fecha);
 

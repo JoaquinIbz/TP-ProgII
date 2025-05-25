@@ -101,8 +101,7 @@ public class Ticketek implements ITicketek {
         LinkedList<IEntrada> entradasVendidas = new LinkedList<>();
 
         for(int i=0 ; i<cantidadEntradas ; i++){
-            Entrada entrada = funcion.sede.venderEntrada(email,funcion.sede.nombre,nombreEspectaculo,fecha, "CAMPO" , 0);
-            entrada.setEspectaculo(espectaculo);
+            Entrada entrada = funcion.sede.venderEntrada(email,funcion.sede.nombre,espectaculo,fecha, "CAMPO" , 0);
             usuario.comprarEntrada(entrada,fecha);
             entradasVendidas.add(entrada);
         }
@@ -145,16 +144,14 @@ public class Ticketek implements ITicketek {
         if(funcion.sede instanceof Teatro){
             Teatro teatro = (Teatro) funcion.sede;
             for(int a : asientos){
-                Entrada entrada = teatro.venderEntrada(email,teatro.nombre,nombreEspectaculo,fecha,sector,a);
-                entrada.setEspectaculo(espectaculo);
+                Entrada entrada = teatro.venderEntrada(email,teatro.nombre,espectaculo,fecha,sector,a);
                 usuario.comprarEntrada(entrada,fecha);
                 entradasVendidas.add(entrada);
             }
         }else if(funcion.sede instanceof MiniEstadio){
             MiniEstadio miniEstadio = (MiniEstadio) funcion.sede;
             for(int a : asientos){
-                Entrada entrada = miniEstadio.venderEntrada(email,miniEstadio.nombre,nombreEspectaculo,fecha,sector,a);
-                entrada.setEspectaculo(espectaculo);
+                Entrada entrada = miniEstadio.venderEntrada(email,miniEstadio.nombre,espectaculo,fecha,sector,a);
                 usuario.comprarEntrada(entrada,fecha);
                 entradasVendidas.add(entrada);
             }
@@ -242,8 +239,7 @@ public class Ticketek implements ITicketek {
     	if(fechaEntrada.esPasada()) {
             throw new RuntimeException("La fecha de la entrada ya paso");
         }
-    	Entrada nueva = sede.venderEntrada(e.getEmail(), sede.nombre, e.getNombreEspectaculo(), fecha, sector, asiento);
-        nueva.setEspectaculo(espectaculo);
+    	Entrada nueva = sede.venderEntrada(e.getEmail(), sede.nombre, espectaculo, fecha, sector, asiento);
         anularEntrada(entrada, contrasenia);
         usuario.comprarEntrada(nueva,fecha);
     	return nueva;
@@ -261,8 +257,7 @@ public class Ticketek implements ITicketek {
         if(fechaEntrada.esPasada()) {
             throw new RuntimeException("La fecha de la entrada ya paso");
         }
-        Entrada nueva = sede.venderEntrada(e.getEmail(), sede.nombre, e.getNombreEspectaculo(), fecha, "CAMPO",0);
-        nueva.setEspectaculo(espectaculo);
+        Entrada nueva = sede.venderEntrada(e.getEmail(), sede.nombre, espectaculo, fecha, "CAMPO",0);
         anularEntrada(entrada, contrasenia);
         usuario.comprarEntrada(nueva,fecha);
         return nueva;
