@@ -7,15 +7,15 @@ import java.util.Map;
 public class Estadio extends Sede {
 
     String sector;
+    double precioUnico;
 
     public Estadio(String nombre, String direccion, int capacidadMax) {
         super(nombre, direccion, capacidadMax);
-        this.sector = "CAMPO";
         this.capacidadActual = this.capacidadMax;
         this.entradasVendidas = new HashMap<>();
     }
 
-    public Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha){
+    public Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha, String sector, int asiento){
         Entrada entrada = new Entrada(email,nombreSede, nombreEspectaculo, fecha);
         entrada.setSector(sector);
         entrada.setButaca(new Butaca(0,0));
@@ -38,10 +38,23 @@ public class Estadio extends Sede {
         return entrada;
     }
 
+
+    public int cantidadDeEntradasVendidas(){
+        int cantidad = 0;
+        for(Map.Entry<String,HashMap<Integer,Entrada>> entry : this.entradasVendidas.entrySet()){
+            HashMap<Integer,Entrada> entradas = entry.getValue();
+            for(Entrada e : entradas.values()){
+                cantidad++;
+            }
+        }
+        return cantidad;
+    }
+
     @Override
-    public double calcularPrecio(double precioBase){
+    public double calcularPrecio(double precioBase, String sector){
         return precioBase;
     }
+
     @Override
     public String toString(){
         return this.nombre;
