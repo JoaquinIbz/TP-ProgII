@@ -23,31 +23,18 @@ public abstract class Sede {
         this.entradasVendidas = new HashMap<>();
     }
 
-    public abstract double calcularPrecio(double precioBase);
+    public abstract double calcularPrecio(double precioBase, String sector);
 
-    public int entradasVendidasPorSector(String fecha, String sector) {
-    	int cont = 0;
-        if(this.entradasVendidas.containsKey(fecha)){
-            return 0;
-        }
-        HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
-        for(Entrada e : entradas.values()){
-            if(e.getSector().equals(sector)){
-                cont++;
-            }
-        }
-    	return cont;
-    }
+    public abstract Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha, String sector, int asiento);
+
+    public abstract int cantidadDeEntradasVendidas();
 
     public abstract String toString();
 
     public abstract void anularEntrada(String sector, int fila, int asiento);
-<<<<<<< Updated upstream
 
     public abstract String toString(String fecha);
-=======
-    
->>>>>>> Stashed changes
+
 }
 
 	
