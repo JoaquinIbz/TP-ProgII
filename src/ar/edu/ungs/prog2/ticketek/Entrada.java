@@ -13,6 +13,7 @@ public class Entrada implements IEntrada {
     private String nombreEspectaculo;
     private Espectaculo espectaculo;
     private int codigo;
+    private double precio;
     private static int siguienteCodigo = 4000;
 
     // entrada de estadio.
@@ -23,6 +24,7 @@ public class Entrada implements IEntrada {
         this.email = email;
         this.codigo = siguienteCodigo;
         siguienteCodigo += 100;
+        this.precio = precio();
 
     }
 
@@ -35,12 +37,17 @@ public class Entrada implements IEntrada {
         this.email = email;
         this.codigo = siguienteCodigo;
         siguienteCodigo += 100;
+        this.precio = precio();
     }
 
 
     public double precio() {
-        Funcion funcion = this.espectaculo.obtenerFuncion(this.fecha);
-        return funcion.calcularPrecio();
+        double precio = 0;
+        Funcion funcion = null;
+        if(this.espectaculo != null){
+            funcion = this.espectaculo.obtenerFuncion(this.fecha);
+        }
+        return funcion.calcularPrecio(this.sector);
     }
 
     /**
@@ -103,26 +110,31 @@ public class Entrada implements IEntrada {
 	public String getEmail() {
 		return email;
 	}
-<<<<<<< Updated upstream
+
     public String toString(){
-        String estado = " ";
+        String estado = "";
         Fecha fecha = new Fecha(this.fecha);
         if(fecha.esPasada()) {
             estado = " P - ";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(this.codigo +" - " + this.nombreEspectaculo + " - " + fecha +estado+this.nombreSede + " - " + this.sector);
-        if(this.sector != "CAMPO"){
-            sb.append(" f:"+this.butaca.getFila()+" a:"+this.butaca.getAsiento());
+        // - 7196 - Coldplay en vivo - 30/04/2025 P - La bombonera - CAMPO
+        //         - Coldplay en vivo - 25/07/25 - La bombonera - CAMPO
+        // " P - "
+        sb.append(this.codigo).append(" - ").append(this.nombreEspectaculo).append(" - ").append(fecha).append(estado).append(" - ").append(this.nombreSede).append(" - ").append(this.sector);
+        if(!this.sector.equals("CAMPO")){
+            sb.append("f:"+this.butaca.getFila()+" a:"+this.butaca.getAsiento());
         }
         return sb.toString();
     }
-=======
+
+
 
 	public String getNombreEspectaculo() {
 		return nombreEspectaculo;
 	}
-	
->>>>>>> Stashed changes
-    
+
+
+
+
 }
