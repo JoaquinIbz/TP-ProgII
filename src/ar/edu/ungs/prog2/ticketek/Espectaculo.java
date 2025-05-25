@@ -7,6 +7,7 @@ import java.util.Map;
 public class Espectaculo {
     String nombre;
     private HashMap<String, Funcion> funciones;  // fecha, funciones
+    private double totalRecaudado;
 
     public Espectaculo(String nombre){
         this.nombre = nombre;
@@ -35,10 +36,7 @@ public class Espectaculo {
         if(funcion == null){
             throw new RuntimeException("No hay función registrada en esa fecha");
         }
-        if(funcion.sede instanceof Estadio || funcion.sede instanceof Teatro || funcion.sede instanceof MiniEstadio) {
-            return funcion;
-        }
-        throw new RuntimeException("La sede de la función no es válida");
+        return funcion;
     }
     public LinkedList<Funcion> obtenerTodasLasFunciones(){
         LinkedList<Funcion> listaFunciones = new LinkedList<>();
@@ -47,6 +45,17 @@ public class Espectaculo {
         }
         return listaFunciones;
     }
+
+    public double calcularTotalRecaudado(){
+        double total = 0;
+        for(Funcion f : this.funciones.values()){
+            Sede sede = f.sede;
+            total += sede.calcularPrecio(f.precioBase,"CAMPO") * sede.cantidadDeEntradasVendidas();
+        }
+        this.totalRecaudado = total;
+        return this.totalRecaudado;
+    }
+
 
 	public HashMap<String, Funcion> getFunciones() {
 		return funciones;
