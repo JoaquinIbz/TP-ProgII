@@ -7,18 +7,18 @@ import java.util.List;
 
 public class Ticketek implements ITicketek {
 
-    String nombre;
+    String nombreEmpresa;
     private HashMap<String, Usuario> usuarios;//email, usuario
     //private LinkedList<Sede> sedes;
     private HashMap<String, Sede> sedes;//nombre, sede
-    private LinkedList<Espectaculo> espectaculos;
+    private HashMap<String, Espectaculo> espectaculos;
 
 
     // metodos del diagrama
     public Ticketek(){
     	this.usuarios = new HashMap<>();
     	this.sedes = new HashMap<>();
-    	this.espectaculos = new LinkedList<>();
+    	this.espectaculos = new HashMap<>();
     }
 
     // metodos de la interfaz
@@ -77,12 +77,10 @@ public class Ticketek implements ITicketek {
     }
 
     public void registrarEspectaculo(String nombre) {
-        for(Espectaculo e : this.espectaculos){
-            if(e.nombre.equals(nombre)){
-                throw new RuntimeException("El nombre del espectaculo ya esta registrado.");
-            }
+        if(this.espectaculos.containsKey(nombre)){
+            throw new RuntimeException("El nombre del espectaculo ya esta registrado.");
         }
-        this.espectaculos.add(new Espectaculo(nombre));
+        this.espectaculos.put(nombre,new Espectaculo(nombre));
     }
 
     public void agregarFuncion(String nombreEspectaculo, String fecha, String sede, double precioBase) {
@@ -102,16 +100,11 @@ public class Ticketek implements ITicketek {
         Funcion funcion = espectaculo.obtenerFuncion(fecha);
         LinkedList<IEntrada> entradasVendidas = new LinkedList<>();
 
-        if(funcion.sede instanceof Estadio){
-            Estadio estadio = (Estadio) funcion.sede;
-            for(int i=0 ; i<cantidadEntradas ; i++){
-                Entrada entrada = estadio.venderEntrada(email,estadio.nombre,nombreEspectaculo,fecha);
-                entrada.setEspectaculo(espectaculo);
-                usuario.comprarEntrada(entrada,fecha);
-                entradasVendidas.add(entrada);
-            }
-        }else{
-            throw new RuntimeException("La sede de la funcion no es un estadio.");
+        for(int i=0 ; i<cantidadEntradas ; i++){
+            Entrada entrada = funcion.sede.venderEntrada(email,funcion.sede.nombre,nombreEspectaculo,fecha, "CAMPO" , 0);
+            entrada.setEspectaculo(espectaculo);
+            usuario.comprarEntrada(entrada,fecha);
+            entradasVendidas.add(entrada);
         }
         return entradasVendidas;
     }
@@ -129,17 +122,15 @@ public class Ticketek implements ITicketek {
         if(usuario == null){
             throw new RuntimeException("El usuario no se encuentra registrado.");
         }
-        if(!usuario.getNombre().equals(email) || !usuario.getContrasenia().equals(contrasenia)){
-            throw new RuntimeException("Email y/o contrasenia, incorrectas.");
+        if(!usuario.getContrasenia().equals(contrasenia)){
+            throw new RuntimeException("Contrasenia incorrecta.");
         }
         return usuario;
     }
 
     private Espectaculo verificarRegistroEspectaculo(String nombreEspectaculo){
-        for(Espectaculo e : this.espectaculos) {
-            if (e.nombre.equals(nombreEspectaculo)) {
-                return e;
-            }
+        if(this.espectaculos.containsKey(nombreEspectaculo)){
+            return this.espectaculos.get(nombreEspectaculo);
         }
         throw new RuntimeException("El espectaculo no se encuentra registrado.");
     }
@@ -177,7 +168,7 @@ public class Ticketek implements ITicketek {
 
         StringBuilder sb = new StringBuilder();
         LinkedList<Funcion> funciones = null;
-        for(Espectaculo espectaculo : this.espectaculos){
+        for(Espectaculo espectaculo : this.espectaculos.values()){
             if(espectaculo.nombre.equals(nombreEspectaculo)){
                 funciones = espectaculo.obtenerTodasLasFunciones();
                 break;
@@ -241,77 +232,59 @@ public class Ticketek implements ITicketek {
     		throw new RuntimeException("dato invalido");
     	}
     	Entrada e = (Entrada) entrada;
-    	Usuario usuario = autenticarUsuario(e.getEmail(), contrasenia); 
-    	if(usuario == null ) { 
-    		throw new RuntimeException("la contrasenia es invalida"); 
-    	} 
-    	Fecha fechaEntrada = new Fecha(fecha);
+    	Usuario usuario = autenticarUsuario(e.getEmail(), contrasenia);
+        Fecha fechaEntrada = new Fecha(fecha);
+        Sede sede = sedes.get(e.nombreSede);
+        Espectaculo espectaculo = verificarRegistroEspectaculo(e.getNombreEspectaculo());
+    	if(usuario == null ) {
+            throw new RuntimeException("la contrasenia es invalida");
+        }
     	if(fechaEntrada.esPasada()) {
-    		throw new RuntimeException("La fecha de la entrada ya paso");
-    	}
-    	Sede sede = sedes.get(e.nombreSede);
-    	if(sede instanceof Estadio) {
-    		throw new RuntimeException("No se puede cambiar la entrada en esta sede");
-    	}
-    	
-    	anularEntrada(entrada, contrasenia);
-    	
-    	Entrada nueva;
-
-    if(sede instanceof MiniEstadio) {
-    		MiniEstadio miniestadio = (MiniEstadio) sede;
-    		nueva = miniestadio.venderEntrada(e.getEmail(), sede.nombre, e.getNombreEspectaculo(), fecha, sector, asiento);
-    	}else if(sede instanceof Teatro) {
-    		Teatro teatro = (Teatro) sede;
-    		nueva = teatro.venderEntrada(e.getEmail(), sede.nombre, e.getNombreEspectaculo(), fecha, sector, asiento);
-    	}else {
-    		throw new RuntimeException("Tipo de sede invalido");
-    	}
-    		
-    	
+            throw new RuntimeException("La fecha de la entrada ya paso");
+        }
+    	Entrada nueva = sede.venderEntrada(e.getEmail(), sede.nombre, e.getNombreEspectaculo(), fecha, sector, asiento);
+        nueva.setEspectaculo(espectaculo);
+        anularEntrada(entrada, contrasenia);
+        usuario.comprarEntrada(nueva,fecha);
     	return nueva;
     }
 
     public IEntrada cambiarEntrada(IEntrada entrada, String contrasenia, String fecha) {
-    	if(entrada == null || fecha == null || contrasenia == null) {
-    		throw new RuntimeException("dato invalido");
-    	}
-    	Entrada e = (Entrada) entrada;
-    	Usuario usuario = autenticarUsuario(e.getEmail(), contrasenia); 
-    	if(usuario == null ) { 
-    		throw new RuntimeException("la contrasenia es invalida"); 
-    	} 
-    	Fecha fechaEntrada = new Fecha(fecha);
-    	if(fechaEntrada.esPasada()) {
-    		throw new RuntimeException("La fecha de la entrada ya paso");
-    	}
-    	Sede sede = sedes.get(e.nombreSede);
-    	Entrada nueva;
-    	if(sede instanceof Estadio) {
-    		Estadio estadio = (Estadio) sede;
-    		if(!estadio.puedeVenderEntrada(fecha)) {
-    			throw new RuntimeException("No se puede cambiar la entrada");
-    		}
-    		anularEntrada(entrada, contrasenia);
-    		nueva = estadio.venderEntrada(e.getEmail(), sede.nombre, e.getNombreEspectaculo(), fecha);
-    	
-    	}
-    	else {
-    		throw new RuntimeException("tipo de sede invalido");
-    	}
-    	return nueva;
+        if(entrada == null || fecha == null || contrasenia == null) {
+            throw new RuntimeException("dato invalido");
+        }
+        Entrada e = (Entrada) entrada;
+        Usuario usuario = autenticarUsuario(e.getEmail(), contrasenia);
+        Fecha fechaEntrada = new Fecha(fecha);
+        Sede sede = sedes.get(e.nombreSede);
+        Espectaculo espectaculo = verificarRegistroEspectaculo(e.getNombreEspectaculo());
+        if(fechaEntrada.esPasada()) {
+            throw new RuntimeException("La fecha de la entrada ya paso");
+        }
+        Entrada nueva = sede.venderEntrada(e.getEmail(), sede.nombre, e.getNombreEspectaculo(), fecha, "CAMPO",0);
+        nueva.setEspectaculo(espectaculo);
+        anularEntrada(entrada, contrasenia);
+        usuario.comprarEntrada(nueva,fecha);
+        return nueva;
     }
 
+    // estadio
     public double costoEntrada(String nombreEspectaculo, String fecha) {
-        return 0;
+        Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
+        Funcion funcion = espectaculo.obtenerFuncion(fecha);
+        return funcion.calcularPrecio("CAMPO");
     }
 
+    // teatro y mini estadio
     public double costoEntrada(String nombreEspectaculo, String fecha, String sector) {
-        return 0;
+        Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
+        Funcion funcion = espectaculo.obtenerFuncion(fecha);
+        return funcion.calcularPrecio(sector);
     }
 
     public double totalRecaudado(String nombreEspectaculo) {
-        return 0; //O(1)
+        Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
+        return espectaculo.calcularTotalRecaudado();
     }
 
     public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
