@@ -272,14 +272,14 @@ public class Ticketek implements ITicketek {
     public double costoEntrada(String nombreEspectaculo, String fecha) {
         Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
         Funcion funcion = espectaculo.obtenerFuncion(fecha);
-        return funcion.calcularPrecio("CAMPO");
+        return funcion.calcularPrecioEstadio(fecha);
     }
 
     // teatro y mini estadio
     public double costoEntrada(String nombreEspectaculo, String fecha, String sector) {
         Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
         Funcion funcion = espectaculo.obtenerFuncion(fecha);
-        return funcion.calcularPrecio(sector);
+        return funcion.calcularPrecioTeatroMiniestadio(fecha,sector);
     }
 
     public double totalRecaudado(String nombreEspectaculo) {

@@ -147,10 +147,23 @@ public class Teatro extends Sede{
      */
 
     @Override
-    public double calcularPrecio(double precioBase, String sector) {
-        double porcentajeAdicional = obtenerPorcentajePorSector(sector);
-        return precioBase * (1+porcentajeAdicional/100.0);
+    public double calcularPrecio(String fecha,String sector,double precioBase){
+        double porcentaje = obtenerPorcentajePorSector(sector);
+        return precioBase * (1+porcentaje/100);
     }
+
+
+    @Override
+    public double recaudacion(String fecha, double precioBase) {
+        double valorEntrada = 0;
+        HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
+        for(Entrada entrada : entradas.values()){
+            double porcentaje = obtenerPorcentajePorSector(entrada.getSector());
+            valorEntrada += precioBase * (1 + porcentaje);
+        }
+        return valorEntrada;
+    }
+
     private double obtenerPorcentajePorSector(String sector){
         if(this.sectores[0] == sector){
             return this.porcentajeAdicional[0];

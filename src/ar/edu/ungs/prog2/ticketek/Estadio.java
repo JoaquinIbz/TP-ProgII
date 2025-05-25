@@ -51,8 +51,19 @@ public class Estadio extends Sede {
     }
 
     @Override
-    public double calcularPrecio(double precioBase, String sector){
+    public double calcularPrecio(String fecha,String sector,double precioBase){
         return precioBase;
+    }
+
+
+    @Override
+    public double recaudacion(String fecha, double precioBase) {
+        double valorEntrada = 0;
+        HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
+        for(Entrada entrada : entradas.values()){
+            valorEntrada += precioBase;
+        }
+        return valorEntrada;
     }
 
     @Override
@@ -80,8 +91,8 @@ public class Estadio extends Sede {
     public void anularEntrada(String sector, int fila, int asiento) {
     	this.capacidadActual++;
     }
-    
-    
+
+
     public boolean puedeVenderEntrada(String fecha) {
     	if(capacidadActual > 0) return true;
     	return false;

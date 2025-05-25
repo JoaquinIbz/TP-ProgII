@@ -43,11 +43,16 @@ public class Entrada implements IEntrada {
 
     public double precio() {
         double precio = 0;
-        Funcion funcion = null;
         if(this.espectaculo != null){
-            funcion = this.espectaculo.obtenerFuncion(this.fecha);
+            Funcion funcion = this.espectaculo.obtenerFuncion(this.fecha);
+            double precioBase = this.espectaculo.obtenerFuncion(this.fecha).precioBase;
+            if(this.sector.equals("CAMPO")){
+                precio = funcion.calcularPrecioEstadio(this.fecha);
+            }
+            precio = funcion.calcularPrecioTeatroMiniestadio(this.fecha,this.sector);
         }
-        return funcion.calcularPrecio(this.sector);
+        return precio;
+
     }
 
     /**

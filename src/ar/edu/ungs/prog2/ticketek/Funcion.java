@@ -16,8 +16,17 @@ public class Funcion {
         this.precioBase = precioBase;
     }
 
-    public double calcularPrecio(String sector){
-        return this.sede.calcularPrecio(this.precioBase,sector);
+    public double calcularPrecioEstadio(String fecha){
+        return this.sede.calcularPrecio(fecha, "CAMPO",this.precioBase);
+    }
+
+    public double calcularPrecioTeatroMiniestadio(String fecha, String sector){
+        return this.sede.calcularPrecio(fecha, sector, this.precioBase);
+    }
+
+
+    public double recaudacion(){
+        return this.sede.recaudacion(this.fecha,this.precioBase);
     }
 
     public String toString() {

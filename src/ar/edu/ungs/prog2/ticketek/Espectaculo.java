@@ -49,8 +49,7 @@ public class Espectaculo {
     public double calcularTotalRecaudado(){
         double total = 0;
         for(Funcion f : this.funciones.values()){
-            Sede sede = f.sede;
-            total += sede.calcularPrecio(f.precioBase,"CAMPO") * sede.cantidadDeEntradasVendidas();
+            f.recaudacion();
         }
         this.totalRecaudado = total;
         return this.totalRecaudado;

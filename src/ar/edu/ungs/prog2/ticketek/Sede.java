@@ -23,7 +23,9 @@ public abstract class Sede {
         this.entradasVendidas = new HashMap<>();
     }
 
-    public abstract double calcularPrecio(double precioBase, String sector);
+    public abstract double calcularPrecio(String fecha, String sector, double precioBase);
+
+    public abstract double recaudacion(String fecha, double precioBase);
 
     public abstract Entrada venderEntrada(String email, String nombreSede, String nombreEspectaculo, String fecha, String sector, int asiento);
 
