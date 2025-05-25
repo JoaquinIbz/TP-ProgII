@@ -115,7 +115,11 @@ public class Entrada implements IEntrada {
 	public String getEmail() {
 		return email;
 	}
+<<<<<<< Updated upstream
 
+=======
+ 
+>>>>>>> Stashed changes
     public String toString(){
         String estado = "";
         Fecha fecha = new Fecha(this.fecha);
@@ -133,13 +137,22 @@ public class Entrada implements IEntrada {
         return sb.toString();
     }
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
 	public String getNombreEspectaculo() {
 		return nombreEspectaculo;
 	}
+<<<<<<< Updated upstream
 
 
 
 
+=======
+	
+	
+    
+>>>>>>> Stashed changes
 }
