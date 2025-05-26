@@ -29,18 +29,15 @@ public abstract class Sede {
 
     public abstract Entrada venderEntrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, String sector, int asiento);
 
-    public abstract int cantidadDeEntradasVendidas();
-
     public abstract String toString();
     
     public abstract String toString(String fecha);
 
     public abstract void anularEntrada(String sector, int fila, int asiento);
 
-    	
-    
     public abstract double recaudacionTotalPorSede(String nombreEspectaculo,String nombreSede);
-    
+
+
 
 }
 

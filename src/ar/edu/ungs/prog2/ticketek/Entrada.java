@@ -48,7 +48,6 @@ public class Entrada implements IEntrada {
         Funcion funcion = this.espectaculo.obtenerFuncion(this.fecha);
         precio = funcion.precioBase;
         return precio;
-
     }
 
     /**
@@ -63,15 +62,14 @@ public class Entrada implements IEntrada {
     public String ubicacion() {
         if(this.sector.equals("CAMPO")) {
         	return this.sector;
-        }else {
-        	//* Si la entrada es para estadio, la ubicacion será "CAMPO".
-            //* sino, será "{SECTOR} f:{NRO FILA} a:{NRO ASIENTO}"
-            StringBuilder sb = new StringBuilder();
-            sb.append("{"+this.sector+"} ");
-            sb.append("f:{");sb.append(butaca.getFila()+"} ");
-            sb.append("a:{");sb.append(butaca.getAsiento()+"} ");
-            return sb.toString();
         }
+        //* Si la entrada es para estadio, la ubicacion será "CAMPO".
+        //* sino, será "{SECTOR} f:{NRO FILA} a:{NRO ASIENTO}"
+        StringBuilder sb = new StringBuilder();
+        sb.append("{"+this.sector+"} ");
+        sb.append("f:{");sb.append(butaca.getFila()+"} ");
+        sb.append("a:{");sb.append(butaca.getAsiento()+"} ");
+        return sb.toString();
     }
 
     public Espectaculo getEspectaculo(){
@@ -91,9 +89,6 @@ public class Entrada implements IEntrada {
 
     public void setSector(String sector) {
         this.sector = sector;
-    }
-    public void setEmail(String email){
-        this.email = email;
     }
 
     public void setButaca(Butaca butaca){
@@ -123,7 +118,7 @@ public class Entrada implements IEntrada {
         // " P - "
         sb.append(this.codigo).append(" - ").append(this.nombreEspectaculo).append(" - ").append(fecha).append(estado).append(" - ").append(this.nombreSede).append(" - ").append(this.sector);
         if(!this.sector.equals("CAMPO")){
-            sb.append("f:"+this.butaca.getFila()+" a:"+this.butaca.getAsiento());
+            sb.append(" f:"+this.butaca.getFila()+" a:"+this.butaca.getAsiento());
         }
         return sb.toString();
     }

@@ -10,7 +10,7 @@ public class Teatro extends Sede{
     String[] sectores; // {"Platea VIP", "Platea Común", "Platea Baja", "Platea Alta"}
     int asientosPorFila;
     int[] porcentajeAdicional;
-    HashMap<String,HashMap<Integer, LinkedList<Integer>>> asientosDisponibles;// [SECTOR] [FILA, LISTA<ASIENTOS>]
+    HashMap<String,HashMap<Integer, LinkedList<Integer>>> asientosDisponibles; // [SECTOR] [FILA, LISTA<ASIENTOS>]
 
     public Teatro(String nombre, String direccion, int capacidadMax, int asientosPorFila, String[] sectores, int[] capacidad, int[] porcentajeAdicional) {
     	super(nombre, direccion, capacidadMax);
@@ -85,13 +85,11 @@ public class Teatro extends Sede{
         //     [SECTOR]          [FILA] [ASIENTO]
         HashMap<String, HashMap<Integer,LinkedList<Integer>>> mapa = new HashMap<>();
         for(int sector=0 ; sector<sectores.length ; sector++){                              // ej platea vip
-
             int totalAsientos = capacidad[sector];                                          // ej capacidad 100
             HashMap<Integer, LinkedList<Integer>> filaYAsientos = new HashMap<>();          // fila, asientos
 
             for(int numeroAsiento=1 ; numeroAsiento<=totalAsientos ; numeroAsiento++){      // asiento 1, 2, 3, 4, ... hasta 100.
-
-                int fila = ((numeroAsiento - 1) / this.asientosPorFila) + 1;
+                int fila = ((numeroAsiento) / this.asientosPorFila) + 1;
                 LinkedList<Integer> asientos = new LinkedList<>();
                 if(!filaYAsientos.containsKey(fila)){
                     asientos.add(numeroAsiento);

@@ -39,7 +39,6 @@ public class Usuario {
             if(fecha.esFutura()){
                 HashMap<Integer,Entrada> entradas = entry.getValue();
                 for(Entrada e : entradas.values()){
-
                     entradasFuturas.add(e);
                 }
             }

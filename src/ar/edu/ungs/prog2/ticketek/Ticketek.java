@@ -317,6 +317,4 @@ public class Ticketek implements ITicketek {
         }
         return sb.toString();
     }
-
-
 }
