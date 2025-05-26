@@ -8,7 +8,6 @@ public abstract class Sede {
     String nombre;
     String direccion;
     int capacidadMax;
-    int capacidadActual;
     int[] capacidad;
     HashMap<String, HashMap<Integer, Entrada>> entradasVendidas; //clave = fecha, valor= clave=codigo valor= Entrada
     

@@ -4,12 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Fecha {
-	private String f;
 	private LocalDate fecha;									   //yy//mm/dd
 	private DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yy");
 	
 	public Fecha(String fecha) {
-		this.f = fecha;
 		this.fecha = LocalDate.parse(fecha,formato);
 	}
 	public boolean esFutura(){
@@ -19,6 +17,6 @@ public class Fecha {
 		return this.fecha.isBefore(LocalDate.now());
 	}
 	public String toString(){
-		return f;
+		return this.fecha.format(formato);
 	}
 }

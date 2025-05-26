@@ -9,7 +9,6 @@ public class Ticketek implements ITicketek {
 
     String nombreEmpresa;
     private HashMap<String, Usuario> usuarios;//email, usuario
-    //private LinkedList<Sede> sedes;
     private HashMap<String, Sede> sedes;//nombre, sede
     private HashMap<String, Espectaculo> espectaculos;
 

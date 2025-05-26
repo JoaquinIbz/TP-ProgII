@@ -6,6 +6,8 @@ import java.util.Map;
 
 public class Estadio extends Sede {
 
+    int capacidadActual;
+
     public Estadio(String nombre, String direccion, int capacidadMax) {
         super(nombre, direccion, capacidadMax);
         this.capacidadActual = this.capacidadMax;

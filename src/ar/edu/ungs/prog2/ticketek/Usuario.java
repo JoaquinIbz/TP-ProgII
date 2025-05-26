@@ -11,7 +11,6 @@ public class Usuario {
     private String apellido;
     private String email;
     private String contrasenia;
-    //private HashMap<String, LinkedList<Entrada>> entradasCompradas; // fecha, entrada
     private HashMap<String, HashMap<Integer, Entrada>> entradasCompradas; //clave = fecha, valor= clave=codigo valor= Entrada
 
     public Usuario(String nombre, String apellido, String email, String contrasenia){
@@ -19,7 +18,6 @@ public class Usuario {
         this.apellido = apellido;
         this.email = email;
         this.contrasenia = contrasenia;
-        //this.entradasCompradas = new HashMap<>();
         this.entradasCompradas = new HashMap<>();
     }
 
