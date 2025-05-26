@@ -58,8 +58,12 @@ public class Estadio extends Sede {
     public double recaudacion(String fecha) {
         double recaudacion = 0;
         HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
-        for(Entrada entrada : entradas.values()){
-            recaudacion += entrada.precio();
+        if(entradas != null) {
+        	for(Entrada entrada : entradas.values()){
+        		if(entrada != null) {
+        			recaudacion += entrada.precio();
+        		}
+        	}
         }
         return recaudacion;
     }
@@ -68,7 +72,7 @@ public class Estadio extends Sede {
     public String toString(){
         return this.nombre;
     }
-
+    @Override
     public String toString(String fecha) {
         // - (24/07/2025) El Monumental - 200/500
         StringBuilder sb = new StringBuilder();

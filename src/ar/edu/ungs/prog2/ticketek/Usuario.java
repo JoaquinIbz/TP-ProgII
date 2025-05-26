@@ -79,6 +79,10 @@ public class Usuario {
         sede.anularEntrada(entrada.getSector(), entrada.getButaca().getFila(), entrada.getButaca().getAsiento());
         return true;
     }
+    
+    public String toString() {
+    	return this.nombre + " (" + this.email + ")";
+    }
 
     public String getNombre(){
         return this.nombre;

@@ -298,7 +298,27 @@ public class Ticketek implements ITicketek {
 
 
     public String toString(){
-        return "asdasd";
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("Usuario registrados:\n");
+        for(Usuario u : usuarios.values()) {
+        	sb.append("- ").append(u.toString());
+        }
+        
+        sb.append("\nSedes registradas:\n");
+        for(Sede s : sedes.values()) {
+        	sb.append("- ").append(s.toString());
+        }
+        
+        sb.append("\nEspectaculos:\n");
+        for(Espectaculo e : espectaculos.values()) {
+        	int cantFunciones = e.getFunciones().size();
+        	double recaudacion = e.calcularTotalRecaudado();
+        	sb.append("- ").append(e.toString()).append(": ")
+        	.append(cantFunciones).append(" funciones, Recaudacion total: $").append(recaudacion).append("\n");
+        }
+        
+        return sb.toString();
     }
 
 

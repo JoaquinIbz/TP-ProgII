@@ -179,7 +179,7 @@ public class MiniEstadio extends Sede {
         return this.porcentajeAdicional[3];
     }
 
-
+    @Override
     public String toString(String fecha) {
         //*  - (31/07/2025) Teatro Colón - Platea VIP: 30/50 | Platea Común: 60/70 | Platea Baja: 0/70 | Platea Alta: 50/50
         StringBuilder sb = new StringBuilder();
