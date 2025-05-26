@@ -24,10 +24,10 @@ public class Funcion {
         return this.sede.calcularPrecio(fecha, sector, this.precioBase);
     }
 
-
     public double recaudacion(){
         return this.sede.recaudacion(this.fecha);
     }
+
 
     public String toString() {
         //*  - (24/07/2025) El Monumental - 200/500

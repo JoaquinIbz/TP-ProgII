@@ -165,12 +165,14 @@ public class Teatro extends Sede{
         return recaudacion;
     }
 
+
+
     private double obtenerPorcentajePorSector(String sector){
-        if(this.sectores[0] == sector){
+        if(sector.equals(this.sectores[0])){
             return this.porcentajeAdicional[0];
-        }else if(this.sectores[1] == sector){
+        }else if(sector.equals(this.sectores[1])){
             return this.porcentajeAdicional[1];
-        }else if(this.sectores[2] == sector){
+        }else if(sector.equals(this.sectores[2])){
             return this.porcentajeAdicional[2];
         }
         return this.porcentajeAdicional[3];
@@ -209,20 +211,19 @@ public class Teatro extends Sede{
     public String toString(){
         return this.nombre;
     }
-    
+
     @Override
-    public double recaudacionTotalEspectaculo(String nombreEspectaculo) {
-    	double total = 0;
-    	for(HashMap<Integer, Entrada> mapaEntradas : entradasVendidas.values()) {
-    		for(Entrada entrada : mapaEntradas.values()) {
-    			if(entrada.getEspectaculo().nombre.equals(nombreEspectaculo)) {
-    				total += entrada.precio();
-    			}
-    		}
-    	}
-    	return total;
+    public double recaudacionTotalPorSede(String nombreEspectaculo,String nombreSede) {
+        double total = 0;
+        for(Map.Entry<String,HashMap<Integer,Entrada>> entry : this.entradasVendidas.entrySet()) {
+            HashMap<Integer,Entrada> entradas = entry.getValue();
+            for(Entrada entrada : entradas.values()){
+                if(entrada.getNombreEspectaculo().equals(nombreEspectaculo) && entrada.nombreSede.equals(nombreSede)){
+                    total += entrada.precio();
+                }
+
+            }
+        }
+        return total;
     }
-
-
-
 }

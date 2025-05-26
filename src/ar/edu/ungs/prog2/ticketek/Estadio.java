@@ -95,19 +95,19 @@ public class Estadio extends Sede {
     	if(capacidadActual > 0) return true;
     	return false;
     }
-    
-    @Override
-    public double recaudacionTotalEspectaculo(String nombreEspectaculo) {
-    	double total = 0;
-    	for(HashMap<Integer, Entrada> mapaEntradas : entradasVendidas.values()) {
-    		for(Entrada entrada : mapaEntradas.values()) {
-    			if(entrada.getEspectaculo().nombre.equals(nombreEspectaculo)) {
-    				System.out.println("Contando entrada " + entrada.getCodigo() + " para " + entrada.getEspectaculo().nombre + " - $" + entrada.precio());
 
-    				total += entrada.precio();
-    			}
-    		}
-    	}
-    	return total;
+    @Override
+    public double recaudacionTotalPorSede(String nombreEspectaculo,String nombreSede) {
+        double total = 0;
+        for(Map.Entry<String,HashMap<Integer,Entrada>> entry : this.entradasVendidas.entrySet()) {
+            HashMap<Integer,Entrada> entradas = entry.getValue();
+            for(Entrada entrada : entradas.values()){
+                if(entrada.getNombreEspectaculo().equals(nombreEspectaculo) && entrada.nombreSede.equals(nombreSede)){
+                    total += entrada.precio();
+                }
+
+            }
+        }
+        return total;
     }
 }

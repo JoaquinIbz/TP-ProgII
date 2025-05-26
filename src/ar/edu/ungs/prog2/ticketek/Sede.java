@@ -37,7 +37,7 @@ public abstract class Sede {
 
     public abstract String toString(String fecha);
     
-    public abstract double recaudacionTotalEspectaculo(String nombreEspectaculo);
+    public abstract double recaudacionTotalPorSede(String nombreEspectaculo,String nombreSede);
     
 
 }

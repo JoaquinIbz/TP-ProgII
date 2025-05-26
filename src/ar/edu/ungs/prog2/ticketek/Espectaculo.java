@@ -38,6 +38,26 @@ public class Espectaculo {
         }
         return funcion;
     }
+
+    public Sede obtenerSede(String nombreSede){
+        for(Funcion funcion : this.funciones.values()){
+            if(funcion.sede.nombre.equals(nombreSede)){
+                return funcion.sede;
+            }
+        }
+        throw new RuntimeException("La sede no esta registrada.");
+    }
+
+
+    public Funcion obtenerFuncionPorEspectaculo(String nombreEspectaculo) {
+        for(Funcion funcion : this.funciones.values()){
+            if(funcion.nombreEspectaculo.equals(nombreEspectaculo)){
+                return funcion;
+            }
+        }
+        throw new RuntimeException("La funcion no esta registrada.");
+    }
+
     public LinkedList<Funcion> obtenerTodasLasFunciones(){
         LinkedList<Funcion> listaFunciones = new LinkedList<>();
         for(Funcion funcion : this.funciones.values()){

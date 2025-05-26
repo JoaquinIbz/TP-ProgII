@@ -162,22 +162,21 @@ public class MiniEstadio extends Sede {
         HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
         if(entradas != null){
             for(Entrada entrada : entradas.values()){
-                recaudacion += entrada.precio();
+                recaudacion += entrada.precio() + this.consumicion;
             }
         }
         return recaudacion;
     }
 
     private double obtenerPorcentajePorSector(String sector){
-    	if(sector.equals(this.sectores[0])){
-          return this.porcentajeAdicional[0];
-    	}else if(sector.equals(this.sectores[1])){
-          return this.porcentajeAdicional[1];
-    	}else if(sector.equals(this.sectores[2])){
-          return this.porcentajeAdicional[2];
-    	}
-    	return this.porcentajeAdicional[3];
-    	
+        if(sector.equals(this.sectores[0])){
+            return this.porcentajeAdicional[0];
+        }else if(sector.equals(this.sectores[1])){
+            return this.porcentajeAdicional[1];
+        }else if(sector.equals(this.sectores[2])){
+            return this.porcentajeAdicional[2];
+        }
+        return this.porcentajeAdicional[3];
     }
 
 
@@ -214,19 +213,19 @@ public class MiniEstadio extends Sede {
     public String toString(){
         return this.nombre;
     }
-    
-    @Override
-    public double recaudacionTotalEspectaculo(String nombreEspectaculo) {
-    	double total = 0;
-    	for(HashMap<Integer, Entrada> mapaEntradas : entradasVendidas.values()) {
-    		for(Entrada entrada : mapaEntradas.values()) {
-    			if(entrada.getEspectaculo().nombre.equals(nombreEspectaculo)) {
-    				total += entrada.precio();
-    				System.out.println("tralalero tralala");
-    			}
-    		}
-    	}
-    	return total ;
-    }
 
+    @Override
+    public double recaudacionTotalPorSede(String nombreEspectaculo,String nombreSede) {
+        double total = 0;
+        for(Map.Entry<String,HashMap<Integer,Entrada>> entry : this.entradasVendidas.entrySet()) {
+            HashMap<Integer,Entrada> entradas = entry.getValue();
+            for(Entrada entrada : entradas.values()){
+                if(entrada.getNombreEspectaculo().equals(nombreEspectaculo) && entrada.nombreSede.equals(nombreSede)){
+                    total += entrada.precio() + this.consumicion;
+                }
+
+            }
+        }
+        return total;
+    }
 }

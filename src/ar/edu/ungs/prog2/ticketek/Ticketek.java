@@ -287,15 +287,13 @@ public class Ticketek implements ITicketek {
     }
 
     public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
+        double total = 0;
     	Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
-    	if(espectaculo != null) {
-    		Sede sede = sedes.get(nombreSede);
-    		if(sede != null) {
-    			return sede.recaudacionTotalEspectaculo(nombreEspectaculo);
-    		}else
-    			return 0.0;
-    		}else
-    			throw new RuntimeException("el espectaculo no existe");
+    	if(espectaculo != null){
+            Sede sede = espectaculo.obtenerSede(nombreSede);
+            total = sede.recaudacionTotalPorSede(nombreEspectaculo,nombreSede);
+        }
+        return total;
     }
 
 
