@@ -72,7 +72,7 @@ public class Ticketek implements ITicketek {
         if(email == null || nombre == null || apellido == null || contrasenia == null) {
             throw new RuntimeException("los datos son invalidos");
         }
-        Usuario usuario = new Usuario(email, nombre, apellido, contrasenia);
+        Usuario usuario = new Usuario(nombre,apellido,email, contrasenia);
         usuarios.put(email, usuario);
     }
 
@@ -279,43 +279,44 @@ public class Ticketek implements ITicketek {
 
     public double totalRecaudado(String nombreEspectaculo) {
         Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
-        if(espectaculo == null) {
-        	throw new RuntimeException("el espectaculo no existe");
-        }else
-        	return espectaculo.calcularTotalRecaudado();
+        return espectaculo.calcularTotalRecaudado();
     	
     }
 
     public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
         double total = 0;
     	Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
-    	if(espectaculo != null){
-            Sede sede = espectaculo.obtenerSede(nombreSede);
-            total = sede.recaudacionTotalPorSede(nombreEspectaculo,nombreSede);
-        }
+        Sede sede = espectaculo.obtenerSede(nombreSede);
+        total = sede.recaudacionTotalPorSede(nombreEspectaculo,nombreSede);
         return total;
     }
 
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        
-        sb.append("Usuario registrados:\n");
-        for(Usuario u : usuarios.values()) {
-        	sb.append("- ").append(u.toString());
+
+        if(!this.usuarios.isEmpty()){
+            sb.append("Usuarios registrados:\n");
+            for(Usuario u : usuarios.values()) {
+                sb.append(" - ").append(u.toString()).append("\n");
+            }
         }
+
         
-        sb.append("\nSedes registradas:\n");
-        for(Sede s : sedes.values()) {
-        	sb.append("- ").append(s.toString());
+        if(!this.sedes.isEmpty()){
+            sb.append("\nSedes registradas:\n");
+            for(Sede s : sedes.values()) {
+                sb.append(" - ").append(s.toString()).append("\n");
+            }
         }
-        
-        sb.append("\nEspectaculos:\n");
-        for(Espectaculo e : espectaculos.values()) {
-        	int cantFunciones = e.getFunciones().size();
-        	double recaudacion = e.calcularTotalRecaudado();
-        	sb.append("- ").append(e.toString()).append(": ")
-        	.append(cantFunciones).append(" funciones, Recaudacion total: $").append(recaudacion).append("\n");
+
+        if(!this.espectaculos.isEmpty()){
+            sb.append("\nEspectaculos:\n");
+            for(Espectaculo e : espectaculos.values()) {
+                int cantFunciones = e.getFunciones().size();
+                double recaudacion = e.calcularTotalRecaudado();
+                sb.append(" - ").append(e.toString()).append(": ").append(cantFunciones).append(" funciones").append("\n");
+            }
         }
         
         return sb.toString();

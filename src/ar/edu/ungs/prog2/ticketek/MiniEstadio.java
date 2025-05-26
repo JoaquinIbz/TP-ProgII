@@ -153,7 +153,7 @@ public class MiniEstadio extends Sede {
     @Override
     public double calcularPrecio(String fecha,String sector,double precioBase){
         double porcentaje = obtenerPorcentajePorSector(sector);
-        return precioBase * (1+porcentaje/100);
+        return (precioBase * (1+(porcentaje/100)));
     }
 
     @Override
@@ -162,7 +162,8 @@ public class MiniEstadio extends Sede {
         HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
         if(entradas != null){
             for(Entrada entrada : entradas.values()){
-                recaudacion += entrada.precio() + this.consumicion;
+                double porcentaje = obtenerPorcentajePorSector(entrada.getSector());
+                recaudacion += this.consumicion + (entrada.precio() * (1+(porcentaje/100)));
             }
         }
         return recaudacion;
@@ -211,7 +212,7 @@ public class MiniEstadio extends Sede {
 
     @Override
     public String toString(){
-        return this.nombre;
+        return "Mini Estadio: "+this.nombre+", Direccion: "+this.direccion;
     }
 
     @Override

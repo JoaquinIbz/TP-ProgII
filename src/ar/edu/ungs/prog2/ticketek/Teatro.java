@@ -149,7 +149,7 @@ public class Teatro extends Sede{
     @Override
     public double calcularPrecio(String fecha,String sector,double precioBase){
         double porcentaje = obtenerPorcentajePorSector(sector);
-        return precioBase * (1+porcentaje/100);
+        return precioBase * (1+(porcentaje/100));
     }
 
 
@@ -209,7 +209,7 @@ public class Teatro extends Sede{
 
     @Override
     public String toString(){
-        return this.nombre;
+        return "Teatro: "+this.nombre+", Direccion: "+this.direccion;
     }
 
     @Override
@@ -221,7 +221,6 @@ public class Teatro extends Sede{
                 if(entrada.getNombreEspectaculo().equals(nombreEspectaculo) && entrada.nombreSede.equals(nombreSede)){
                     total += entrada.precio();
                 }
-
             }
         }
         return total;

@@ -58,19 +58,17 @@ public class Estadio extends Sede {
     public double recaudacion(String fecha) {
         double recaudacion = 0;
         HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
-        if(entradas != null) {
-        	for(Entrada entrada : entradas.values()){
-        		if(entrada != null) {
-        			recaudacion += entrada.precio();
-        		}
-        	}
+        if(entradas != null){
+            for(Entrada entrada : entradas.values()){
+                recaudacion += entrada.precio();
+            }
         }
         return recaudacion;
     }
 
     @Override
     public String toString(){
-        return this.nombre;
+        return "Estadio: "+this.nombre+", Direccion: "+this.direccion;
     }
     @Override
     public String toString(String fecha) {

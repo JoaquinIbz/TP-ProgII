@@ -81,7 +81,7 @@ public class Usuario {
     }
     
     public String toString() {
-    	return this.nombre + " (" + this.email + ")";
+    	return "Nombre: "+this.nombre +", "+ "email: (" + this.email + ")";
     }
 
     public String getNombre(){
