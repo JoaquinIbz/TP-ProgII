@@ -295,30 +295,26 @@ public class Ticketek implements ITicketek {
     public String toString(){
         StringBuilder sb = new StringBuilder();
 
-        if(!this.usuarios.isEmpty()){
+        if(!this.usuarios.isEmpty() || !this.sedes.isEmpty() || !this.espectaculos.isEmpty()){
             sb.append("Usuarios registrados:\n");
             for(Usuario u : usuarios.values()) {
                 sb.append(" - ").append(u.toString()).append("\n");
             }
-        }
 
-        
-        if(!this.sedes.isEmpty()){
             sb.append("\nSedes registradas:\n");
             for(Sede s : sedes.values()) {
                 sb.append(" - ").append(s.toString()).append("\n");
             }
-        }
 
-        if(!this.espectaculos.isEmpty()){
             sb.append("\nEspectaculos:\n");
             for(Espectaculo e : espectaculos.values()) {
                 int cantFunciones = e.getFunciones().size();
                 double recaudacion = e.calcularTotalRecaudado();
                 sb.append(" - ").append(e.toString()).append(": ").append(cantFunciones).append(" funciones").append("\n");
             }
+        }else{
+            sb.append("==========================================");
         }
-        
         return sb.toString();
     }
 
