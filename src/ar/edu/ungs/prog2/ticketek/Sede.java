@@ -10,9 +10,6 @@ public abstract class Sede {
     int capacidadMax;
     int capacidadActual;
     int[] capacidad;
-    private int numero;
-    private int cantFilas;
-    int asientosDisponibles;
     HashMap<String, HashMap<Integer, Entrada>> entradasVendidas; //clave = fecha, valor= clave=codigo valor= Entrada
     
 
@@ -29,9 +26,11 @@ public abstract class Sede {
 
     public abstract Entrada venderEntrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, String sector, int asiento);
 
-    public abstract String toString();
+    public String toString(){
+        return "Sede: "+this.nombre+", Direccion: "+this.direccion;
+    }
     
-    public abstract String toString(String fecha);
+    public abstract String entradaVendidaPorFecha(String fecha);
 
     public abstract void anularEntrada(String sector, int fila, int asiento);
 

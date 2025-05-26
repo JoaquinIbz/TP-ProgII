@@ -6,9 +6,6 @@ import java.util.Map;
 
 public class Estadio extends Sede {
 
-    String sector;
-    double precioUnico;
-
     public Estadio(String nombre, String direccion, int capacidadMax) {
         super(nombre, direccion, capacidadMax);
         this.capacidadActual = this.capacidadMax;
@@ -18,22 +15,30 @@ public class Estadio extends Sede {
     public Entrada venderEntrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, String sector, int asiento){
         Entrada entrada = new Entrada(email,nombreSede, espectaculo, fecha, sector);
         entrada.setButaca(new Butaca(0,0));
-        if(this.capacidadActual > 0){
+        if(estaDisponible()){
             if(!this.entradasVendidas.containsKey(fecha)){
                 HashMap<Integer,Entrada> entradas = new HashMap<>();
                 entradas.put(entrada.getCodigo(),entrada);
                 this.entradasVendidas.put(fecha,entradas);
                 this.capacidadActual --;
+                return entrada;
             }else{
                 HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
                 entradas.put(entrada.getCodigo(),entrada);
                 this.entradasVendidas.put(fecha,entradas);
                 this.capacidadActual --;
+                return entrada;
             }
         }else{
             throw new RuntimeException("No hay mas espacio para vender.");
         }
-        return entrada;
+    }
+
+    public boolean estaDisponible(){
+        if(this.capacidadActual > 0){
+            return true;
+        }
+        return false;
     }
 
 
@@ -48,7 +53,7 @@ public class Estadio extends Sede {
         return cantidad;
     }
 
-    @Override
+
     public double calcularPrecio(String fecha,String sector,double precioBase){
         return precioBase;
     }
@@ -71,7 +76,7 @@ public class Estadio extends Sede {
         return "Estadio: "+this.nombre+", Direccion: "+this.direccion;
     }
     @Override
-    public String toString(String fecha) {
+    public String entradaVendidaPorFecha(String fecha) {
         // - (24/07/2025) El Monumental - 200/500
         StringBuilder sb = new StringBuilder();
         sb.append(this.nombre+" - ");
@@ -92,11 +97,6 @@ public class Estadio extends Sede {
     	this.capacidadActual++;
     }
 
-
-    public boolean puedeVenderEntrada(String fecha) {
-    	if(capacidadActual > 0) return true;
-    	return false;
-    }
 
     @Override
     public double recaudacionTotalPorSede(String nombreEspectaculo,String nombreSede) {

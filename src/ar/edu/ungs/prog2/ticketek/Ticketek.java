@@ -108,32 +108,6 @@ public class Ticketek implements ITicketek {
         return entradasVendidas;
     }
 
-    private Sede verificarRegistroSede(String nombre){
-        Sede sede = this.sedes.get(nombre);
-        if(sede != null){
-            return sede;
-        }
-        throw new RuntimeException("La sede no se encuentra registrada.");
-    }
-
-    private Usuario autenticarUsuario(String email,String contrasenia){
-        Usuario usuario = this.usuarios.get(email);
-        if(usuario == null){
-            throw new RuntimeException("El usuario no se encuentra registrado.");
-        }
-        if(!usuario.getContrasenia().equals(contrasenia)){
-            throw new RuntimeException("Contrasenia incorrecta.");
-        }
-        return usuario;
-    }
-
-    private Espectaculo verificarRegistroEspectaculo(String nombreEspectaculo){
-        if(this.espectaculos.containsKey(nombreEspectaculo)){
-            return this.espectaculos.get(nombreEspectaculo);
-        }
-        throw new RuntimeException("El espectaculo no se encuentra registrado.");
-    }
-
     public List<IEntrada> venderEntrada(String nombreEspectaculo, String fecha, String email, String contrasenia, String sector, int[] asientos) {
 
         Usuario usuario = autenticarUsuario(email,contrasenia);
@@ -159,6 +133,32 @@ public class Ticketek implements ITicketek {
             throw new RuntimeException("La sede no es un teatro ni miniEstadio.");
         }
     	return entradasVendidas;
+    }
+
+    private Sede verificarRegistroSede(String nombre){
+        Sede sede = this.sedes.get(nombre);
+        if(sede != null){
+            return sede;
+        }
+        throw new RuntimeException("La sede no se encuentra registrada.");
+    }
+
+    private Usuario autenticarUsuario(String email,String contrasenia){
+        Usuario usuario = this.usuarios.get(email);
+        if(usuario == null){
+            throw new RuntimeException("El usuario no se encuentra registrado.");
+        }
+        if(!usuario.getContrasenia().equals(contrasenia)){
+            throw new RuntimeException("Contrasenia incorrecta.");
+        }
+        return usuario;
+    }
+
+    private Espectaculo verificarRegistroEspectaculo(String nombreEspectaculo){
+        if(this.espectaculos.containsKey(nombreEspectaculo)){
+            return this.espectaculos.get(nombreEspectaculo);
+        }
+        throw new RuntimeException("El espectaculo no se encuentra registrado.");
     }
 
     public String listarFunciones(String nombreEspectaculo) {

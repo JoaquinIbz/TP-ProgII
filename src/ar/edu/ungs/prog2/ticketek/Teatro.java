@@ -103,18 +103,6 @@ public class Teatro extends Sede{
         return mapa;
     }
 
-    public int cantidadDeEntradasVendidas(){
-        int cantidad = 0;
-        for(Map.Entry<String,HashMap<Integer,Entrada>> entry : this.entradasVendidas.entrySet()){
-            HashMap<Integer,Entrada> entradas = entry.getValue();
-            for(Entrada e : entradas.values()){
-                cantidad++;
-            }
-        }
-        return cantidad;
-    }
-
-
     @Override
     public void anularEntrada(String sector, int fila, int asiento) {
     	HashMap<Integer, LinkedList<Integer>> filas = asientosDisponibles.get(sector);
@@ -176,7 +164,7 @@ public class Teatro extends Sede{
         return this.porcentajeAdicional[3];
     }
     @Override
-    public String toString(String fecha) {
+    public String entradaVendidaPorFecha(String fecha) {
         //*  - (31/07/2025) Teatro Colón - Platea VIP: 30/50 | Platea Común: 60/70 | Platea Baja: 0/70 | Platea Alta: 50/50
         StringBuilder sb = new StringBuilder();
         sb.append(this.nombre+" - ");
