@@ -36,6 +36,9 @@ public abstract class Sede {
     public abstract void anularEntrada(String sector, int fila, int asiento);
 
     public abstract String toString(String fecha);
+    
+    public abstract double recaudacionTotalEspectaculo(String nombreEspectaculo);
+    
 
 }
 

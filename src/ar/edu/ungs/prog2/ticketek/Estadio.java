@@ -33,7 +33,6 @@ public class Estadio extends Sede {
         }else{
             throw new RuntimeException("No hay mas espacio para vender.");
         }
-
         return entrada;
     }
 
@@ -95,5 +94,20 @@ public class Estadio extends Sede {
     public boolean puedeVenderEntrada(String fecha) {
     	if(capacidadActual > 0) return true;
     	return false;
+    }
+    
+    @Override
+    public double recaudacionTotalEspectaculo(String nombreEspectaculo) {
+    	double total = 0;
+    	for(HashMap<Integer, Entrada> mapaEntradas : entradasVendidas.values()) {
+    		for(Entrada entrada : mapaEntradas.values()) {
+    			if(entrada.getEspectaculo().nombre.equals(nombreEspectaculo)) {
+    				System.out.println("Contando entrada " + entrada.getCodigo() + " para " + entrada.getEspectaculo().nombre + " - $" + entrada.precio());
+
+    				total += entrada.precio();
+    			}
+    		}
+    	}
+    	return total;
     }
 }

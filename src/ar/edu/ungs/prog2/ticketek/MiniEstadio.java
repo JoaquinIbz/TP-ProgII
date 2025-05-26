@@ -169,14 +169,15 @@ public class MiniEstadio extends Sede {
     }
 
     private double obtenerPorcentajePorSector(String sector){
-        if(this.sectores[0] == sector){
-            return this.porcentajeAdicional[0];
-        }else if(this.sectores[1] == sector){
-            return this.porcentajeAdicional[1];
-        }else if(this.sectores[2] == sector){
-            return this.porcentajeAdicional[2];
-        }
-        return this.porcentajeAdicional[3];
+    	if(sector.equals(this.sectores[0])){
+          return this.porcentajeAdicional[0];
+    	}else if(sector.equals(this.sectores[1])){
+          return this.porcentajeAdicional[1];
+    	}else if(sector.equals(this.sectores[2])){
+          return this.porcentajeAdicional[2];
+    	}
+    	return this.porcentajeAdicional[3];
+    	
     }
 
 
@@ -212,6 +213,20 @@ public class MiniEstadio extends Sede {
     @Override
     public String toString(){
         return this.nombre;
+    }
+    
+    @Override
+    public double recaudacionTotalEspectaculo(String nombreEspectaculo) {
+    	double total = 0;
+    	for(HashMap<Integer, Entrada> mapaEntradas : entradasVendidas.values()) {
+    		for(Entrada entrada : mapaEntradas.values()) {
+    			if(entrada.getEspectaculo().nombre.equals(nombreEspectaculo)) {
+    				total += entrada.precio();
+    				System.out.println("tralalero tralala");
+    			}
+    		}
+    	}
+    	return total ;
     }
 
 }

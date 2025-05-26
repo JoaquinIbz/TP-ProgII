@@ -172,7 +172,7 @@ public class Ticketek implements ITicketek {
             }
         }
         for(Funcion funcion : funciones){
-            sb.append(funcion.toString());
+        	sb.append(funcion.toString());
         }
         return sb.toString();
     }
@@ -279,11 +279,23 @@ public class Ticketek implements ITicketek {
 
     public double totalRecaudado(String nombreEspectaculo) {
         Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
-        return espectaculo.calcularTotalRecaudado();
+        if(espectaculo == null) {
+        	throw new RuntimeException("el espectaculo no existe");
+        }else
+        	return espectaculo.calcularTotalRecaudado();
+    	
     }
 
     public double totalRecaudadoPorSede(String nombreEspectaculo, String nombreSede) {
-        return 0.0;
+    	Espectaculo espectaculo = verificarRegistroEspectaculo(nombreEspectaculo);
+    	if(espectaculo != null) {
+    		Sede sede = sedes.get(nombreSede);
+    		if(sede != null) {
+    			return sede.recaudacionTotalEspectaculo(nombreEspectaculo);
+    		}else
+    			return 0.0;
+    		}else
+    			throw new RuntimeException("el espectaculo no existe");
     }
 
 

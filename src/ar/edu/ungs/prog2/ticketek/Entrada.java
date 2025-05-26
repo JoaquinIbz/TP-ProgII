@@ -39,6 +39,7 @@ public class Entrada implements IEntrada {
         this.codigo = siguienteCodigo;
         siguienteCodigo += 100;
         this.precio = precio();
+        this.nombreEspectaculo = this.espectaculo.nombre;
     }
 
 
@@ -48,8 +49,9 @@ public class Entrada implements IEntrada {
         double precioBase = this.espectaculo.obtenerFuncion(this.fecha).precioBase;
         if("CAMPO".equals(this.sector)){
             precio = funcion.calcularPrecioEstadio(this.fecha);
+        }else {
+        	precio = funcion.calcularPrecioTeatroMiniestadio(this.fecha,this.sector);
         }
-        precio = funcion.calcularPrecioTeatroMiniestadio(this.fecha,this.sector);
         return precio;
 
     }

@@ -99,6 +99,7 @@ public class Principal {
         System.out.println("\nFunciones de El Rey Leon:");
         System.out.println(ticketek.listarFunciones("El Rey León"));
 
+
         System.out.println("\nFunciones de Coldplay:");
         System.out.println(ticketek.listarFunciones("Coldplay en vivo"));
 

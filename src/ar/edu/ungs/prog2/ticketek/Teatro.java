@@ -209,6 +209,19 @@ public class Teatro extends Sede{
     public String toString(){
         return this.nombre;
     }
+    
+    @Override
+    public double recaudacionTotalEspectaculo(String nombreEspectaculo) {
+    	double total = 0;
+    	for(HashMap<Integer, Entrada> mapaEntradas : entradasVendidas.values()) {
+    		for(Entrada entrada : mapaEntradas.values()) {
+    			if(entrada.getEspectaculo().nombre.equals(nombreEspectaculo)) {
+    				total += entrada.precio();
+    			}
+    		}
+    	}
+    	return total;
+    }
 
 
 
