@@ -123,7 +123,7 @@ public class MiniEstadio extends Sede {
             throw new RuntimeException("Fila no encontrada en sector " + sector + ": fila " + fila);
         }
 
-        asientos.add(asiento);
+        asientos.addLast(asiento);
     }
 
     @Override

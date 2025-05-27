@@ -115,7 +115,7 @@ public class Teatro extends Sede{
             throw new RuntimeException("Fila no encontrada en sector " + sector + ": fila " + fila);
         }
 
-        asientos.add(asiento); // O(1) al final
+        asientos.addLast(asiento); // O(1) al final
     }
 
     /*
