@@ -3,20 +3,25 @@ package ar.edu.ungs.prog2.ticketek;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-
+import java.util.List;
 
 public class MiniEstadio extends Sede {
 
-    String[] sectores; // {"Platea VIP", "Platea Común", "Platea Baja", "Platea Alta"} O {"Campo"}
-    int asientosPorFila;
-    int[] porcentajeAdicional;
-    HashMap<String,HashMap<Integer, LinkedList<Integer>>> asientosDisponibles;// [SECTOR] [FILA, LISTA<ASIENTOS>]
-    int cantPuestos;
-    double consumicion;
+    private String[] sectores; // {"Platea VIP", "Platea Común", "Platea Baja", "Platea Alta"} O {"Campo"}
+    private int asientosPorFila;
+    private int[] porcentajeAdicional;
+    private Map<String,Map<Integer, List<Integer>>> asientosDisponibles;// [SECTOR] [FILA, LISTA<ASIENTOS>]
+    private int cantPuestos;
+    private double consumicion;
 
 
-    public MiniEstadio(String nombre, String direccion, int capacidadMax, int asientosPorFila, int cantPuestos, double consumicion, String[] sectores, int[] capacidad, int[] porcentajeAdicional) {
-        super(nombre, direccion, capacidadMax);
+    public MiniEstadio(String nombre, String direccion, int capacidadMax, int asientosPorFila, int cantPuestos, double consumicion, String[] sectores, int[] capacidad, int[] porcentajeAdicional) {  	
+    	super(nombre, direccion, capacidadMax);
+    	
+    	if(capacidadMax <= 0 || asientosPorFila <= 0 || sectores.length == 0 || capacidad.length == 0|| porcentajeAdicional.length == 0) {
+    		throw new RuntimeException("Por favor, ingrese datos validos");
+    	}
+    		
         this.asientosPorFila = asientosPorFila;
         this.cantPuestos = cantPuestos;
         this.consumicion = consumicion;
@@ -27,7 +32,7 @@ public class MiniEstadio extends Sede {
 
     }
 
-    public Entrada venderEntrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, String sector, int asiento) {
+/*    public Entrada venderEntrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, String sector, int asiento) {
         if(!estaDisponible(sector,asiento)){
             throw new RuntimeException("El sector y/o los asientos son incorrectos.");
         }
@@ -42,27 +47,54 @@ public class MiniEstadio extends Sede {
         }
         this.entradasVendidas.get(fecha).put(entrada.getCodigo(),entrada);
         return entrada;
-    }
-
-    private Butaca buscarFilaYasiento(String sector, int asiento){
-        Butaca butaca = null;
-        HashMap<Integer,LinkedList<Integer>> filaYasientos = this.asientosDisponibles.get(sector);
-        for(Map.Entry<Integer,LinkedList<Integer>> entrada : filaYasientos.entrySet()){
-            if(entrada.getValue().contains(asiento)){
-                Butaca b = new Butaca(entrada.getKey(),asiento);
-                butaca = b;
-
-            }
+    }*/
+    @Override
+    public Entrada venderEntrada(String email, Espectaculo espectaculo, String fecha, String sector, int numeroButaca) {
+        Funcion funcion = espectaculo.obtenerFuncion(fecha);
+        if (funcion.estaOcupado(sector, numeroButaca)) {
+            throw new RuntimeException("El asiento ya está ocupado.");
         }
-        return butaca;
+
+        Entrada entrada = new Entrada(email, this.nombre, espectaculo, fecha, numeroButaca, sector);
+        entradasVendidas.putIfAbsent(fecha, new HashMap<>());
+        entradasVendidas.get(fecha).put(entrada.getCodigo(), entrada);
+        funcion.ocuparAsiento(sector, numeroButaca);
+        
+        //---------------------------------------------
+        double precio = entrada.precio() + this.consumicion;
+  	  if(recaudacionPorEspectaculo.containsKey(espectaculo.getNombre())) {
+  		  double precioActual = recaudacionPorEspectaculo.get(espectaculo.getNombre());
+  		  recaudacionPorEspectaculo.put(espectaculo.getNombre(), precioActual + precio);
+  	  }else {
+  		  recaudacionPorEspectaculo.put(espectaculo.getNombre(), precio);
+  	  }
+        //---------------------------------------------
+        return entrada;
+    }
+    @Override 
+    public Entrada venderEntrada(String email, Espectaculo espectaculo, String fecha, String sector) {
+    	throw new RuntimeException("Es miniEstadio lleva butaca");
     }
 
+//    private Butaca buscarFilaYasiento(String sector, int asiento){
+//        Butaca butaca = null;
+//        Map<Integer,List<Integer>> filaYasientos = this.asientosDisponibles.get(sector);
+//        for(Map.Entry<Integer,List<Integer>> entrada : filaYasientos.entrySet()){
+//            if(entrada.getValue().contains(asiento)){
+//                Butaca b = new Butaca(entrada.getKey(),asiento);
+//                butaca = b;
+//
+//            }
+//        }
+//        return butaca;
+//    }
 
-    public HashMap<Integer,LinkedList<Integer>> ocuparAsiento(String sector, int asiento){
-        HashMap<Integer, LinkedList<Integer>> mapa = null;
+
+    public Map<Integer,List<Integer>> ocuparAsiento(String sector, int asiento){
+        Map<Integer, List<Integer>> mapa = null;
         if(estaDisponible(sector,asiento)) {
-            HashMap<Integer, LinkedList<Integer>> filasYasientos = this.asientosDisponibles.get(sector);
-            for (LinkedList<Integer> listaAsientos : filasYasientos.values()) {
+            Map<Integer, List<Integer>> filasYasientos = this.asientosDisponibles.get(sector);
+            for (List<Integer> listaAsientos : filasYasientos.values()) {
                 listaAsientos.remove(Integer.valueOf(asiento));
             }
             mapa = filasYasientos;
@@ -71,11 +103,11 @@ public class MiniEstadio extends Sede {
     }
 
     public boolean estaDisponible(String sector, int asiento) {
-        HashMap<Integer, LinkedList<Integer>> filasYasientos = this.asientosDisponibles.get(sector);
+        Map<Integer, List<Integer>> filasYasientos = this.asientosDisponibles.get(sector);
         if (filasYasientos == null) {
             return false;
         }
-        for(LinkedList<Integer> listaAsientos : filasYasientos.values()){
+        for(List<Integer> listaAsientos : filasYasientos.values()){
             if(listaAsientos.contains(asiento)){
                 return true;
             }
@@ -83,22 +115,22 @@ public class MiniEstadio extends Sede {
         return false;
     }
 
-    private HashMap<String, HashMap<Integer,LinkedList<Integer>>> inicializarAsientosDisponibles(String[] sectores, int[] capacidad){
+    private Map<String, Map<Integer,List<Integer>>> inicializarAsientosDisponibles(String[] sectores, int[] capacidad){
         //      0               1               2               3           INDICE
         // ["Platea VIP", "Platea Común", "Platea Baja", "Platea Alta"]     SECTOR
         // [    100,            200,           300,           400     ]     CAPACIDAD
 
         //     [SECTOR]          [FILA] [ASIENTO]
-        HashMap<String, HashMap<Integer,LinkedList<Integer>>> mapa = new HashMap<>();
+        Map<String, Map<Integer,List<Integer>>> mapa = new HashMap<>();
         for(int sector=0 ; sector<sectores.length ; sector++){                              // ej platea vip
 
             int totalAsientos = capacidad[sector];                                          // ej capacidad 100
-            HashMap<Integer, LinkedList<Integer>> filaYAsientos = new HashMap<>();          // fila, asientos
+            Map<Integer, List<Integer>> filaYAsientos = new HashMap<>();          // fila, asientos
 
             for(int numeroAsiento=1 ; numeroAsiento<=totalAsientos ; numeroAsiento++){      // asiento 1, 2, 3, 4, ... hasta 100.
 
                 int fila = ((numeroAsiento - 1) / this.asientosPorFila) + 1;
-                LinkedList<Integer> asientos = new LinkedList<>();
+                List<Integer> asientos = new LinkedList<>();
                 if(!filaYAsientos.containsKey(fila)){
                     asientos.add(numeroAsiento);
                     filaYAsientos.put(fila,asientos);
@@ -111,7 +143,7 @@ public class MiniEstadio extends Sede {
         return mapa;
     }
 
-    @Override
+/*    @Override
     public void anularEntrada(String sector, int fila, int asiento) {
     	HashMap<Integer, LinkedList<Integer>> filas = asientosDisponibles.get(sector);
         if(filas == null){
@@ -124,6 +156,22 @@ public class MiniEstadio extends Sede {
         }
 
         asientos.addLast(asiento);
+    }*/
+    @Override 
+    public void anularEntrada(String sector, int fila, int numeroAsiento) {
+    	int filaCalculada = ((numeroAsiento - 1) / this.asientosPorFila) + 1;
+
+        Map<Integer, List<Integer>> filas = asientosDisponibles.get(sector);
+        if (filas == null) {
+            throw new RuntimeException("Sector no encontrado: " + sector);
+        }
+
+        List<Integer> asientos = filas.get(filaCalculada);
+        if (asientos == null) {
+            throw new RuntimeException("Fila no encontrada en sector " + sector + ": fila " + filaCalculada);
+        }
+
+        asientos.addLast(numeroAsiento);
     }
 
     @Override
@@ -135,7 +183,7 @@ public class MiniEstadio extends Sede {
     @Override
     public double recaudacion(String fecha) {
         double recaudacion = 0;
-        HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
+        Map<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
         if(entradas != null){
             for(Entrada entrada : entradas.values()){
                 double porcentaje = obtenerPorcentajePorSector(entrada.getSector());
@@ -164,7 +212,7 @@ public class MiniEstadio extends Sede {
         for(int i=0 ; i<this.sectores.length ; i++){
             sb.append(this.sectores[i]+": ");
             int vendidas = 0;
-            HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
+            Map<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
             if(entradas != null){
                 for(Entrada e : entradas.values()){
                     if(e.getSector().equals(this.sectores[i])){
@@ -191,18 +239,28 @@ public class MiniEstadio extends Sede {
         return "Mini Estadio: "+this.nombre+", Direccion: "+this.direccion+", Puestos: "+this.cantPuestos;
     }
 
-    @Override
+ /*   @Override
     public double recaudacionTotalPorSede(String nombreEspectaculo,String nombreSede) {
         double total = 0;
-        for(Map.Entry<String,HashMap<Integer,Entrada>> entry : this.entradasVendidas.entrySet()) {
-            HashMap<Integer,Entrada> entradas = entry.getValue();
+        for(Map.Entry<String,Map<Integer,Entrada>> entry : this.entradasVendidas.entrySet()) {
+            Map<Integer,Entrada> entradas = entry.getValue();
             for(Entrada entrada : entradas.values()){
-                if(entrada.getNombreEspectaculo().equals(nombreEspectaculo) && entrada.nombreSede.equals(nombreSede)){
+                if(entrada.getNombreEspectaculo().equals(nombreEspectaculo) && entrada.getNombreSede().equals(nombreSede)){
                     total += entrada.precio() + this.consumicion;
                 }
 
             }
         }
         return total;
+    }*/
+    @Override
+    public double recaudacionTotalPorSede(String nombreEspectaculo, String nombreSede) {
+    	return recaudacionPorEspectaculo.getOrDefault(nombreEspectaculo, 0.0);//Si existe un espectaculo con ese nombre, devuelve el valor de ese espectaculo
+		  																	  //Si no existe, devuelve 0.0
+    }
+    
+    @Override
+    public boolean tieneButacas() {
+    	return true;
     }
 }

@@ -5,11 +5,14 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class Espectaculo {
-    String nombre;
-    private HashMap<String, Funcion> funciones;  // fecha, funciones
+    private String nombre;
+    private Map<String, Funcion> funciones;  // fecha, funciones
     private double totalRecaudado;
 
     public Espectaculo(String nombre){
+    	if(nombre.equals("")) {
+    		throw new RuntimeException("El nombre del espectaculo no puede estar vacio");
+    	}
         this.nombre = nombre;
         this.funciones = new HashMap<>();
     }
@@ -19,7 +22,8 @@ public class Espectaculo {
             throw new RuntimeException("La fecha no esta disponible.");
         }
         Funcion f = funcion;
-        f.nombreEspectaculo = this.nombre;
+        f.setNombreEspectaculo(this.nombre);
+
         this.funciones.put(fecha,funcion);
     }
 
@@ -41,8 +45,8 @@ public class Espectaculo {
 
     public Sede obtenerSede(String nombreSede){
         for(Funcion funcion : this.funciones.values()){
-            if(funcion.sede.nombre.equals(nombreSede)){
-                return funcion.sede;
+            if(funcion.getSede().nombre.equals(nombreSede)){
+                return funcion.getSede();
             }
         }
         throw new RuntimeException("La sede no esta registrada.");
@@ -51,7 +55,7 @@ public class Espectaculo {
 
     public Funcion obtenerFuncionPorEspectaculo(String nombreEspectaculo) {
         for(Funcion funcion : this.funciones.values()){
-            if(funcion.nombreEspectaculo.equals(nombreEspectaculo)){
+            if(funcion.getNombreEspectaculo().equals(nombreEspectaculo)){
                 return funcion;
             }
         }
@@ -76,11 +80,20 @@ public class Espectaculo {
     }
 
 
-	public HashMap<String, Funcion> getFunciones() {
+	public Map<String, Funcion> getFunciones() {
 		return funciones;
 	}
 
     public String toString(){
         return this.nombre;
     }
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public double getTotalRecaudado() {
+		return totalRecaudado;
+	}
+    
 }

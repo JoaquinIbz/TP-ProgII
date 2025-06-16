@@ -8,6 +8,9 @@ public class Fecha {
 	private DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yy");
 	
 	public Fecha(String fecha) {
+		if(fecha.equals("")) {
+			throw new RuntimeException("La fecha esta vacia");
+		}
 		this.fecha = LocalDate.parse(fecha,formato);
 	}
 	public boolean esFutura(){

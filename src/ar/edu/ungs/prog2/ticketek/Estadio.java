@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Estadio extends Sede {
 
-    int capacidadActual;
+	private int capacidadActual;
 
     public Estadio(String nombre, String direccion, int capacidadMax) {
         super(nombre, direccion, capacidadMax);
@@ -14,7 +14,7 @@ public class Estadio extends Sede {
         this.entradasVendidas = new HashMap<>();
     }
 
-    public Entrada venderEntrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, String sector, int asiento){
+/*    public Entrada venderEntrada(String email, String nombreSede, Espectaculo espectaculo, String fecha, String sector, int asiento){
         Entrada entrada = new Entrada(email,nombreSede, espectaculo, fecha, sector);
         entrada.setButaca(new Butaca(0,0));
         if(estaDisponible()){
@@ -34,20 +34,43 @@ public class Estadio extends Sede {
         }else{
             throw new RuntimeException("No hay mas espacio para vender.");
         }
-    }
-
-    public boolean estaDisponible(){
-        if(this.capacidadActual > 0){
-            return true;
+    }*/
+    @Override
+    public Entrada venderEntrada(String email, Espectaculo espectaculo, String fecha, String sector) {
+    	if (!estaDisponible()) {
+            throw new RuntimeException("No hay más lugar disponible.");
         }
-        return false;
+
+        Entrada entrada = new Entrada(email, this.nombre, espectaculo, fecha, sector);
+        entradasVendidas.putIfAbsent(fecha, new HashMap<>());
+        entradasVendidas.get(fecha).put(entrada.getCodigo(), entrada);
+        capacidadActual--;
+        
+        //-----------------------------------------------------------------
+        double precio = entrada.precio();
+  	  if(recaudacionPorEspectaculo.containsKey(espectaculo.getNombre())) {
+  		  double precioActual = recaudacionPorEspectaculo.get(espectaculo.getNombre());
+  		  recaudacionPorEspectaculo.put(espectaculo.getNombre(), precioActual + precio);
+  	  }else {
+  		  recaudacionPorEspectaculo.put(espectaculo.getNombre(), precio);
+  	  }
+        //-----------------------------------------------------------------
+        return entrada;
+    }
+    @Override
+    public Entrada venderEntrada(String email, Espectaculo espectaculo, String fecha, String sector, int numeroButaca) {
+    	throw new RuntimeException("El estadio no lleva asiento");
     }
 
 
-    public int cantidadDeEntradasVendidas(){
+    private boolean estaDisponible() {
+    	return capacidadActual > 0;
+    }
+
+	public int cantidadDeEntradasVendidas(){
         int cantidad = 0;
-        for(Map.Entry<String,HashMap<Integer,Entrada>> entry : this.entradasVendidas.entrySet()){
-            HashMap<Integer,Entrada> entradas = entry.getValue();
+        for(Map.Entry<String,Map<Integer,Entrada>> entry : this.entradasVendidas.entrySet()){
+            Map<Integer,Entrada> entradas = entry.getValue();
             for(Entrada e : entradas.values()){
                 cantidad++;
             }
@@ -64,7 +87,7 @@ public class Estadio extends Sede {
     @Override
     public double recaudacion(String fecha) {
         double recaudacion = 0;
-        HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
+        Map<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
         if(entradas != null){
             for(Entrada entrada : entradas.values()){
                 recaudacion += entrada.precio();
@@ -83,7 +106,7 @@ public class Estadio extends Sede {
         StringBuilder sb = new StringBuilder();
         sb.append(this.nombre+" - ");
         int vendidas = 0;
-        HashMap<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
+        Map<Integer,Entrada> entradas = this.entradasVendidas.get(fecha);
         if(entradas != null){
             vendidas = entradas.size();
             sb.append(vendidas+"/"+this.capacidadMax+"\n");
@@ -95,23 +118,33 @@ public class Estadio extends Sede {
     }
 
     @Override
-    public void anularEntrada(String sector, int fila, int asiento) {
+    public void anularEntrada(String sector, int fila, int numeroAsiento) {
     	this.capacidadActual++;
     }
 
 
-    @Override
+/*    @Override
     public double recaudacionTotalPorSede(String nombreEspectaculo,String nombreSede) {
         double total = 0;
-        for(Map.Entry<String,HashMap<Integer,Entrada>> entry : this.entradasVendidas.entrySet()) {
-            HashMap<Integer,Entrada> entradas = entry.getValue();
+        for(Map.Entry<String,Map<Integer,Entrada>> entry : this.entradasVendidas.entrySet()) {
+            Map<Integer,Entrada> entradas = entry.getValue();
             for(Entrada entrada : entradas.values()){
-                if(entrada.getNombreEspectaculo().equals(nombreEspectaculo) && entrada.nombreSede.equals(nombreSede)){
+                if(entrada.getNombreEspectaculo().equals(nombreEspectaculo) && entrada.getNombreSede().equals(nombreSede)){
                     total += entrada.precio();
                 }
 
             }
         }
         return total;
+    }*/
+    @Override
+    public double recaudacionTotalPorSede(String nombreEspectaculo, String nombreSede) {
+    	return recaudacionPorEspectaculo.getOrDefault(nombreEspectaculo, 0.0);//Si existe un espectaculo con ese nombre, devuelve el valor de ese espectaculo
+		  																	  //Si no existe, devuelve 0.0
+    }
+    
+    @Override
+    public boolean tieneButacas() {
+    	return false;
     }
 }
